@@ -1,6 +1,6 @@
 {
   "name": "appolo",
-  "description":"appolo",
+  "description":"nodejs server framework",
 
   "keywords": [
   ],
@@ -12,7 +12,10 @@
 
   "version": "0.1.6",
   "license": "Mit",
-
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shmoop207/appolo.git"
+  },
   "_id": "appolo@0.1.6",
   "_from": "appolo@",
   "readme": "",
