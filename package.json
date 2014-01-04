@@ -10,7 +10,7 @@
   },
   "main": "./index.js",
 
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "Mit",
   "repository": {
     "type": "git",
@@ -19,7 +19,14 @@
   "readme": "",
   "readmeFilename": "README.md",
     "dependencies": {
+        "appolo-class":"latest",
+        "appolo-inject":"latest",
         "lodash": "2.4.1",
         "i18n":"0.4.0"
+    },
+    "devDependencies": {
+        "chai":"1.8.1",
+        "grunt":"*",
+        "grunt-mocha-test":"0.8.1"
     }
 }
