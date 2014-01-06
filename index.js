@@ -10,7 +10,7 @@ module.exports.router = require('./lib/routes/router');
 
 module.exports.loader = require('./lib/loader/loader');
 
-module.exports.launch = require('./lib/launcher/launcher');
+module.exports.launcher = require('./lib/launcher/launcher');
 
 module.exports.environment = require('./lib/environments/environments');
 
