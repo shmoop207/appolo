@@ -10,7 +10,7 @@
   },
   "main": "./index.js",
 
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "Mit",
   "repository": {
     "type": "git",
@@ -19,8 +19,8 @@
   "readme": "",
   "readmeFilename": "README.md",
     "dependencies": {
-        "appolo-class":"https://github.com/shmoop207/appolo-class.git",
-        "appolo-inject":"https://github.com/shmoop207/appolo-inject.git",
+        "appolo-class":"shmoop207/appolo-class",
+        "appolo-inject":"shmoop207/appolo-inject",
         "lodash": "2.4.1",
         "i18n":"0.4.0"
     },
