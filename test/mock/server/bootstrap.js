@@ -6,7 +6,11 @@ module.exports = EventDispatcher.define({
         singleton:true,
         inject:['manager']
     },
-    initialize:function(){
+
+
+    run:function(){
+
+
         this.working = true;
     }
 })
