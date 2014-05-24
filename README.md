@@ -57,20 +57,20 @@ the environments folder must to exist every thing else is optional appolo will r
 ##Configuration##
 appolo launch configuration options
 
-**options.paths**
+####options.paths####
 Type :`array`, Default: `['config', 'server']`
 The folder will be required and loaded on appolo launch
 
-**options.root **
+####options.root####
 Type :`string`, Default: process.cwd()
 the root folder of the paths option
 
-**options.bootStrapClassId  **
+####options.bootStrapClassId####
 Type :`string`, Default: `(process.env.NODE_ENV || 'development')`
 environment file name that will override the environment all.js file
 default is the node env or if not defined it will be `development`
 
-**options.bootStrapClassId  **
+####options.bootStrapClassId####
 Type :`string`, Default: `appolo-bootstrap`
 appolo will try to find the bootstrap class after it launched and run it.
 this is optinal if the class is not defined nothing will happen. 
@@ -97,13 +97,11 @@ module.exports = {
     name:'all'
     someVar:'someVar'
 }
-
 //develpment.js
 module.exports = {
     name:'develpment'
     db:'monog:://develpment-url'
 }
-
 //develpment.js
 module.exports = {
     name:'testing'
@@ -114,9 +112,7 @@ module.exports = {
 if we launch our app.js with `NODE_ENV = testing`
 ```javascript
 var appolo  = require('appolo');
-
 appolo.launcher.launch();
-
 var env = appolo.environment;
 
 console.log(env.name,env.someVar,env.db) // 'testing someVar monog:://testing-url'
@@ -130,7 +126,6 @@ enables you write your server code classes in elegant way with `inheritance` and
 var appolo  = require('appolo');
 
 var Rectangle = appolo.Class.define({
-
     constructor: function (width, height) {
         this.height = height;
         this.width = width;
@@ -141,14 +136,12 @@ var Rectangle = appolo.Class.define({
 });
 
 var Square = Rectangle.define({
-
     constructor: function (side) {
         this.callParent(side, side);
     }
 });
 
 var square = new Square(6);
-
 console.log(square.area()) // 36
 ```
 
@@ -165,7 +158,6 @@ appolo.Class.define({
         singleton: true
     },
     constructor: function () {
-
     },
     ...
 });
@@ -200,7 +192,6 @@ appolo.EventDispatcher.define({
     
         this.fireEvent('someEventName',{someData:'someData'})
     }
-    
     ...
 });
 
@@ -217,7 +208,6 @@ appolo.Class.define({
     },
     doSomething:function(){
     }
-    
     ...
 });
 
@@ -237,10 +227,8 @@ appolo.Class.define({
     },
     run:function(){
         //start your application logic here
-
         this.someManager1.doSomeThing();
     }
-
     ...
 });
 
