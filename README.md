@@ -8,7 +8,6 @@ Appolo architecture follows common patten of MVC and dependency injection which 
 
 
 ## Features
-
   * MVC Architecture
   * Powerful class system
   * dependency injection
@@ -24,33 +23,31 @@ npm install appolo --save
 
 ##Quick start ##
 in your app.js file
-
 ```javascript
 var appolo  = require('appolo');
-
 appolo.launcher.launch();
 ```
 
 ##Recommended Directory Structure ##
 the environments folder must to exist every thing else is optional appolo will require all files in the config and server folders but the environments folder will be loaded first.
 ```javascript
-    - config
-        - enviremnts
-            - all.js
-            - develpment.js
-            - production.js
-        - loggers
-            - logger.js
-        - redis
-            - redis.js
-        ...
-    - server
-        - controllers
-        - managers
-        - services
-        - bootstrap.js
-        ...
-    - app.js
+- config
+    - enviremnts
+        - all.js
+        - develpment.js
+        - production.js
+    - loggers
+        - logger.js
+    - redis
+        - redis.js
+    ...
+- server
+    - controllers
+    - managers
+    - services
+    - bootstrap.js
+    ...
+- app.js
    
 ```
 
@@ -90,7 +87,6 @@ appolo.launcher.launch( {
 With environments you can define different set of configurations depending on the environment type your app is currently running.
 it is recommened to have 4 types of environments : `develpment`, `testing`, `staging`, `production`.
 after `appolo launch` you can always to access to current environment vars via `appolo.environment`.
-
 ```javascript
 //all.js
 module.exports = {
