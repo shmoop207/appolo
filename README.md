@@ -1,13 +1,9 @@
 Appolo  [![Build Status](https://travis-ci.org/shmoop207/appolo.png?branch=master)](https://travis-ci.org/shmoop207/appolo) [![Dependencies status](https://david-dm.org/shmoop207/appolo.png)](https://david-dm.org/shmoop207/appolo)
 =======
-![enter image description here](https://dl-web.dropbox.com/get/Photos/appolo/appollo.png?_subject_uid=19179794&w=AABSXkNHE8R-Lr9bSD815vzTPBS_U1aJGQMsvhcRxQ38qQ)
-
-----------
-
+![appolo](https://dl.dropboxusercontent.com/u/19179794/appollo.png)
 
 Appolo is an MVC Framework for Node.jS. 
 Build with [appolo-class][1] class system and [appolo-inject][2] dependency injection system.
-
 Appolo architecture follows common patten of MVC and dependency injection which makes it easy to build better performance, flexibility and easy maintenance server side in nodejs.
 
 
