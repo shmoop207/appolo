@@ -1,8 +1,10 @@
 Appolo  [![Build Status](https://travis-ci.org/shmoop207/appolo.png?branch=master)](https://travis-ci.org/shmoop207/appolo) [![Dependencies status](https://david-dm.org/shmoop207/appolo.png)](https://david-dm.org/shmoop207/appolo)
 =======
-<p align="center">
-  <img src=" https://dl-web.dropbox.com/get/Photos/appolo/appollo.png?_subject_uid=19179794&w=AABSXkNHE8R-Lr9bSD815vzTPBS_U1aJGQMsvhcRxQ38qQ" alt="appolo"/>
-</p>
+![enter image description here](https://dl-web.dropbox.com/get/Photos/appolo/appollo.png?_subject_uid=19179794&w=AABSXkNHE8R-Lr9bSD815vzTPBS_U1aJGQMsvhcRxQ38qQ)
+
+----------
+
+
 Appolo is an MVC Framework for Node.jS. 
 Build with [appolo-class][1] class system and [appolo-inject][2] dependency injection system.
 
@@ -454,3 +456,4 @@ The `appolo` library is released under the MIT license. So feel free to modify a
   [11]: http://en.wikipedia.org/wiki/Dependency_injection
   [12]: http://www.github.com/shmoop207/appolo-inject
   [13]: http://en.wikipedia.org/wiki/Loose_coupling
+  [14]: https://dl-web.dropbox.com/get/Photos/appolo/appollo.png?_subject_uid=19179794&w=AABSXkNHE8R-Lr9bSD815vzTPBS_U1aJGQMsvhcRxQ38qQ
