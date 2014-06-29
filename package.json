@@ -3,6 +3,12 @@
   "description":"nodejs server framework",
 
   "keywords": [
+    "mvc", 
+    "framework", 
+    "app", 
+    "api",
+    "server",
+    "appolo"
   ],
   "author": {
     "name": "Roman Svichar",
@@ -10,7 +16,7 @@
   },
   "main": "./index.js",
 
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "Mit",
   "repository": {
     "type": "git",
