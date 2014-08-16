@@ -6,6 +6,7 @@ module.exports = {
     loader : require('./lib/loader/loader'),
     launcher : require('./lib/launcher/launcher'),
     environment : require('./lib/environments/environments'),
+    addPlugin : require('./lib/plugin/plugin').addPlugin,
     _ : require('lodash')
 }
 

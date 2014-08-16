@@ -99,6 +99,27 @@ describe('Appolo', function () {
         });
     });
 
+
+    describe('plugins', function () {
+        beforeEach(function () {
+            appolo.launcher.launch({
+                paths: ['config', 'server'],
+                root: process.cwd() + '/test/mock'
+            });
+        });
+
+        it('should have  call bootstrap initialize', function () {
+            var injector = appolo.inject;
+
+            var logger = injector.getObject('logger');
+
+            should.exist(logger);
+            logger.getName().should.be.eq("testDev");
+        });
+    });
+
+
+
     describe("test event dispatcher", function () {
 
         var EventHandler = new appolo.Class.define({
