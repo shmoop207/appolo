@@ -8,9 +8,11 @@ module.exports = EventDispatcher.define({
     },
 
 
-    run:function(){
+    run:function(callback){
 
 
         this.working = true;
+
+        callback();
     }
 })
