@@ -15,6 +15,8 @@ function testModule(options) {
 
         setTimeout(function () {
             callback();
+            callback();
+
         }, 100)
     }
 }

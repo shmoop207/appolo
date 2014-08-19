@@ -16,7 +16,7 @@
   },
   "main": "./index.js",
 
-  "version": "1.0.12",
+  "version": "1.0.13",
   "license": "Mit",
   "repository": {
     "type": "git",
