@@ -14,6 +14,7 @@ Appolo architecture follows common patten of MVC and dependency injection which 
   * Manage easily configurations and environments 
   * Simple folder structures
   * Easy to get started
+  * Easy integrate third party modules
   
  
 ## Installation ##
@@ -32,14 +33,15 @@ appolo.launcher.launch();
 the environments folder must to exist every thing else is optional appolo will require all files in the config and server folders but the environments folder will be loaded first.
 ```javascript
 - config
-    - enviremnts
+    - environments
         - all.js
         - develpment.js
         - production.js
-    - loggers
-        - logger.js
-    - redis
-        - redis.js
+    |- modules
+		|- logger.js	    
+	    |- redis.js 
+	    |- mongo.js
+        |- modules.js
     ...
 - server
     - controllers
@@ -114,24 +116,144 @@ var env = appolo.environment;
 console.log(env.name,env.someVar,env.db) // 'testing someVar monog:://testing-url'
 
 ```
-##Socket.io, Redis, MongoDB and More Support
-you can easily integrate to popular services like socket.io redis and mongoDB in appolo.
-all you have to do is to add the service configratio file to the config folder
+##Modules
+third party modules can be easily loaded to appolo inject and used in the inject class system.<br>
+each module must call `appolo.use` before it can be used by `appolo launcher`<br>
+the modules loaded in series so the module must call the `next` function in order to continue the lunch process.
+you can inject the `appolo.use` function any object that is already exists in the injector 
 
-####[Sokcet.io][3] example####
+the default injectable objects:
+
+ - `env` - environment object,
+ - `inject` - injector to add objects to the ioc,
+ - `app` - express app
+ - `router` - router to change to current routes configuration
+
+the last argument must be the `next` function 
+
+```javascript
+var appolo = require('appolo-express');
+
+//my custom module 
+appolo.use(function(env,inject,next){
+	var myModuleObject = {data:'test'};	
+	
+	inject.addObject('myModuleObject',myModuleObject);
+	
+	next();
+}); 
+	
+```
+now I can inject `myModuleObject` to any class
+```javascript
+var appolo = require('appolo-express');
+appolo.Class.define({
+	$config:{
+        id:'authMiddleware',
+        inject:['myModuleObject']
+    },
+    doSomeThing: function () {
+        return this.myModuleObject.data;
+    }
+});
+```
+
+###Logger module
+logger module example with [winston][8] and [sentry][9]
+
+loggerModule.js file
+```javascript
+var winston = require('winston'),
+    appolo = require('appolo-express'),
+    Sentry = require('winston-sentry');
+
+module.exports = function(options){
+	return function(env,inject,next){
+		var transports = [];
+	
+		if(env.type == 'produnction'){
+		    transports.push(new Sentry({
+	            level: 'warn',
+	            dsn: env.sentyConnectionString,
+	            json: true,
+	            timestamp: true,
+	            handleExceptions: true,
+	            patchGlobal: true
+		    }));
+		}
+
+		transports.push(new (winston.transports.Console)({
+		    json: false,
+		    timestamp: true,
+		    handleExceptions: true
+		}));
+
+		var logger = new (winston.Logger)({
+		    transports: transports,
+		    exitOnError: false
+		});
+
+		inject.addObject('logger', logger);
+	}
+}
+```
+in your modules.js
+```javascript
+var logger= require('./loggerModule'),
+    appolo = require('appolo-express');
+
+appolo.use(loggerModule());	
+```
+now you you inject logger anywhere you want
+```javascript
+var appolo  = require('appolo');
+
+appolo.Class.define({
+    $config:{
+        id:'dataManager',
+        singleton: true,
+        initMethod: 'initialize',
+        inject:['logger']
+    },
+    initialize:function(){
+        this.logger.info("dataManager initialized",{someData:'someData'})
+    }
+});
+
+```
+
+###Socket.io Module
+[Sokcet.io][3] module example
+
+socketModule.js file
 ```javascript
 var sio = require('socket.io'),
     appolo = require('appolo-express');
 
-var app  = appolo.inject.getObject('app');
-var io = sio.listen(app.server);
-
-appolo.inject.addObject('io', io);
-module.exports = io;
+module.exports = function(options){
+	return function(env,inject,app,next){
+		
+		var io = sio.listen(app.server);
+		
+		inject.addObject('io', io);
+		
+		next();
+	}
+}
 ```
-
+in your modules.js
 ```javascript
-var appolo  = require('appolo'),
+var loggerModule= require('./loggerModule'),
+	socketModule= require('./socketModule'),
+    appolo = require('appolo-express');
+
+appolo.use(loggerModule());
+appolo.use(socketModule());	
+```
+usage:
+```javascript
+
+var appolo  = require('appolo-express'),
     Q = require('q');
 
 appolo.Class.define({
@@ -139,35 +261,55 @@ appolo.Class.define({
         id:'chatController',
         singleton: true,
         initMethod: 'initialize',
-        inject:['io']
+        inject:['io','logger']
     },
     initialize:function(){
          
         this.io.sockets.on('connection', function(socket){
+	        this.logger.info("client connected")
             socket.broadcast.to('some_room').emit('message','client connected');
-        });
+        }.bind(this);
     }
 });
-
 ```
 
-####[Redis][4] and [Q][5] example####
+###Redis Module
+[Redis][4] module and [Q][5] example
+
+redisModule.js file
 ```javascript
 var redis = require('redis'),
     appolo = require('appolo-express'),
     url = require('url');
 
-//you can put redis connection string in appolo environments to support different redis db in different environments
-var redisURL = url.parse(appolo.environment.redisConnectionString);
-var redisClient = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
-if(redisURL.auth){
-    redisClient.auth(redisURL.auth.split(":")[1]);
+module.exports = function(options){
+	return function(env,inject,logger,next){
+		//you can put redis connection string in appolo environments to support 
+		//different redis db in different environments
+		var redisURL = url.parse(appolo.environment.redisConnectionString);
+		var redisClient = redis.createClient(redisURL.port, redisURL.hostname);
+		if(redisURL.auth){
+		    redisClient.auth(redisURL.auth.split(":")[1]);
+		}
+		redisClient .on('connect', function () {
+	        logger.info("connected to redisclient");
+	        next();
+		});
+		
+		inject.addObject('redis', redisClient);
+	}
 }
-
-appolo.inject.addObject('redis', redisClient);
-module.exports = redisClient;
 ```
+in your modules.js
+```javascript
+var loggerModule= require('./loggerModule'),
+	redisModule= require('./redisModule'),
+    appolo = require('appolo-express');
 
+appolo.use(loggerModule());
+appolo.use(redisModule());	
+```
+usage:
 ```javascript
 var appolo  = require('appolo'),
     Q = require('q');
@@ -190,22 +332,50 @@ appolo.Class.define({
 });
 
 ```
+###MongoDb Module
+MongoDb with [Mongose][6] and [Q][7] example
 
-####MongoDb with [Mongose][6] and [Q][7] example####
+in mongooseModule.js
 ```javascript
 var mongoose = require('mongoose'),,
     appolo = require('appolo-express');
 
-mongoose.connect(appolo.environment.db);
+module.exports = function(options){
+	return function(env,inject,logger,next){
+		mongoose.connect(appolo.environment.db);
+		
+		mongoose.on('connection',function(){
+			logger.info("connected to mongo");
+			next()
+		});
+		
+		inject.addObject('mongoose', mongoose);
+	}
+}
+```
+in modules.js
+```javascript
+var loggerModule= require('./loggerModule'),
+	mongooseModule= require('./mongooseModule'),
+    appolo = require('appolo-express');
 
-var userSchema = new mongoose.Schema( name : {type: String});
-var userModel = mongoose.model('User', userSchema);
-
-appolo.inject.addObject('db', mongoose);
-appolo.inject.addObject('UserModel', userModel);
-module.exports = db;
+appolo.use(loggerModule());
+appolo.use(mongooseModule());	
 ```
 
+in userSchema.js 
+```javascript
+	var mongoose = require('mongoose'),
+	    appolo = require('appolo-express');
+	
+	var userSchema = new mongoose.Schema( name : {type: String});
+	var userModel = mongoose.model('User', userSchema);
+	
+	appolo.inject.addObject('UserModel', userModel);
+	
+	module.exports = userSchema ;
+```
+usage:
 ```javascript
 var appolo  = require('appolo'),
     Q = require('q');
@@ -228,60 +398,6 @@ appolo.Class.define({
 });
 
 ```
-
-##Loggers ##
-you can easy add logger to your server just by adding the logger configuraion file to the config folder.
-####logger with [winston][8] and [sentry][9]####
-```javascript
-var winston = require('winston'),
-    appolo = require('appolo-express'),
-    Sentry = require('winston-sentry');
-
-var transports = [];
-
-if(appolo.environment.type == 'produnction'){
-    transports.push(new Sentry({
-            level: 'warn',
-            dsn: "senty connection string",
-            json: true,
-            timestamp: true,
-            handleExceptions: true,
-            patchGlobal: true
-    }));
-}
-
-transports.push(new (winston.transports.Console)({
-    json: false,
-    timestamp: true,
-    handleExceptions: true
-}));
-
-var logger = new (winston.Logger)({
-    transports: transports,
-    exitOnError: false
-});
-
-appolo.inject.addObject('logger', logger);
-module.exports = logger;
-```
-
-```javascript
-var appolo  = require('appolo');
-
-appolo.Class.define({
-    $config:{
-        id:'dataManager',
-        singleton: true,
-        initMethod: 'initialize',
-        inject:['logger']
-    },
-    initialize:function(){
-        this.logger.info("dataManager initialized",{someData:'someData'})
-    }
-});
-
-```
-
 
 
 ##Class System ##
