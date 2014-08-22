@@ -251,14 +251,12 @@ you can inject the `appolo.use` function any object that is already exists in th
 the default injectable objects:
 
  - `env` - environment object,
- - `inject` - injector to add objects to the ioc,
- - `app` - express app
- - `router` - router to change to current routes configuration
+ - `inject` - injector  - to add objects to the injector,
 
 the last argument must be the `next` function 
 
 ```javascript
-var appolo = require('appolo-express');
+var appolo = require('appolo');
 
 //my custom module 
 appolo.use(function(env,inject,next){
@@ -272,7 +270,7 @@ appolo.use(function(env,inject,next){
 ```
 now I can inject `myModuleObject` to any class
 ```javascript
-var appolo = require('appolo-express');
+var appolo = require('appolo');
 appolo.Class.define({
 	$config:{
         id:'authMiddleware',
@@ -290,7 +288,7 @@ logger module example with [winston][8] and [sentry][9]
 loggerModule.js file
 ```javascript
 var winston = require('winston'),
-    appolo = require('appolo-express'),
+    appolo = require('appolo'),
     Sentry = require('winston-sentry');
 
 module.exports = function(options){
@@ -326,7 +324,7 @@ module.exports = function(options){
 in your modules.js
 ```javascript
 var logger= require('./loggerModule'),
-    appolo = require('appolo-express');
+    appolo = require('appolo');
 
 appolo.use(loggerModule());	
 ```
@@ -354,7 +352,7 @@ appolo.Class.define({
 socketModule.js file
 ```javascript
 var sio = require('socket.io'),
-    appolo = require('appolo-express');
+    appolo = require('appolo');
 
 module.exports = function(options){
 	return function(env,inject,app,next){
@@ -371,7 +369,7 @@ in your modules.js
 ```javascript
 var loggerModule= require('./loggerModule'),
 	socketModule= require('./socketModule'),
-    appolo = require('appolo-express');
+    appolo = require('appolo');
 
 appolo.use(loggerModule());
 appolo.use(socketModule());	
@@ -379,7 +377,7 @@ appolo.use(socketModule());
 usage:
 ```javascript
 
-var appolo  = require('appolo-express'),
+var appolo  = require('appolo'),
     Q = require('q');
 
 appolo.Class.define({
@@ -405,7 +403,7 @@ appolo.Class.define({
 redisModule.js file
 ```javascript
 var redis = require('redis'),
-    appolo = require('appolo-express'),
+    appolo = require('appolo'),
     url = require('url');
 
 module.exports = function(options){
@@ -430,7 +428,7 @@ in your modules.js
 ```javascript
 var loggerModule= require('./loggerModule'),
 	redisModule= require('./redisModule'),
-    appolo = require('appolo-express');
+    appolo = require('appolo');
 
 appolo.use(loggerModule());
 appolo.use(redisModule());	
@@ -464,7 +462,7 @@ MongoDb with [Mongose][6] and [Q][7] example
 in mongooseModule.js
 ```javascript
 var mongoose = require('mongoose'),,
-    appolo = require('appolo-express');
+    appolo = require('appolo');
 
 module.exports = function(options){
 	return function(env,inject,logger,next){
@@ -483,7 +481,7 @@ in modules.js
 ```javascript
 var loggerModule= require('./loggerModule'),
 	mongooseModule= require('./mongooseModule'),
-    appolo = require('appolo-express');
+    appolo = require('appolo');
 
 appolo.use(loggerModule());
 appolo.use(mongooseModule());	
@@ -492,7 +490,7 @@ appolo.use(mongooseModule());
 in userSchema.js 
 ```javascript
 	var mongoose = require('mongoose'),
-	    appolo = require('appolo-express');
+	    appolo = require('appolo');
 	
 	var userSchema = new mongoose.Schema( name : {type: String});
 	var userModel = mongoose.model('User', userSchema);
