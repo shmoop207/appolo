@@ -41,4 +41,20 @@ describe('environments', function () {
 
         appolo.environment.type.should.be.equal("production")
     });
+
+
+    it('should create dev environment with deep config', function () {
+
+        appolo.launcher.launch({
+            paths:['config', 'server'],
+            root:process.cwd() +'/test/mock'
+        });
+
+        should.exist(appolo.environment.deep);
+
+        appolo.environment.deep.test.should.be.equal("working");
+
+        appolo.environment.deep.test2.should.be.equal("devWorking2");
+    });
+
 });

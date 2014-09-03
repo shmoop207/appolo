@@ -1,3 +1,6 @@
 module.exports = {
-    test:'testDev'
+    test:'testDev',
+    deep:{
+        test2:'devWorking2'
+    }
 }

@@ -1,3 +1,7 @@
 module.exports = {
-    test:'test'
+    test:'test',
+    deep:{
+        test:'working',
+        test2:'working2'
+    }
 }
