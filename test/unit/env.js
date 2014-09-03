@@ -50,11 +50,14 @@ describe('environments', function () {
             root:process.cwd() +'/test/mock'
         });
 
+        appolo.environment.test.should.be.equal("testDev")
+
         should.exist(appolo.environment.deep);
 
         appolo.environment.deep.test.should.be.equal("working");
 
         appolo.environment.deep.test2.should.be.equal("devWorking2");
+        appolo.environment.deep.test3.should.be.equal("working3");
     });
 
 });
