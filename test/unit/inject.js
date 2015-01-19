@@ -12,7 +12,7 @@ describe('inject', function () {
     });
 
     afterEach(function(){
-        appolo.launcher.reset();
+        appolo.launcher.softReset();
     });
 
     it('should have  injector', function () {
