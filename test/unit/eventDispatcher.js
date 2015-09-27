@@ -1,18 +1,19 @@
+"use strict";
 var should = require('chai').should();
 var appolo  = require('../../index');
 
 
 describe("event dispatcher", function () {
 
-    var EventHandler = new appolo.Class.define({
-        constructor : function(dispatcher){
+    class EventHandler{
+        constructor (dispatcher){
             this.dispatcher = dispatcher;
-        },
+        }
 
-        handle : function(){
+        handle (){
             this.dispatcher.un('topic', this.handle, this)
         }
-    });
+    }
 
     it('can un-subscribe from event while handling the event itself', function () {
         var dispatcher = new appolo.EventDispatcher();

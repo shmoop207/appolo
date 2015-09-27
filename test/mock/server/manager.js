@@ -1,8 +1,24 @@
-var EventDispatcher = require('../../../lib/events/event-dispatcher');
+"use strict";
+var appolo = require('../../../index');
 
-module.exports = EventDispatcher.define({
-    $config:{
-        id:'manager',
-        singleton:true
+let $config = {
+    id: 'manager',
+    singleton: true,
+};
+
+class Manager extends appolo.EventDispatcher {
+
+    constructor() {
+        super();
     }
-})
+
+    run(callback) {
+
+
+        this.working = true;
+
+        callback();
+    }
+}
+
+module.exports = appolo.define($config, Manager);

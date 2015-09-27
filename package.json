@@ -13,21 +13,27 @@
     "name": "Roman Svichar",
     "email": "shmoop207@gmail.com"
   },
+
+  "engines": {
+    "node": "4.1.x",
+    "npm": "2.14.x"
+  },
+
   "main": "./index.js",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "license": "Mit",
   "repository": {
     "type": "git",
     "url": "https://github.com/shmoop207/appolo.git"
   },
+  "license": "MIT",
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-class": "^0.2.15",
     "appolo-inject": "^0.3.13",
-    "async": "0.9.0",
-    "lodash": "2.4.1",
-    "q": "^1.1.2"
+    "bluebird": "^2.10.1",
+    "co": "^4.6.0",
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
     "chai": "1.8.1",

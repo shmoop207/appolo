@@ -1,13 +1,16 @@
 var launcher = require('./lib/launcher/launcher'),
-    moduleManager = require('./lib/modules/modules');
+    moduleManager = require('./lib/modules/modules'),
+    define = require('./lib/define/define');
 
 module.exports = {
-    Class : require('appolo-class'),
     Util : require('./lib/util/util'),
     EventDispatcher : require('./lib/events/event-dispatcher'),
+    Launcher : launcher.Launcher,
     inject : require('./lib/inject/inject'),
+    define : define.define,
+    definePlugin : define.definePlugin,
     loader : require('./lib/loader/loader'),
-    launcher : launcher = require('./lib/launcher/launcher'),
+    launcher : launcher.launcher,
     environment : require('./lib/environments/environments'),
     module : require('./lib/modules/modules'),
     _ : require('lodash'),

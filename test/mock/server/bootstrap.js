@@ -1,18 +1,25 @@
-var EventDispatcher = require('../../../lib/events/event-dispatcher');
+"use strict";
+var appolo = require('../../../index');
 
-module.exports = EventDispatcher.define({
-    $config:{
-        id:'appolo-bootstrap',
-        singleton:true,
-        inject:['manager']
-    },
+let $config = {
+    id: 'appolo-bootstrap',
+    singleton: true,
+    inject: ['manager']
+};
 
+class Bootstrap extends appolo.EventDispatcher {
 
-    run:function(callback){
+    constructor() {
+        super();
+    }
+
+    run(callback) {
 
 
         this.working = true;
 
         callback();
     }
-})
+}
+
+module.exports = appolo.define($config, Bootstrap);
