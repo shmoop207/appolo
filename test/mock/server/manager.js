@@ -3,7 +3,7 @@ var appolo = require('../../../index');
 
 let $config = {
     id: 'manager',
-    singleton: true,
+    singleton: true
 };
 
 class Manager extends appolo.EventDispatcher {

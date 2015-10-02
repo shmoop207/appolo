@@ -95,6 +95,11 @@ describe('define', function () {
 
     });
 
+    it('should define class static config', function () {
+        var manager2 = appolo.inject.getObject('manager2');
 
+        should.exist(manager2);
+        should.exist(manager2.manager);
+    })
 
 });
