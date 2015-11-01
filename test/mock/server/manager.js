@@ -12,12 +12,12 @@ class Manager extends appolo.EventDispatcher {
         super();
     }
 
-    run(callback) {
+    run() {
 
 
         this.working = true;
 
-        callback();
+
     }
 }
 
