@@ -102,4 +102,41 @@ describe('define', function () {
         should.exist(manager2.manager);
     })
 
+    it('should define class with linq', function () {
+        var manager3 = appolo.inject.getObject('manager3');
+
+        should.exist(manager3);
+        should.exist(manager3.manager);
+        should.exist(Test.Manager3);
+
+
+        manager3.TEST.should.be.eq(1)
+        manager3.TEST2.should.be.eq(2)
+        Test.Manager3.TEST2.should.be.eq(2)
+    })
+
+    it('should define only namespace', function () {
+
+        class Test{
+
+        }
+
+        appolo.define(Test).namespace('Test1.Test2')
+
+        should.exist(Test1.Test2);
+
+        Test1.Test2.should.be.eq(Test)
+    })
+
+    it('should define only statics', function () {
+
+        class Test{
+
+        }
+
+        appolo.define(Test).statics('Test1','Test2')
+
+        Test.Test1.should.be.eq('Test2')
+    })
+
 });

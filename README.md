@@ -22,14 +22,14 @@ Appolo architecture follows common patten of MVC and dependency injection which 
 npm install appolo --save
 ```
 
-##Quick start ##
+## Quick start
 in your app.js file
 ```javascript
 var appolo  = require('appolo');
 appolo.launcher.launch();
 ```
 
-##Recommended Directory Structure ##
+## Recommended Directory Structure
 the environments folder must to exist every thing else is optional appolo will require all files in the config and server folders but the environments folder will be loaded first.
 ```javascript
 - config
@@ -53,26 +53,26 @@ the environments folder must to exist every thing else is optional appolo will r
    
 ```
 
-##Configuration##
+## Configuration
 appolo launch configuration options
 
-####options.paths####
+#### options.path
 Type :`array`, Default: `['config', 'server']`
 The folder will be required and loaded on appolo launch
 
-####options.root####
+#### options.root 
 Type :`string`, Default: process.cwd()
 the root folder of the paths option
 
-####options.bootStrapClassId####
+#### options.bootStrapClassId
 Type :`string`, Default: `(process.env.NODE_ENV || 'development')`
 environment file name that will override the environment all.js file
 default is the node env or if not defined it will be `development`
 
-####options.bootStrapClassId####
+#### options.bootStrapClassId 
 Type :`string`, Default: `appolo-bootstrap`
 appolo will try to find the bootstrap class after it launched and run it.
-this is optinal if the class is not defined nothing will happen. 
+this is optional if the class is not defined nothing will happen. 
 
 ```javascript
 var appolo  = require('appolo');
@@ -81,13 +81,13 @@ appolo.launcher.launch( {
     paths:['config', 'server'],
     root : process.cwd()+'/app',
     environment : 'testing',
-    bootStrapClassId :'my-bootsrap'
+    bootStrapClassId :'my-bootstrap'
 });
 ```
 
-##Environments##
+## Environments 
 With environments you can define different set of configurations depending on the environment type your app is currently running.
-it is recommened to have 4 types of environments : `develpment`, `testing`, `staging`, `production`.
+it is recommended to have 4 types of environments : `development`, `testing`, `staging`, `production`.
 after `appolo launch` you can always to access to current environment vars via `appolo.environment`.
 ```javascript
 //all.js
@@ -95,15 +95,15 @@ module.exports = {
     name:'all'
     someVar:'someVar'
 }
-//develpment.js
+//development.js
 module.exports = {
-    name:'develpment'
-    db:'monog://develpment-url'
+    name:'development'
+    db:'mongo://development-url'
 }
-//develpment.js
+//development.js
 module.exports = {
     name:'testing'
-    db:'monog://testing-url'
+    db:'mongo://testing-url'
 }
 
 ```
@@ -116,135 +116,169 @@ var env = appolo.environment;
 console.log(env.name,env.someVar,env.db) // 'testing someVar monog:://testing-url'
 
 ```
-
-
-
-##Class System ##
-appolo have powerful class system based on [appolo-class][10].
-enables you write your server code classes in elegant way with `inheritance` and `mixins` for better code reuse.
-```javascript
-var appolo  = require('appolo');
-
-var Rectangle = appolo.Class.define({
-    constructor: function (width, height) {
-        this.height = height;
-        this.width = width;
-    },
-    area: function () {
-        return this.width * this.height;
-    }
-});
-
-var Square = Rectangle.define({
-    constructor: function (side) {
-        this.callParent(side, side);
-    }
-});
-
-var square = new Square(6);
-console.log(square.area()) // 36
-```
-
-##Dependency Injection System ##
+## Dependency Injection System
 appolo have powerful [Dependency Injection][11] system based on [appolo-inject][12].
 enables you to organize your code in [loose coupling][13] classes.
-you can always access to injector via `appolo-inject`.
+you can always access to injector via `appolo.inject`.
 ```javascript
+//dataManager.js
 var appolo  = require('appolo');
-
-appolo.Class.define({
-    $config:{
-        id:'dataManager',
-        singleton: true
-    },
-    getData:function(){
+module.exports = class DataManager {
+    static get $config(){ 
+        return{ 
+            id:'dataManager',
+            singleton: true
+        }
+    }
+    getData(){
         ...
     }
-});
-
-appolo.Class.define({
-    $config:{
-        id:'fooController',
-        singleton: false,
-        initMethod:'initialize',
-        inject:['dataManager']
-    },
-    constructor: function () {
+}
+//fooController.js
+module.exports = class FooController{
+    static get $config() { 
+        return {
+            id:'fooController',
+            singleton: false,
+            initMethod:'initialize',
+            inject:['dataManager']
+        }
+    }
+    constructor {
         this.data = null
-    },
-    
-    initialize:fucntion(){
+    }
+    initialize(){
         this.data =  this.dataManager.getData();
         //do something
     }
-    ...
+}
+//app.js
+var fooController = appolo.inject.getObject('fooController');
+console.log(fooController.data)
+```
+you can also `use appolo.define`
+```javascript
+
+var appolo  = require('appolo');
+class DataManager {
+    getData(){
+        ...
+    }
+}
+appolo.define({ 
+    id:'dataManager',
+    singleton: true,
+    type:DataManager
+})
+//or 
+appolo.define('dataManager')
+    .type(DataManager)
+    .singleton()
+
+class FooController{
+    constructor {
+        this.data = null
+    }
+    initialize(){
+        this.data =  this.dataManager.getData();
+        //do something
+    }
+}
+appolo.define({
+    id:'fooController',
+    singleton: false,
+    initMethod:'initialize',
+    type:FooController
+    inject:['dataManager']
 });
+//or
+appolo.define('fooController')
+    .type(FooController)
+    .singleton()
+    .initMethod('initialize')
+    .inject('dataManager');
 
 var fooController = appolo.inject.getObject('fooController');
 console.log(fooController.data)
 ```
 
-##Event Dispatcher ##
+## Namespace
+you can define global class namespace and use it without require
+```javascript
+class Person{
+}
+appolo.define(Person).namespace("Foo.Person");
+
+var person = new Foo.Person()
+```
+
+## statics
+you can define statics value both on the class prototype and class instance
+```javascript
+class Person{
+    get name(){
+        return this.Foo
+    }
+}
+appolo.define(Person)
+    .namespace("Foo.Person")
+    .statics("BAR","1")
+    .statics({Foo:2});
+
+var person = new Foo.Person()
+console.log(Person.BAR) // 1
+console.log(person.BAR) // 1
+console.log(person.name) //2
+```
+## Event Dispatcher
 appolo have built in event dispatcher to enable classes to listen and fire events
 Event Dispatcher has the following methods:
 
-###`eventDispatcher.on(event,callback,[scope])`
+### `eventDispatcher.on(event,callback,[scope])`
 add event listener
-
  - `event` - event name.
  - `callback` - callback function that will triggered on event name.
- - `scope` - optinal, the scope of the `callback` function default: `this`.
+ - `scope` - optional, the scope of the `callback` function default: `this`.
 
-###`eventDispatcher.un(event,callback,[scope])`     
+### `eventDispatcher.un(event,callback,[scope])`     
 remove event listener all the arguments must be `===` to on method else it won`t be removed.
-
  -  `event` - event name.
  -  `callback` - callback function.
- -  `scope` - optinal, the scope of the callback function.
+ -  `scope` - optional, the scope of the callback function.
  
-###`eventDispatcher.fireEvent(event,[arguments])`
+### `eventDispatcher.fireEvent(event,[arguments])`
 fireEvent - triggers the callback functions on given event name
-
 - `eventName`
 - `arguments` -  all the rest `arguments` will be applied on the `callback` function
 
 ```javascript
 var appolo  = require('appolo');
-
-appolo.EventDispatcher.define({
-    $config:{
-        id:'fooManager',
-        singleton: true
-    },
+class FooManager extends appolo.EventDispatcher{
     notifyUsers:function(){
-    
         this.fireEvent('someEventName',{someData:'someData'})
     }
-    ...
-});
+}
+appolo.define('fooManager').type(FooManager).singleton()
 
-appolo.Class.define({
-    $config:{
-        id:'fooController',
-        initMethod:'initialize',
-        inject:['fooManager']
-    },
-    initialize:function(){
+class FooController {
+    initialize(){
         this.fooManager.on('someEventName',function(data){
             this.doSomething(data.someData)
         },this);
-    },
+    }
     doSomething:function(){
     }
-    ...
-});
+}
 
+appolo.define('fooController').type(FooController)
+    .initMethod('initialize')
+    .inject('fooManager')
 ```
 
 
-##Modules
-third party modules can be easily loaded to appolo inject and used in the inject class system.<br>
-each module must call `appolo.use` before it can be used by `appolo launcher`<br>
+## Modules
+third party modules can be easily loaded to appolo inject and used in the inject class system.
+each module must call `appolo.use` before it can be used by `appolo launcher`.
 the modules loaded in series so the module must call the `next` function in order to continue the lunch process.
 you can inject the `appolo.use` function any object that is already exists in the injector 
 
@@ -271,18 +305,20 @@ appolo.use(function(env,inject,next){
 now I can inject `myModuleObject` to any class
 ```javascript
 var appolo = require('appolo');
-appolo.Class.define({
-	$config:{
-        id:'authMiddleware',
-        inject:['myModuleObject']
-    },
-    doSomeThing: function () {
+module.exports = class AuthMiddleware{
+	static get $config(){ 
+	    return {
+            id:'authMiddleware',
+            inject:['myModuleObject']
+        }
+    }
+    doSomeThing {
         return this.myModuleObject.data;
     }
-});
+}
 ```
 
-###Logger module
+### Logger module
 logger module example with [winston][8] and [sentry][9]
 
 loggerModule.js file
@@ -295,10 +331,10 @@ module.exports = function(options){
 	return function(env,inject,next){
 		var transports = [];
 	
-		if(env.type == 'produnction'){
+		if(env.type == 'production'){
 		    transports.push(new Sentry({
 	            level: 'warn',
-	            dsn: env.sentyConnectionString,
+	            dsn: env.sentryConnectionString,
 	            json: true,
 	            timestamp: true,
 	            handleExceptions: true,
@@ -332,22 +368,20 @@ now you you inject logger anywhere you want
 ```javascript
 var appolo  = require('appolo');
 
-appolo.Class.define({
-    $config:{
-        id:'dataManager',
-        singleton: true,
-        initMethod: 'initialize',
-        inject:['logger']
-    },
+class DataManager{
     initialize:function(){
         this.logger.info("dataManager initialized",{someData:'someData'})
     }
 });
+appolo.define('dataManager',DataManager)
+    .singleton()
+    .initMethod()
+    .inject('logger')
 
 ```
 
-###Socket.io Module
-[Sokcet.io][3] module example
+### Socket.io Module
+[Socket.io][3] module example
 
 socketModule.js file
 ```javascript
@@ -377,27 +411,24 @@ appolo.use(socketModule());
 usage:
 ```javascript
 
-var appolo  = require('appolo'),
-    Q = require('q');
-
-appolo.Class.define({
-    $config:{
-        id:'chatController',
-        singleton: true,
-        initMethod: 'initialize',
-        inject:['io','logger']
-    },
+var appolo  = require('appolo');
+class ChatController{
     initialize:function(){
-         
         this.io.sockets.on('connection', function(socket){
 	        this.logger.info("client connected")
             socket.broadcast.to('some_room').emit('message','client connected');
         }.bind(this);
     }
-});
+}
+
+appolo.define('chatController')
+    .type(ChatController)
+    .singleton()
+    .initMethod()
+    .inject('io','logger')
 ```
 
-###Redis Module
+### Redis Module
 [Redis][4] module and [Q][5] example
 
 redisModule.js file
@@ -416,7 +447,7 @@ module.exports = function(options){
 		    redisClient.auth(redisURL.auth.split(":")[1]);
 		}
 		redisClient .on('connect', function () {
-	        logger.info("connected to redisclient");
+	        logger.info("connected to redisClient");
 	        next();
 		});
 		
@@ -438,25 +469,22 @@ usage:
 var appolo  = require('appolo'),
     Q = require('q');
 
-appolo.Class.define({
-    $config:{
-        id:'dataManager',
-        singleton: true,
-        inject:['redis']
-    },
-    getData:function(){
+class DataManager {
+    getData(){
         var deferred = Q.defer();
-        
          this.redis.get('someKey', function (err, value) {
             err ? deferred.reject() : deferred.resolve(value);
          });
          
          return deferred.promise;
     }
-});
+}
+appolo.define('dataManager',DataManager)
+    .singleton()
+    .inject('redis')
 
 ```
-###MongoDb Module
+### MongoDb Module
 MongoDb with [Mongose][6] and [Q][7] example
 
 in mongooseModule.js
@@ -504,44 +532,36 @@ usage:
 var appolo  = require('appolo'),
     Q = require('q');
 
-appolo.Class.define({
-    $config:{
-        id:'userManager',
-        singleton: true,
-        inject:['UserModel']
-    },
-    getUser:function(id){
+module.exports = class UserManager{
+    getUser(id){
         var deferred = Q.defer();
-       
        this.UserModel.findById(id,function(err,data){
             err ? deferred.reject() : deferred.resolve(value);
         });
-        
         return deferred.promise;
     }
-});
-
+}
+appolo.define('userManager',UserManager)
+    .singleton()
+    .inject('UserModel')
 ```
 
 
-##Appolo Bootstrap ##
+## Appolo Bootstrap
 
-once it lanched appolo try to find appolo `bootstrap` class and call it's `run` mehtod.
+once it launched appolo try to find appolo `bootstrap` class and call it's `run` method.
 ```javascript
 var appolo  = require('appolo');
 
-appolo.Class.define({
-    $config:{
-        id:'appolo-bootstrap',
-        singleton: true,
-        inject:['someManager1','someManager2']
-    },
+class Bootstrap{
     run:function(){
         //start your application logic here
         this.someManager1.doSomeThing();
     }
-    ...
-});
+}
+appolo.define('appolo-bootstrap',Bootstrap)
+    .singleton()
+    .inject(['someManager1','someManager2'])
 
 ```
 

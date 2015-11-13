@@ -1,10 +1,7 @@
 "use strict";
 var appolo = require('../../../index');
 
-let $config = {
-    id: 'manager',
-    singleton: true
-};
+
 
 class Manager extends appolo.EventDispatcher {
 
@@ -21,4 +18,10 @@ class Manager extends appolo.EventDispatcher {
     }
 }
 
-module.exports = appolo.define($config, Manager);
+let $config = {
+    id: 'manager',
+    singleton: true,
+    type:Manager
+};
+
+module.exports = appolo.define($config);
