@@ -144,7 +144,7 @@ module.exports = class FooController{
             inject:['dataManager']
         }
     }
-    constructor {
+    constructor() {
         this.data = null
     }
     initialize(){
@@ -158,7 +158,6 @@ console.log(fooController.data)
 ```
 you can also `use appolo.define`
 ```javascript
-
 var appolo  = require('appolo');
 class DataManager {
     getData(){
@@ -176,7 +175,7 @@ appolo.define('dataManager')
     .singleton()
 
 class FooController{
-    constructor {
+    constructor() {
         this.data = null
     }
     initialize(){
@@ -200,6 +199,32 @@ appolo.define('fooController')
 
 var fooController = appolo.inject.getObject('fooController');
 console.log(fooController.data)
+```
+
+you can also use constructor injection
+```javascript
+var appolo  = require('appolo');
+class DataManager {
+    getData(){
+        ...
+    }
+}
+appolo.define('dataManager')
+	.type(DataManager)
+	.singleton();
+
+class FooController{
+    constructor(dataManager) {
+       this.dataManager = dataManager;
+    }
+    initialize(){
+        this.data =  this.dataManager.getData();
+    }
+}
+appolo.define('fooController')
+    .type(FooController)
+    .singleton()
+    .initMethod('initialize');
 ```
 
 ## Namespace
@@ -229,6 +254,30 @@ var person = new Foo.Person()
 console.log(Person.BAR) // 1
 console.log(person.BAR) // 1
 console.log(person.name) //2
+```
+
+## Mixins
+used to add prototype functions from other classes
+```javascript
+class Events{
+    on (event, fn) {
+        return true;
+    },
+    un (event, fn) {
+        return true;
+    }
+});
+
+class Foo{
+    constructor() {
+    }
+}
+
+appolo.define(Foo).mixins(Events)
+
+var foo = new Foo();
+foo.on('test',function(){})
+
 ```
 ## Event Dispatcher
 appolo have built in event dispatcher to enable classes to listen and fire events

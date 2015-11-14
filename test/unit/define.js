@@ -10,10 +10,10 @@ describe('define', function () {
         appolo.launcher.launch({
             paths: ['config', 'server'],
             root: process.cwd() + '/test/mock'
-        },done);
+        }, done);
     });
 
-    afterEach(function(){
+    afterEach(function () {
         appolo.launcher.reset();
     })
 
@@ -21,12 +21,12 @@ describe('define', function () {
 
 
         var $config = {
-            id:'test'
+            id: 'test'
         }
 
-       appolo.define($config,class Test{
+        appolo.define($config, class Test {
 
-       })
+        })
 
         var injector = appolo.inject;
 
@@ -42,15 +42,15 @@ describe('define', function () {
 
 
         var $config = {
-            id:'test',
-            namespace:'Apoolo.Testing.Test'
+            id: 'test',
+            namespace: 'Apoolo.Testing.Test'
         }
-        var Test = class Test{
+        var Test = class Test {
 
         }
 
 
-        appolo.define($config,Test);
+        appolo.define($config, Test);
 
 
         should.exist(Apoolo.Testing.Test);
@@ -69,20 +69,20 @@ describe('define', function () {
     it('should define class statics', function () {
 
         var $config = {
-            id:'test',
-            statics:{
-                TEST:1
+            id: 'test',
+            statics: {
+                TEST: 1
             }
         }
 
-        var Test = class Test{
+        var Test = class Test {
 
-            toString(){
+            toString() {
                 return this.TEST
             }
         }
 
-        appolo.define($config,Test)
+        appolo.define($config, Test)
 
         var injector = appolo.inject;
 
@@ -117,7 +117,7 @@ describe('define', function () {
 
     it('should define only namespace', function () {
 
-        class Test{
+        class Test {
 
         }
 
@@ -130,13 +130,57 @@ describe('define', function () {
 
     it('should define only statics', function () {
 
-        class Test{
+        class Test {
 
         }
 
-        appolo.define(Test).statics('Test1','Test2')
+        appolo.define(Test).statics('Test1', 'Test2')
 
         Test.Test1.should.be.eq('Test2')
+    })
+
+    it('should define mixsins', function () {
+
+        class Test {
+            on(event, fn) {
+                return true;
+            }
+
+            un(event, fn) {
+                return true;
+            }
+        }
+
+        class Test2 {
+
+        }
+
+        appolo.define(Test2).mixins(Test)
+
+        var test = new Test2();
+            test.on() .should.be.ok
+    })
+
+    it('should define mixsins with $config', function () {
+
+        class Test {
+            on(event, fn) {
+                return true;
+            }
+
+            un(event, fn) {
+                return true;
+            }
+        }
+
+        class Test2 {
+
+        }
+
+        appolo.define({type:Test2,mixins:Test})
+
+        var test = new Test2();
+        test.on() .should.be.ok
     })
 
 });

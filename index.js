@@ -8,6 +8,7 @@ module.exports = {
     Launcher : launcher.Launcher,
     inject : require('./lib/inject/inject'),
     define : define.define,
+    Linq : require('./lib/define/linq'),
     definePlugin : define.definePlugin,
     loader : require('./lib/loader/loader'),
     launcher : launcher.launcher,
