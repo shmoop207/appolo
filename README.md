@@ -266,7 +266,7 @@ class Events{
     un (event, fn) {
         return true;
     }
-});
+}
 
 class Foo{
     constructor() {
