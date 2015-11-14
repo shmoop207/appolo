@@ -603,7 +603,7 @@ once it launched appolo try to find appolo `bootstrap` class and call it's `run`
 var appolo  = require('appolo');
 
 class Bootstrap{
-    run:function(){
+    run(){
         //start your application logic here
         this.someManager1.doSomeThing();
     }
