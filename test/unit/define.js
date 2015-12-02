@@ -183,4 +183,37 @@ describe('define', function () {
         test.on() .should.be.ok
     })
 
+    it('should define interfaces ', function () {
+
+
+        class EventsDispacher  {
+            on(event, fn) {
+
+            }
+
+            un(event, fn) {
+
+            }
+        }
+
+
+        class Test {
+            on(event, fn) {
+                return true;
+            }
+
+            un(event, fn2) {
+                return true;
+            }
+        }
+
+        (function(){
+            appolo.define(Test).interfaces(EventsDispacher)
+
+            var test = new Test();
+
+        }).should.throw()
+
+    })
+
 });
