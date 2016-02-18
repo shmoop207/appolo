@@ -20,7 +20,7 @@
   },
 
   "main": "./index.js",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "license": "Mit",
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-inject": "^1.0.8",
+    "appolo-inject": "^1.0.9",
     "bluebird": "^3.0.3",
     "co": "^4.6.0",
     "lodash": "^3.10.1"
