@@ -26,11 +26,10 @@
     "type": "git",
     "url": "https://github.com/shmoop207/appolo.git"
   },
-  "license": "MIT",
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-inject": "^1.0.9",
+    "appolo-inject": "^1.0.10",
     "bluebird": "^3.0.3",
     "co": "^4.6.0",
     "lodash": "^3.10.1"
