@@ -20,8 +20,8 @@
   },
 
   "main": "./index.js",
-  "version": "2.0.15",
-  "license": "Mit",
+  "version": "3.0.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/shmoop207/appolo.git"
@@ -30,9 +30,9 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "appolo-inject": "^1.0.10",
-    "bluebird": "^3.4.1",
+    "bluebird": "^3.4.6",
     "co": "^4.6.0",
-    "lodash": "^3.10.1"
+    "lodash": "^4.16.2"
   },
   "devDependencies": {
     "chai": "1.8.1",

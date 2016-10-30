@@ -31,6 +31,6 @@ describe('plugins', function () {
 
         var logger2 = injector.getObject('logger2');
         should.exist(logger2);
-        logger2.getName().should.be.eq("testDevlogger2");
+        logger2.getName().should.be.eq("testDevlogger2testDev");
     });
 });

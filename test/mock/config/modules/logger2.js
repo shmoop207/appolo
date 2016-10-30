@@ -1,23 +1,20 @@
-var appolo = require('../../../../index');
+var appolo = require('../../../../index'),
+    Q = require('bluebird');
 
 
 
 module.exports  = function (options) {
-    return  function (env, inject, logger, callback) {
+    return   (env, inject, logger)=> {
 
-        var logger = {
+        var logger2 = {
             getName: function () {
-                return env.test + "logger2";
+                return env.test + "logger2" + logger.getName();
             }
-        }
+        };
 
-        inject.addObject('logger2', logger);
+        inject.addObject('logger2', logger2);
 
-        setTimeout(function () {
-            callback();
-            callback();
-
-        }, 100)
+        return Q.delay( 100)
     }
 }
 
