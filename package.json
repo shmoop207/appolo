@@ -16,11 +16,11 @@
 
   "engines": {
     "node": ">= 4.0.0",
-    "npm": "2.14.x"
+    "npm": ">=2.14.x"
   },
 
   "main": "./index.js",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-inject": "^1.0.10",
+    "appolo-inject": "^1.0.11",
     "bluebird": "^3.4.6",
     "co": "^4.6.0",
     "lodash": "^4.16.2"
