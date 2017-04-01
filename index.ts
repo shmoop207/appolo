@@ -8,7 +8,7 @@ export {Launcher, launcher} from './lib/launcher/launcher';
 export {default as inject} from './lib/inject/inject';
 export {define, definePlugin} from './lib/define/definefn';
 export {Define} from './lib/define/define';
-export {FilesLoader as  loader} from './lib/loader/loader';
+export {default as  loader,FilesLoader} from './lib/loader/loader';
 export {default as environment}  from './lib/environments/environments'
 export {default as module} from './lib/modules/modules'
 

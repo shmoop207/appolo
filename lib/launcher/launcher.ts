@@ -15,8 +15,8 @@ import {IBootstrap} from "../IBootstrap";
 
 export class Launcher extends EventDispatcher {
 
-    private cachedRequire: string[];
-    private _options: IOptions
+    protected cachedRequire: string[];
+    protected _options: IOptions;
 
     constructor() {
 
@@ -224,7 +224,7 @@ export class Launcher extends EventDispatcher {
         process.removeAllListeners();
     }
 
-    softReset() {
+    public softReset() {
 
         this.reset(true);
     }
