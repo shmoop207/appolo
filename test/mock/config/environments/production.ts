@@ -1,0 +1,3 @@
+export = {
+    test:'testProd'
+}

@@ -1,24 +1,15 @@
-var appolo = require('../../../../index'),
-    Q = require('bluebird');
-
-
-
-module.exports  = function (options) {
-    return   (env, inject, logger)=> {
-
-        var logger2 = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function default_1(options) {
+    return (env, inject, logger, next) => {
+        let logger2 = {
             getName: function () {
                 return env.test + "logger2" + logger.getName();
             }
         };
-
         inject.addObject('logger2', logger2);
-
-        return Q.delay( 100)
-    }
+        next();
+    };
 }
-
-
-
-
-
+exports.default = default_1;
+//# sourceMappingURL=logger2.js.map

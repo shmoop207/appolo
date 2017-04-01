@@ -13,14 +13,12 @@
     "name": "Roman Svichar",
     "email": "shmoop207@gmail.com"
   },
-
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">=2.14.x"
   },
-
   "main": "./index.js",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -29,14 +27,26 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-inject": "^1.0.11",
+    "appolo-inject": "^2.0.3",
     "bluebird": "^3.4.6",
-    "co": "^4.6.0",
-    "lodash": "^4.16.2"
+    "lodash": "^4.17.4",
+    "tslib": "^1.6.0"
   },
   "devDependencies": {
-    "chai": "1.8.1",
-    "grunt": "*",
-    "grunt-mocha-test": "0.8.1"
+    "@types/bluebird": "^3.5.2",
+    "@types/chai": "^3.4.35",
+    "@types/lodash": "^4.14.59",
+    "@types/mocha": "^2.2.40",
+    "@types/node": "^7.0.12",
+    "@types/sinon": "^2.1.0",
+    "@types/sinon-chai": "^2.7.27",
+    "chai": "3.5.0",
+    "grunt": "1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-mocha-test": "0.13.2",
+    "mocha": "^3.2.0",
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0",
+    "typescript": "^2.2.2"
   }
 }

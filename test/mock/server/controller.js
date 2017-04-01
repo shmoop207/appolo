@@ -1,26 +1,16 @@
 "use strict";
-var appolo = require('../../../index');
-
-let $config = {
-    id: 'controller',
-    singleton: true,
-    inject: ['manager']
-};
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const appolo = require("../../../index");
 class Controller extends appolo.EventDispatcher {
-
     constructor() {
         super();
     }
-
-    run(callback) {
-
-
+    run() {
         this.working = true;
-
-        callback();
     }
 }
-
-module.exports = appolo.define($config, Controller);
-
+exports.Controller = Controller;
+appolo.define("controller")
+    .type(Controller)
+    .inject("manager logger2");
+//# sourceMappingURL=controller.js.map

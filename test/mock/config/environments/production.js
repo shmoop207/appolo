@@ -1,3 +1,5 @@
+"use strict";
 module.exports = {
-    test:'testProd'
-}
+    test: 'testProd'
+};
+//# sourceMappingURL=production.js.map
