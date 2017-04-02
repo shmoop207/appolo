@@ -6,7 +6,7 @@ export {Util} from "./lib/util/util"
 export {EventDispatcher} from './lib/events/event-dispatcher';
 export {Launcher, launcher} from './lib/launcher/launcher';
 export {default as inject} from './lib/inject/inject';
-export {define, definePlugin} from './lib/define/definefn';
+export {define, definePlugin} from './lib/define/defineFn';
 export {Define} from './lib/define/define';
 export {default as  loader,FilesLoader} from './lib/loader/loader';
 export {default as environment}  from './lib/environments/environments'

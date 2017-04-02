@@ -28,7 +28,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "appolo-inject": "^2.0.4",
-    "bluebird": "^3.4.6",
+    "bluebird": "^3.5.0",
     "lodash": "^4.17.4",
     "tslib": "^1.6.0"
   },
