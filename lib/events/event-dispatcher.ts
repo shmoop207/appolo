@@ -43,11 +43,10 @@ export class EventDispatcher {
         return this;
     }
 
-    public fireEvent (event:string):EventDispatcher{
+    public fireEvent (event:string,...args: any[]):EventDispatcher{
 
         if (this._eventDispatcherCallbacks) {
-            let args = Array.prototype.slice.call(arguments, 1),
-                callbacks = this._eventDispatcherCallbacks[event];
+            let callbacks = this._eventDispatcherCallbacks[event];
 
             if (callbacks) {
                 callbacks = Util.cloneArr(callbacks); // to handle the case of un during the fire event
