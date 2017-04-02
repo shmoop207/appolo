@@ -3,7 +3,7 @@ import {EventDispatcher} from '../events/event-dispatcher';
 import    filesLoader from '../loader/loader';
 import    environments  from '../environments/environments';
 import    inject  from '../inject/inject';
-import    {define}  from '../define/definefn';
+import    {define}  from '../define/defineFn';
 import    moduleManager from '../modules/modules';
 import   path = require('path');
 import   fs = require('fs');
