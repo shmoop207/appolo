@@ -9,7 +9,7 @@ import {Util} from "../util/util";
 export class Define extends DefineInject {
 
 
-    private _klass: Function;
+    protected _klass: Function;
 
     constructor($config?: string | IDefinition | Function, klass?: Function) {
 

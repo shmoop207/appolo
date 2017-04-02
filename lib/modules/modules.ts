@@ -47,7 +47,7 @@ export class ModuleManager {
         return Q.try(() => moduleFn.apply(moduleFn, dependencies))
     }
 
-    reset() {
+    public reset() {
         this._modules.length = 0;
     }
 }
