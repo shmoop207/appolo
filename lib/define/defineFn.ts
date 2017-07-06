@@ -8,7 +8,7 @@ import {Define} from "./define";
 
 let plugins = [];
 
-export function define ($config:string|IDefinition, klass?:Function):Define {
+export function define ($config:string|IDefinition|Function, klass?:Function):Define {
 
     if(_.isString($config) || _.isFunction($config)){
         return new Define($config,klass);
