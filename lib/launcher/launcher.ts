@@ -213,7 +213,7 @@ export class Launcher extends EventDispatcher {
             delete environments[key];
         });
 
-        let definitions = new Map(inject.getDefinitions());
+        let definitions = inject.getDefinitions();
 
         inject.reset();
 

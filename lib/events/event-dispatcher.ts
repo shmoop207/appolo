@@ -4,9 +4,9 @@ import {Util} from "../util/util";
 
 export class EventDispatcher {
 
-    _eventDispatcherCallbacks:{[index:string]:{fn:Function,scope:any}[]};
+    protected _eventDispatcherCallbacks:{[index:string]:{fn: (...args: any[]) => any, scope?: any}[]};
 
-    public on(event:string, fn:Function,scope?:any):EventDispatcher {
+    public on(event:string, fn:(...args: any[]) => any,scope?:any):EventDispatcher {
 
         if (!this._eventDispatcherCallbacks) {
             this._eventDispatcherCallbacks = {};
@@ -26,7 +26,7 @@ export class EventDispatcher {
         return this;
     }
 
-    public un(event:string, fn:Function,scope?:any):EventDispatcher {
+    public un(event:string, fn:(...args: any[]) => any,scope?:any):EventDispatcher {
 
         if (this._eventDispatcherCallbacks) {
 
@@ -34,9 +34,12 @@ export class EventDispatcher {
 
             if (callbacks && callbacks.length > 0) {
 
-                _.remove(callbacks, (callback)=> {
-                    return callback.fn === fn && callback.scope === (scope || this);
-                });
+                for (let i = callbacks.length - 1; i >= 0; i--) {
+                    let callback = callbacks[i];
+                    if (callback.fn === fn && callback.scope === (scope || this)) {
+                        callbacks.splice(i, 1);
+                    }
+                }
             }
         }
 
@@ -51,11 +54,16 @@ export class EventDispatcher {
             if (callbacks) {
                 callbacks = Util.cloneArr(callbacks); // to handle the case of un during the fire event
 
-                _.forEach(callbacks,(callback)=>{
-                    if(callback && callback.fn && callback.scope){
-                        callback.fn.apply((callback.scope || this), args);
+                if (callbacks) {
+
+                    for (let i = callbacks.length - 1; i >= 0; i--) {
+                        let callback = callbacks[i];
+
+                        if (callback && callback.fn && callback.scope) {
+                            callback.fn.apply((callback.scope || this), args);
+                        }
                     }
-                })
+                }
             }
         }
 
