@@ -10,7 +10,7 @@ export  default function (options?:any) {
 
         let logger2 = {
             getName: function () {
-                return env.test + "logger2" + logger.getName();
+                return logger.getName()+"logger2";
             }
         };
 

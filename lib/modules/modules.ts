@@ -6,7 +6,7 @@ import {Util} from "../util/util";
 
 
 export class ModuleManager {
-    private _modules: ((...args: any[]) => void)[];
+    private _modules: { fn: (...args: any[]) => void, async: boolean }[];
     private _isModulesLoaded: boolean;
 
     constructor() {
@@ -15,18 +15,52 @@ export class ModuleManager {
         this._isModulesLoaded = false;
     }
 
-    public register(func: (...args: any[]) => void) {
-        this._modules.push(func)
+    public register(func: (...args: any[]) => void, async: boolean = false) {
+        this._modules.push({fn: func, async: async})
     }
 
-    public async initialize():Promise<void> {
+    public async initialize(): Promise<void> {
 
-        for (let moduleFn of this._modules) {
+        await this._runModules(this._modules.slice())
+    }
+
+    private async _runModules(modules: { fn: (...args: any[]) => void, async: boolean }[]) {
+
+        if (!modules || modules.length <= 0) {
+            return;
+        }
+
+        let asyncModules = [], syncModules = [], isAsyncMode = modules[0].async;
+
+        while (modules.length) {
+            let module = modules[0];
+
+            if (module.async != isAsyncMode) {
+                break;
+            }
+
+            isAsyncMode ? asyncModules.push(module.fn) : syncModules.push(module.fn);
+            modules.shift();
+        }
+
+
+        await (isAsyncMode ? this._runAsyncModules(asyncModules) : this._runSyncModules(syncModules));
+
+        await this._runModules(modules);
+
+    }
+
+    private async _runAsyncModules(modules: ((...args: any[]) => void)[]) {
+        await Q.map(modules,moduleFn=>this._createModuleCallback(moduleFn))
+    }
+
+    private async _runSyncModules(modules: ((...args: any[]) => void)[]) {
+        for (let moduleFn of modules) {
             await this._createModuleCallback(moduleFn)
         }
     }
 
-    private _createModuleCallback(moduleFn: (...args: any[]) => void):PromiseLike<any> {
+    private _createModuleCallback(moduleFn: (...args: any[]) => void): PromiseLike<any> {
 
         //remove the callback arg
         let args = Util.getFunctionArgs(moduleFn),

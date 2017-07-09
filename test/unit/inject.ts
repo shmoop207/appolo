@@ -46,7 +46,7 @@ describe('inject', function () {
         should.exist(controller);
         should.exist(controller.manager);
         controller.manager.run().should.be.ok;
-        controller.logger2.getName().should.be.eq("testDevlogger2testDev")
+        controller.logger2.getName().should.be.eq("testDevlogger2")
     });
 
     it('should  controller be singleton', function () {

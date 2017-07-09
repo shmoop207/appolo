@@ -18,8 +18,8 @@ export {IEnv} from './lib/IEnv'
 export {IDefinition} from './lib/IDefinition'
 export {Injector,IFactory} from 'appolo-inject'
 
-export let use = function (func) {
-    moduleManager.register(func);
+export let use = function (func,async:boolean= false) {
+    moduleManager.register(func,async);
 };
 export let launch = function (config: IOptions, callback?: Function): Promise<void> {
     return launcher.launch(config, callback);

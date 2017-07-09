@@ -25,8 +25,8 @@ var modules_2 = require("./lib/modules/modules");
 exports.module = modules_2.default;
 var appolo_inject_1 = require("appolo-inject");
 exports.Injector = appolo_inject_1.Injector;
-exports.use = function (func) {
-    modules_1.default.register(func);
+exports.use = function (func, async = false) {
+    modules_1.default.register(func, async);
 };
 exports.launch = function (config, callback) {
     return launcher_1.launcher.launch(config, callback);

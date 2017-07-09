@@ -4,7 +4,7 @@ function default_1(options) {
     return (env, inject, logger, next) => {
         let logger2 = {
             getName: function () {
-                return env.test + "logger2" + logger.getName();
+                return logger.getName() + "logger2";
             }
         };
         inject.addObject('logger2', logger2);

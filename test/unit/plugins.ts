@@ -33,6 +33,22 @@ describe('plugins', function () {
 
         let logger2 = injector.getObject('logger2');
         should.exist(logger2);
-        (logger2 as any).getName().should.be.eq("testDevlogger2testDev");
+        (logger2 as any).getName().should.be.eq("testDevlogger2");
+    });
+
+    it('should initialize module async module depend on the second module', function () {
+        let injector = appolo.inject;
+
+        let logger3 = injector.getObject('logger3');
+        should.exist(logger3);
+        (logger3 as any).getName().should.be.eq("testDevlogger2logger3");
+    });
+
+    it('should initialize module final module depend on the async module', function () {
+        let injector = appolo.inject;
+
+        let logger = injector.getObject('logger5');
+        should.exist(logger);
+        (logger as any).getName().should.be.eq("testDevlogger2logger4logger5");
     });
 });
