@@ -23,9 +23,10 @@ export class FilesLoader {
             for (let file of fs.readdirSync(filePath)) {
                 let newPath = path.join(filePath, file);
                 let stat = fs.statSync(newPath);
+
                 if (stat.isFile() && /(.*)\.(js)$/.test(file) && !_.startsWith(file, "~")) {
                     yield newPath;
-                } else if (stat.isDirectory()) {
+                } else if (stat.isDirectory()  && !_.startsWith(file, "~")) {
                     yield * this._loadFiles(newPath);
                 }
             }
