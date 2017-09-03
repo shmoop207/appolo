@@ -18,7 +18,7 @@
     "npm": ">=3.0.0"
   },
   "main": "./index.js",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-inject": "^3.0.1",
+    "appolo-inject": "^3.0.2",
     "bluebird": "^3.5.0",
     "lodash": "^4.17.4",
     "tslib": "^1.7.1"

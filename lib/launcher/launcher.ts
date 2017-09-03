@@ -1,10 +1,10 @@
 "use strict";
 import {EventDispatcher} from '../events/event-dispatcher';
-import    filesLoader from '../loader/loader';
-import    environments  from '../environments/environments';
-import    inject  from '../inject/inject';
-import    {define}  from '../define/defineFn';
-import    moduleManager from '../modules/modules';
+import filesLoader from '../loader/loader';
+import environments from '../environments/environments';
+import inject from '../inject/inject';
+import {define} from '../define/defineFn';
+import moduleManager from '../modules/modules';
 import   path = require('path');
 import   fs = require('fs');
 import    _ = require('lodash');
@@ -171,9 +171,13 @@ export class Launcher extends EventDispatcher {
         });
     }
 
-    protected async  loadBootStrap(): Promise<void> {
+    protected async loadBootStrap(): Promise<void> {
 
         let bootstrapDef = inject.getDefinition(this._options.bootStrapClassId);
+
+        if (!bootstrapDef) {
+            bootstrapDef = inject.getDefinition("appoloBootStrap")
+        }
 
         if (!bootstrapDef) {
             return Promise.resolve();
