@@ -27,7 +27,7 @@ export class Launcher extends EventDispatcher {
 
     }
 
-    public async launch(config?: IOptions, callback?: Function): Promise<void> {
+    public async launch(config?: IOptions, callback?: Function): Promise<any> {
 
         try {
 
@@ -116,7 +116,7 @@ export class Launcher extends EventDispatcher {
             let modulesFunc = require(modulesPath);
 
             if (_.isFunction(modulesFunc)) {
-                let args = Util.getFunctionArgs(modulesFunc);
+                let args = Util.getFunctionArgs(modulesFunc as any);
 
                 let dependencies = _.map(args, (arg) => inject.getObject(arg));
 
@@ -136,10 +136,11 @@ export class Launcher extends EventDispatcher {
         //load env files
         for (let filePath of filesLoader.load(this._options.root, loadPaths)) {
             try {
-                let obj = require(filePath);
+                let obj: any = require(filePath);
                 this.cachedRequire.push(filePath);
 
-                if (obj && _.isFunction(obj) && _.isObject(obj.$config)) {
+                //backward support for old appolo
+                if (obj && _.isFunction(obj as any) && _.isObject((obj as any).$config)) {
                     define(obj.$config, obj);
                 }
             } catch (e) {
