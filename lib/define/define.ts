@@ -18,7 +18,7 @@ export class Define extends DefineInject {
             this._klass = klass;
         } else {
             super(inject, null);
-            this._klass = _.isFunction($config) ? $config : (klass || $config.type)
+            this._klass = _.isFunction($config) ? $config : (klass || ($config as IDefinition).type)
 
         }
 

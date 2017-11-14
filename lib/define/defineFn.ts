@@ -8,38 +8,39 @@ import {Define} from "./define";
 
 let plugins = [];
 
-export function define ($config:string|IDefinition|Function, klass?:Function):Define {
+export function define($config: string | IDefinition | Function, klass?: Function): Define {
 
-    if(_.isString($config) || _.isFunction($config)){
-        return new Define($config,klass);
+    if (_.isString($config) || _.isFunction($config)) {
+        return new Define($config, klass);
     }
 
-    klass = klass|| $config.type;
+    klass = klass || ($config as IDefinition).type;
 
+    let def = $config as IDefinition;
     //create namespace
-    if($config.namespace){
-        Util.namespace($config.namespace,klass )
+    if (def.namespace) {
+        Util.namespace(def.namespace, klass)
     }
 
     //create inject
-    if ($config.id) {
+    if (def.id) {
 
-        $config.type = klass;
+        def.type = klass;
 
 
-        inject.addDefinition($config.id,$config);
+        inject.addDefinition(def.id, def);
     }
 
-    if ($config.mixins) {
-        Util.mixins(klass,$config.mixins);
+    if (def.mixins) {
+        Util.mixins(klass, def.mixins);
     }
 
-    if ($config.statics) {
-        Util.statics(klass, $config.statics);
+    if (def.statics) {
+        Util.statics(klass, def.statics);
     }
 
     //run on plugins
-    _.forEach(plugins,  (func)=> {
+    _.forEach(plugins, (func) => {
         func($config, klass);
     });
 }
