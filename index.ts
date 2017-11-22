@@ -21,7 +21,7 @@ export {Injector, IFactory} from 'appolo-inject'
 export let use = function (func: (...args: any[]) => void, async: boolean = false) {
     moduleManager.register(func, async);
 };
-export let load = function (func: (...args: any[]) => Promise<any>): PromiseLike<any> {
+export let load = function (func: (...args: any[]) => Promise<any> | void): PromiseLike<any> {
     return moduleManager.load(func);
 };
 export let launch = function (config: IOptions, callback?: Function): Promise<void> {
