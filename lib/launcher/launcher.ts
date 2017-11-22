@@ -109,7 +109,7 @@ export class Launcher extends EventDispatcher {
         inject.addObject('inject', inject);
     }
 
-    protected loadModules(): Promise<void> {
+    protected async loadModules(): Promise<void> {
         let modulesPath = path.join(this._options.root, 'config/modules/modules.js');
 
         if (fs.existsSync(modulesPath)) {
@@ -120,7 +120,12 @@ export class Launcher extends EventDispatcher {
 
                 let dependencies = _.map(args, (arg) => inject.getObject(arg));
 
-                modulesFunc.apply(modulesFunc, dependencies);
+                let result = modulesFunc.apply(modulesFunc, dependencies);
+
+                //check for promise
+                if (result && result.then) {
+                    await result;
+                }
             }
 
             this.cachedRequire.push(modulesPath);

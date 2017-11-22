@@ -1,12 +1,13 @@
 "use strict";
-import    inject from '../inject/inject';
+import inject from '../inject/inject';
 import    Q = require('bluebird');
 import   _ = require('lodash');
 import {Util} from "../util/util";
 
+export type ModuleFn = (...args: any[]) => void | Promise<any>
 
 export class ModuleManager {
-    private _modules: { fn: (...args: any[]) => void, async: boolean }[];
+    private _modules: { fn: ModuleFn, async: boolean }[];
     private _isModulesLoaded: boolean;
 
     constructor() {
@@ -15,7 +16,7 @@ export class ModuleManager {
         this._isModulesLoaded = false;
     }
 
-    public register(func: (...args: any[]) => void, async: boolean = false) {
+    public register(func: ModuleFn, async: boolean = false) {
         this._modules.push({fn: func, async: async})
     }
 
@@ -24,7 +25,7 @@ export class ModuleManager {
         await this._runModules(this._modules.slice())
     }
 
-    private async _runModules(modules: { fn: (...args: any[]) => void, async: boolean }[]) {
+    private async _runModules(modules: { fn: ModuleFn, async: boolean }[]) {
 
         if (!modules || modules.length <= 0) {
             return;
@@ -50,17 +51,17 @@ export class ModuleManager {
 
     }
 
-    private async _runAsyncModules(modules: ((...args: any[]) => void)[]) {
-        await Q.map(modules,moduleFn=>this._createModuleCallback(moduleFn))
+    private async _runAsyncModules(modules: ModuleFn[]) {
+        await Q.map(modules, moduleFn => this._createModuleCallback(moduleFn))
     }
 
-    private async _runSyncModules(modules: ((...args: any[]) => void)[]) {
+    private async _runSyncModules(modules: ModuleFn[]) {
         for (let moduleFn of modules) {
             await this._createModuleCallback(moduleFn)
         }
     }
 
-    private _createModuleCallback(moduleFn: (...args: any[]) => void): PromiseLike<any> {
+    private _createModuleCallback(moduleFn: ModuleFn): PromiseLike<any> {
 
         //remove the callback arg
         let args = Util.getFunctionArgs(moduleFn),
@@ -81,10 +82,14 @@ export class ModuleManager {
         return Q.try(() => moduleFn.apply(moduleFn, dependencies))
     }
 
+    public load(fn: ModuleFn): PromiseLike<any> {
+        return this._createModuleCallback(fn);
+    }
+
     public reset() {
         this._modules.length = 0;
     }
 }
 
 
-export default  new ModuleManager();
+export default new ModuleManager();

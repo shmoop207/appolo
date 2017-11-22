@@ -37,5 +37,17 @@ describe('plugins', function () {
         should.exist(logger);
         logger.getName().should.be.eq("testDevlogger2logger4logger5");
     });
+    it('should initialize module final module depend on the async await module', function () {
+        let injector = appolo.inject;
+        let logger = injector.getObject('logger6');
+        should.exist(logger);
+        logger.getName().should.be.eq("testDevlogger6");
+    });
+    it('should initialize module final module depend on the async await with inject module', function () {
+        let injector = appolo.inject;
+        let logger = injector.getObject('logger7');
+        should.exist(logger);
+        logger.getName().should.be.eq("testDevtestDevlogger6logger7");
+    });
 });
 //# sourceMappingURL=plugins.js.map

@@ -4,7 +4,7 @@ import    Q = require('bluebird');
 
 
 export  default function (options?:any) {
-    return   (env, inject:appolo.Injector, logger3,logger4)=> {
+    return   async (env, inject:appolo.Injector, logger3,logger4):Promise<any>=> {
 
         let logger5 = {
             getName: function () {
@@ -14,7 +14,7 @@ export  default function (options?:any) {
 
         inject.addObject('logger5', logger5);
 
-        return Q.delay(1)
+        await Q.delay(1)
     }
 }
 

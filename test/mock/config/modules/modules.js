@@ -1,16 +1,22 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const appolo = require("../../../../index");
 const logger_1 = require("./logger");
 const logger2_1 = require("./logger2");
 const logger3_1 = require("./logger3");
 const logger4_1 = require("./logger4");
 const logger5_1 = require("./logger5");
+const logger6_1 = require("./logger6");
+const logger7_1 = require("./logger7");
 module.exports = function (env) {
-    appolo.use(logger_1.default);
-    appolo.use(logger2_1.default({ test: 'test2' }));
-    appolo.use(logger3_1.default({ test: 'test3' }), true);
-    appolo.use(logger4_1.default({ test: 'test4' }), true);
-    appolo.use(logger5_1.default({ test: 'test5' }));
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        appolo.use(logger_1.default);
+        appolo.use(logger2_1.default({ test: 'test2' }));
+        appolo.use(logger3_1.default({ test: 'test3' }), true);
+        appolo.use(logger4_1.default({ test: 'test4' }), true);
+        appolo.use(logger5_1.default({ test: 'test5' }));
+        yield appolo.load(logger6_1.default({ test: 'test6' }));
+        yield appolo.load(logger7_1.default({ test: 'test7' }));
+    });
 };
 //# sourceMappingURL=modules.js.map

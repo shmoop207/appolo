@@ -28,6 +28,9 @@ exports.Injector = appolo_inject_1.Injector;
 exports.use = function (func, async = false) {
     modules_1.default.register(func, async);
 };
+exports.load = function (func) {
+    return modules_1.default.load(func);
+};
 exports.launch = function (config, callback) {
     return launcher_1.launcher.launch(config, callback);
 };
