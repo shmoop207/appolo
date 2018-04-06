@@ -1,0 +1,7 @@
+.travis.yml
+tsconfig.json
+test
+.gitignore
+Gruntfile.js
+.idea
+.DS_Store

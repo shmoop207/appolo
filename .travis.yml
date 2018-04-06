@@ -1,0 +1,14 @@
+sudo: false
+language: node_js
+node_js:
+- '8.4'
+before_script:
+- npm install -g mocha
+- npm install -g grunt-cli
+- npm install
+script:
+- grunt test
+after_success:
+notifications:
+  email:
+  - shmoop207@gmail.com

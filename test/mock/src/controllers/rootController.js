@@ -1,0 +1,26 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const index_1 = require("../../../../index");
+let RootController = class RootController extends index_1.StaticController {
+    all(req, res, route) {
+        res.json({ name: route.actionName });
+    }
+    root(req, res, route) {
+        res.json({ name: route.actionName });
+    }
+    raw(req, res, route) {
+        res.end(route.actionName);
+    }
+};
+tslib_1.__decorate([
+    index_1.pathGet("/")
+], RootController.prototype, "root", null);
+tslib_1.__decorate([
+    index_1.pathGet("/raw")
+], RootController.prototype, "raw", null);
+RootController = tslib_1.__decorate([
+    index_1.define()
+], RootController);
+exports.RootController = RootController;
+//# sourceMappingURL=rootController.js.map
