@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let Manager3 = class Manager3 {
+    constructor() {
+        this.TEST = 1;
+    }
     get name() {
         return this.constructor.name;
     }

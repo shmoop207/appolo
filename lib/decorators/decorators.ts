@@ -1,29 +1,27 @@
 import * as _ from 'lodash';
 import * as joi from "joi";
 import {Route} from "../routes/route";
-import {MiddlewareHandler, MiddlewareHandlerAny, Methods} from "appolo-agent";
+import {Methods, MiddlewareHandler} from "appolo-agent";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {RouteModel} from "../routes/routeModel";
+import {Util} from "../util/util";
+import {IController} from "../controller/IController";
 
 export const RouterDefinitionsSymbol = Symbol("__RouterDefinitions__");
+export const RouterModelSymbol = Symbol("__RouterModelDefinitions__");
 
 
 function defineRouteProperty(params: { name: string, args: any[] }[]): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
 
     return function (params: { name: string, args: any[] }[], target: any, propertyKey: string, descriptor: PropertyDescriptor) {
 
-        let data = Reflect.getOwnMetadata(RouterDefinitionsSymbol, target.constructor) || _.cloneDeep(Reflect.getMetadata(RouterDefinitionsSymbol, target.constructor));
-
-        if (!data) {
-            data = {};
-            Reflect.defineMetadata(RouterDefinitionsSymbol, data, target.constructor);
-        }
+        let data = Util.getReflectData<{ [index: string]: Route<IController> }>(RouterDefinitionsSymbol, target.constructor, {});
 
         let route = data[propertyKey];
 
         if (!route) {
-            data[propertyKey] = route = new Route<any>(target.constructor);
+            data[propertyKey] = route = new Route<IController>(target.constructor);
             route.action(propertyKey);
         }
 
@@ -73,8 +71,8 @@ export function middleware(middleware: string | string[] | MiddlewareHandler | M
 }
 
 export function validation(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
-    if (key.constructor && key.constructor.prototype === RouteModel.constructor.prototype && (key as any).prototype && (key as any).prototype.__validations__) {
-        key = (key as any).prototype.__validations__
+    if (key.constructor && key.constructor.prototype === RouteModel.constructor.prototype && (key as any).prototype && Reflect.hasMetadata(RouterModelSymbol, key)) {
+        key = Reflect.getMetadata(RouterModelSymbol, key)
     }
 
     return defineRouteProperty([{name: "validation", args: [key, validation]}])
@@ -83,11 +81,8 @@ export function validation(key: string | { [index: string]: joi.Schema } | Route
 export function validationParam(validation: joi.Schema): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => any {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
 
-        if (target.constructor.prototype.__validations__ && !target.constructor.prototype.hasOwnProperty("__validations__")) {
-            target.constructor.prototype.__validations__ = _.cloneDeep(target.constructor.prototype.__validations__);
-        }
+        let validations = Util.getReflectData<{ [index: string]: joi.Schema }>(RouterModelSymbol, target.constructor, {});
 
-        let validations = target.constructor.prototype.__validations__ || (target.constructor.prototype.__validations__ = {});
         validations[propertyKey] = validation;
     }
 }
@@ -106,36 +101,5 @@ export function abstract(route: Partial<IRouteOptions>): (target: any, propertyK
 
 export function roles(role: string | string[]): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
 
-
     return defineRouteProperty([{name: "roles", args: [role]}])
 }
-
-
-// export function injectParam(name?: string) {
-//     return function logParameter(target: any, propertyKey: string, index: number) {
-//         let args = [];
-//
-//         // //we have a constructor
-//         if (!propertyKey) {
-//             if (target.prototype.__inject__) {
-//                 args = appolo.Util.getFunctionArgs(target);
-//                 target.prototype.__inject__.push({name: "args", args: [{ref: args[index]}]});
-//             }
-//             return;
-//         }
-//
-//         args = appolo.Util.getFunctionArgs(target.constructor.prototype[propertyKey]);
-//
-//         if (!target.constructor.prototype.__param_inject__) {
-//             target.constructor.prototype.__param_inject__ = []
-//         }
-//
-//
-//         target.constructor.prototype.__param_inject__.push({
-//             param: name || args[index],
-//             method: propertyKey,
-//             index: index
-//         })
-//
-//   }
-//}

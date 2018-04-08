@@ -1,16 +1,17 @@
 "use strict";
 import {
-    define,
-    singleton,
-    lazy,
-    StaticController,
-    injectParam,
-    inject,
-    path,
-    validation,
     abstract,
-    validator,
-    IRequest,IResponse
+    define,
+    inject,
+    injectParam,
+    IRequest,
+    IResponse,
+    lazy,
+    path,
+    singleton,
+    StaticController,
+    validation,
+    validator
 } from '../../../../index';
 import {Manager} from "../manager/manager";
 import {UserMiddleware} from "../middleware/userMiddleware";
@@ -35,6 +36,8 @@ export class DecoratorParamsController extends StaticController {
     @validation("name", validator.string())
     @abstract({middleware: [UserMiddleware]})
     public test(req: IRequest, res: IResponse, route, aaa, @injectParam() env: any) {
+
+
         this.sendOk(res, {model: env.test, name: this.name, user: (req as any).user})
     }
 

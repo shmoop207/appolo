@@ -1,7 +1,7 @@
 import    http = require('http');
 import {IOptions} from "./interfaces/IOptions";
 import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
-import {Injector, Define} from "appolo-engine";
+import {Define, IEnv, Injector} from "appolo-engine";
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Launcher} from "./launcher/launcher";
 import {Route} from "./routes/route";
@@ -45,7 +45,8 @@ export class App {
     }
 
     public viewEngine(fn: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>, ext: string = "html"): void {
-
+        this._launcher.options.viewEngine = fn;
+        this._launcher.options.viewExt = ext;
     }
 
     public set(name: keyof IOptions, value: any) {
@@ -64,6 +65,18 @@ export class App {
         return this._launcher.engine.injector;
     }
 
+    public get container(): Injector {
+        return this._launcher.engine.injector;
+    }
+
+    public get env(): IEnv {
+        return this._launcher.engine.env;
+    }
+
+    public get environment(): IEnv {
+        return this._launcher.engine.env;
+    }
+
     public route<T extends IController>(controller: string | typeof Controller | typeof StaticController): Route<T> {
         let route = new Route(controller);
 
@@ -77,10 +90,7 @@ export class App {
     }
 }
 
-
-
-//TODO multi route
-//TODO fix app injector message
-//TODO reflect of RouteModel
 //TODO abstract routes on class
 //TODO response try catch
+//TODO fix view
+//TODO add server load message

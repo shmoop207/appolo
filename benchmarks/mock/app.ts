@@ -2,11 +2,14 @@
 import appolo  = require('../../index');
 
 
-let app = appolo.createApp({
-    port: 3000,
-    environment: "testing",
-    root: process.cwd() + '/benchmarks/mock',
-})
+(async function () {
+    let app = appolo.createApp({
+        port: 3000,
+        environment: "testing",
+        root: process.cwd() + '/benchmarks/mock',
+    })
 
-app.launch()
+    await app.launch()
+    console.log("running appolo")
+})()
 

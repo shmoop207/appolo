@@ -3,16 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 const baseManager_1 = require("./baseManager");
-let initCount = 0;
 let Manager7 = class Manager7 extends baseManager_1.BaseManager {
+    constructor() {
+        super(...arguments);
+        this._initCount = 0;
+    }
     initialize() {
-        initCount++;
+        this._initCount++;
     }
     get name() {
         return this.constructor.name;
     }
     get initCout() {
-        return initCount;
+        return this._initCount;
     }
 };
 tslib_1.__decorate([

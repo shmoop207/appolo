@@ -1,11 +1,7 @@
 "use strict";
-import {define, singleton, inject, initMethod, injectFactoryMethod} from '../../../../index' ;
-import {Manager3} from "./manager3";
+import {define, initMethod, inject, injectFactoryMethod, singleton} from '../../../../index';
 import {BaseManager} from "./baseManager";
 import {Manager4} from "./manager4";
-import {Manager5} from "./manager5";
-
-let initCount = 0;
 
 
 @define()
@@ -14,9 +10,11 @@ export class Manager7 extends BaseManager {
 
     @inject() manager4: Manager4;
 
+    protected _initCount = 0;
+
     @initMethod()
     initialize() {
-        initCount++;
+        this._initCount++;
     }
 
     public get name(): string {
@@ -24,7 +22,7 @@ export class Manager7 extends BaseManager {
     }
 
     public get initCout(): number {
-        return initCount
+        return this._initCount
     }
 }
 

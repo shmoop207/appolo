@@ -5,11 +5,8 @@ import {Agent} from 'appolo-agent';
 
 import {Router} from '../routes/router';
 import * as path from 'path';
-import * as fs from 'fs';
-import * as Q from 'bluebird';
 import * as _ from 'lodash';
 import {IOptions} from "../interfaces/IOptions";
-import ErrnoException = NodeJS.ErrnoException;
 import {RouterDefinitionsSymbol} from "../decorators/decorators";
 import {Route} from "../routes/route";
 import {IController} from "../controller/IController";
@@ -75,9 +72,6 @@ export class Launcher {
 
         this._engine.plugin((fn: Function) => this._addRoute(fn));
 
-
-        //this.bindProcessEvents();
-
         await this.loadCustomConfigurations();
 
         await this._engine.launch();
@@ -85,22 +79,7 @@ export class Launcher {
         this._router.initialize();
 
         await this._agent.listen(this._port);
-
     }
-
-
-    // protected bindProcessEvents() {
-    //     process.on('uncaughtException', (err: ErrnoException) => {
-    //         if (err.code !== 'EADDRINUSE') {
-    //             console.error(err.stack || err.toString())
-    //             return;
-    //         }
-    //
-    //         console.error(`EADDRINUSE!!!! address in use port: ${this._port}`);
-    //         process.exit(1);
-    //     })
-    // }
-
 
     private _addRoute(fn: Function) {
         let routeData = Reflect.getMetadata(RouterDefinitionsSymbol, fn);
