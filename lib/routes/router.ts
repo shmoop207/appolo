@@ -54,7 +54,7 @@ export class Router {
 
         this._convertStrMiddleware(middleware);
 
-        middleware.push((req: IRequest, res: IResponse, next: NextFn) => this._invokeAction(req, res, next));
+        middleware.push(this._invokeAction);
 
         if (!_.isEmpty(def.validations)) {
             middleware.unshift(this._checkValidation);
@@ -85,7 +85,7 @@ export class Router {
 
     }
 
-    protected _invokeAction(req: IRequest, res: IResponse, next: NextFn) {
+    protected _invokeAction = (req: IRequest, res: IResponse, next: NextFn) => {
 
         let route = req.route;
 

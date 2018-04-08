@@ -1,5 +1,5 @@
 "use strict";
-import appolo  = require('../../../index');
+import appolo  = require('../../../../index');
 
 export = function (app) {
     function one(req, res, next) {
