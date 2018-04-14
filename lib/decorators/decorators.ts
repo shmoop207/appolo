@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as joi from "joi";
 import {Route} from "../routes/route";
 import {Methods, MiddlewareHandler} from "appolo-agent";
+import {define} from "appolo-engine";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {RouteModel} from "../routes/routeModel";
@@ -9,12 +10,39 @@ import {Util} from "../util/util";
 import {IController} from "../controller/IController";
 
 export const RouterDefinitionsSymbol = Symbol("__RouterDefinitions__");
+export const RouterDefinitionsClassSymbol = Symbol("__RouterDefinitionsClass__");
 export const RouterModelSymbol = Symbol("__RouterModelDefinitions__");
+export const RouterControllerSymbol = Symbol("__RouterControllerDefinitions__");
+
+function defineRouteClass(params: { name: string, args: any[] }[], target: any): void {
+
+    let route = Util.getReflectData<Route<IController>>(RouterDefinitionsClassSymbol, target, new Route<IController>(target));
+
+    _.forEach(params, param => {
+        route[param.name].apply(route, param.args)
+    });
+}
+
+export function controller(name?: string): (target: any) => void {
+
+    return function (name: string, target: any) {
+
+        Reflect.defineMetadata(RouterControllerSymbol, name || "", target);
+
+        define("")(target);
+
+
+    }.bind(null, name)
+}
 
 
 function defineRouteProperty(params: { name: string, args: any[] }[]): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
 
     return function (params: { name: string, args: any[] }[], target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+
+        if (!propertyKey) {
+            defineRouteClass(params, target)
+        }
 
         let data = Util.getReflectData<{ [index: string]: Route<IController> }>(RouterDefinitionsSymbol, target.constructor, {});
 
@@ -33,8 +61,9 @@ function defineRouteProperty(params: { name: string, args: any[] }[]): (target: 
 }
 
 //
-export function path(path: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
-    return defineRouteProperty([{name: "path", args: [path]}])
+export function path(path: string): any {
+    return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.GET]}])
+
 }
 
 export function pathGet(path: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
@@ -61,7 +90,7 @@ export function method(method: 'get' | 'post' | 'delete' | 'patch' | 'head' | 'p
     return defineRouteProperty([{name: "method", args: [method]}])
 }
 
-export function middleware(middleware: string | string[] | MiddlewareHandler | MiddlewareHandler[] | IMiddlewareCtr | IMiddlewareCtr[] | ((req: any, res: any, next: any) => void) | ((req: any, res: any, next: any) => void)[]): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+export function middleware(middleware: string | string[] | MiddlewareHandler | MiddlewareHandler[] | IMiddlewareCtr | IMiddlewareCtr[] | ((req: any, res: any, next: any) => void) | ((req: any, res: any, next: any) => void)[]): any {
 
     if (_.isArray(middleware)) {
         middleware = _(middleware).clone().reverse()
@@ -70,7 +99,7 @@ export function middleware(middleware: string | string[] | MiddlewareHandler | M
     return defineRouteProperty([{name: "middleware", args: [middleware, "head"]}])
 }
 
-export function validation(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+export function validation(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): any {
     if (key.constructor && key.constructor.prototype === RouteModel.constructor.prototype && (key as any).prototype && Reflect.hasMetadata(RouterModelSymbol, key)) {
         key = Reflect.getMetadata(RouterModelSymbol, key)
     }
@@ -89,17 +118,13 @@ export function validationParam(validation: joi.Schema): (target: any, propertyK
 
 export function abstract(route: Partial<IRouteOptions>): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
 
-    _.forEach(route, (value, key) => {
-        //we need to insert middlewares in reverse order
-        if (key == "middleware") {
-            route[key] = {middleware: _.isArray(value) ? value.reverse() : value, order: "head"} as any
-        }
-    });
+    Util.reverseMiddleware(route);
+
 
     return defineRouteProperty([{name: "abstract", args: [route]}])
 }
 
-export function roles(role: string | string[]): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+export function roles(role: string | string[]): any {
 
     return defineRouteProperty([{name: "roles", args: [role]}])
 }

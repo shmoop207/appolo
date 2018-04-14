@@ -30,7 +30,7 @@ tslib_1.__decorate([
     index_1.validation("userName", index_1.validator.string().required())
 ], ParamsController.prototype, "empty", null);
 ParamsController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], ParamsController);
 exports.ParamsController = ParamsController;
 //# sourceMappingURL=paramsController.js.map

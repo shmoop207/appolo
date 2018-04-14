@@ -17,7 +17,7 @@ tslib_1.__decorate([
     index_1.pathGet("/test/view2")
 ], ViewController.prototype, "view2", null);
 ViewController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], ViewController);
 exports.ViewController = ViewController;
 //# sourceMappingURL=viewController.js.map

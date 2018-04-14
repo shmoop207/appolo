@@ -1,8 +1,8 @@
 "use strict";
-import {define, inject, path,Controller,IRequest,IResponse,pathGet} from '../../../../index';
+import {controller, inject, path,Controller,IRequest,IResponse,pathGet} from '../../../../index';
 
 
-@define()
+@controller()
 export class QueryController extends Controller {
 
     @pathGet("/test/query")

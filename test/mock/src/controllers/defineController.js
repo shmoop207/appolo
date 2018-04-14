@@ -11,7 +11,7 @@ tslib_1.__decorate([
     index_1.inject()
 ], DefineController.prototype, "manager5", void 0);
 DefineController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], DefineController);
 exports.DefineController = DefineController;
 //# sourceMappingURL=defineController.js.map

@@ -1,8 +1,8 @@
 "use strict";
-import {define,Controller,inject,pathGet} from "../../../../index";
+import {controller,Controller,inject,pathGet} from "../../../../index";
 
 
-@define()
+@controller()
 export class ModuleController extends Controller {
     @inject() logger2: any;
     @inject() logger3: any;

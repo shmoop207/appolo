@@ -1,15 +1,16 @@
 "use strict";
 
-import {App as Engine, Util} from 'appolo-engine';
+import {App as Engine} from 'appolo-engine';
 import {Agent} from 'appolo-agent';
 
 import {Router} from '../routes/router';
 import * as path from 'path';
 import * as _ from 'lodash';
 import {IOptions} from "../interfaces/IOptions";
-import {RouterDefinitionsSymbol} from "../decorators/decorators";
+import {RouterControllerSymbol, RouterDefinitionsClassSymbol, RouterDefinitionsSymbol} from "../decorators/decorators";
 import {Route} from "../routes/route";
 import {IController} from "../controller/IController";
+import {Util} from "../util/util";
 
 
 let Defaults: IOptions = {
@@ -42,8 +43,8 @@ export class Launcher {
 
         this._options = _.defaults({}, options, Defaults);
 
-        this._engine = new Engine(options);
-        this._agent = new Agent(options);
+        this._engine = new Engine(this._options);
+        this._agent = new Agent(this._options);
         this._port = this._getPort();
         this._engine.injector.addObject("httpServer", this._agent.server);
 
@@ -82,13 +83,38 @@ export class Launcher {
     }
 
     private _addRoute(fn: Function) {
+
         let routeData = Reflect.getMetadata(RouterDefinitionsSymbol, fn);
 
-        if (!routeData) {
+        let routeAbstract: Route<IController> = Reflect.getMetadata(RouterDefinitionsClassSymbol, fn);
+
+        if (!routeData || !Reflect.hasOwnMetadata(RouterControllerSymbol, fn)) {
             return
         }
 
+        routeData = _.cloneDeep(routeData);
+        routeAbstract = _.cloneDeep(routeAbstract);
+
         _.forEach(routeData, (route: Route<IController>, key: string) => {
+
+            //add abstract route
+            if (routeAbstract) {
+
+                Util.reverseMiddleware(routeAbstract.definition);
+
+                route.abstract(routeAbstract.definition);
+            }
+
+            let prefix = Reflect.getOwnMetadata(RouterControllerSymbol, fn);
+            //add prefix to routes
+            if (prefix) {
+                _.forEach(route.definition.path, (_path, index) => {
+                    route.definition.path[index] = path.join("/", prefix, _path);
+                })
+            }
+            //override the controller in case we inherit it
+            route.definition.controller = Util.getControllerName(fn as any);
+
             this._router.addRoute(route)
         })
 

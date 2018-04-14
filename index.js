@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const validator = require("joi");
 exports.validator = validator;
+const app_1 = require("./lib/app");
 var appolo_engine_1 = require("appolo-engine");
 exports.factory = appolo_engine_1.factory;
 exports.inject = appolo_engine_1.inject;
@@ -37,23 +38,18 @@ var middleware_1 = require("./lib/middleware/middleware");
 exports.Middleware = middleware_1.Middleware;
 var staticMiddleware_1 = require("./lib/middleware/staticMiddleware");
 exports.StaticMiddleware = staticMiddleware_1.StaticMiddleware;
-//export {default as router, Router} from './lib/routes/router';
-//export {Methods} from 'appolo-agent'
-//export {HttpError} from './lib/common/error/httpError'
-//export {default as launcher} from './lib/launcher/launcher';
-var app_1 = require("./lib/app");
-exports.App = app_1.App;
-const app_2 = require("./lib/app");
+var app_2 = require("./lib/app");
+exports.App = app_2.App;
 var routeModel_1 = require("./lib/routes/routeModel");
 exports.RouteModel = routeModel_1.RouteModel;
 var appolo_agent_1 = require("appolo-agent");
 exports.Methods = appolo_agent_1.Methods;
 function createApp(options) {
-    return new app_2.App(options);
+    return new app_1.App(options);
 }
 exports.createApp = createApp;
 function default_1(options) {
-    return new app_2.App(options);
+    return new app_1.App(options);
 }
 exports.default = default_1;
 ;

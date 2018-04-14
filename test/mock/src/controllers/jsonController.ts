@@ -1,7 +1,7 @@
 "use strict";
-import {define, inject, Controller, pathGet, pathPost} from '../../../../index';
+import {controller, inject, Controller, pathGet, pathPost} from '../../../../index';
 
-@define()
+@controller()
 export class JsonController extends Controller {
     @inject() manager: any;
 

@@ -20,7 +20,7 @@ tslib_1.__decorate([
     index_1.pathPost("/test/json")
 ], JsonController.prototype, "jsonPost", null);
 JsonController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], JsonController);
 exports.JsonController = JsonController;
 //# sourceMappingURL=jsonController.js.map

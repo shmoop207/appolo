@@ -11,7 +11,7 @@ tslib_1.__decorate([
     index_1.pathGet('/test/hello')
 ], HelloController.prototype, "hello", null);
 HelloController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], HelloController);
 exports.HelloController = HelloController;
 //# sourceMappingURL=helloController.js.map

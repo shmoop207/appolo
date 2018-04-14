@@ -109,7 +109,7 @@ export class Router {
             route.actionName = fnName;
         }
 
-        return controller[fnName](req, res, route, req.model);
+        return controller[fnName](req, res, req.model, route);
     };
 
     protected _checkValidation = (req: IRequest, res: IResponse, next: NextFn) => {

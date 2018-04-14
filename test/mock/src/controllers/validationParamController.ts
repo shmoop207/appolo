@@ -1,13 +1,13 @@
 "use strict";
 import {
-    define,
+    controller,
     Controller,
-    IResponse,
     IRequest,
+    IResponse,
     pathGet,
-    validator,
     validation,
-    validationParam
+    validationParam,
+    validator
 } from '../../../../index';
 import {RouteModel} from "../../../../lib/routes/routeModel";
 
@@ -25,7 +25,7 @@ class Validation2Model extends ValidationModel {
     id: string;
 }
 
-@define()
+@controller()
 export class ValidationParamController extends Controller {
 
     @pathGet('/test/validations/param')
@@ -39,7 +39,7 @@ export class ValidationParamController extends Controller {
 
     @pathGet('/test/validations/param2')
     @validation(Validation2Model)
-    public validation2(req: IRequest, res: IResponse, route, model: Validation2Model) {
+    public validation2(req: IRequest, res: IResponse, model: Validation2Model, route) {
 
 
         res.json({test: model.test, id: model.id, name: this.constructor.name})

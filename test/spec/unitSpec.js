@@ -3,13 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai = require("chai");
 const sinonChai = require("sinon-chai");
 const index_1 = require("../../index");
+const util_1 = require("../../lib/util/util");
 let should = chai.should();
 chai.use(sinonChai);
 describe('Appolo Express Unit', () => {
     describe("basic test", () => {
         let app;
         beforeEach(async () => {
-            app = new index_1.App({
+            app = index_1.createApp({
                 environment: "testing",
                 root: process.cwd() + '/test/mock',
                 port: 8183
@@ -79,6 +80,12 @@ describe('Appolo Express Unit', () => {
             let env = app.injector.getObject('env');
             (env === app.environment).should.be.ok;
             env.type.should.be.eq("testing");
+        });
+        it("convert model case", function () {
+            let output = util_1.Util.convertModelToCamelCase({ aa_bb: 1, cc_dd_ff: 2, ffGg: 3 });
+            output.aaBb.should.be.eq(1);
+            output.ccDdFf.should.be.eq(2);
+            output.ffGg.should.be.eq(3);
         });
     });
 });

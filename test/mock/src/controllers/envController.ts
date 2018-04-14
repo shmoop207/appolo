@@ -1,8 +1,8 @@
 "use strict";
-import {define,Controller} from '../../../../index';
+import {controller,Controller} from '../../../../index';
 
 
-@define()
+@controller()
 export class EnvController extends Controller {
 
     test(req, res) {

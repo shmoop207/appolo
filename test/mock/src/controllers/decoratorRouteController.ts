@@ -1,5 +1,6 @@
 "use strict";
 import {
+    controller,
     define,
     singleton,
     lazy,
@@ -12,7 +13,7 @@ import {
     IResponse
 } from '../../../../index';
 
-@define()
+@controller()
 @singleton()
 @lazy()
 export class DecoratorRouteController extends StaticController {

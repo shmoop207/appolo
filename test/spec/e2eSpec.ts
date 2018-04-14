@@ -867,6 +867,39 @@ describe('Appolo Http e2e', () => {
         });
     });
 
+    describe('abstract', function () {
+        it('should have abstract route with middleware', async () => {
+
+            let res = await request(app.handle)
+                .get('/test/abstract?test=11');
+
+            res.should.to.have.status(200);
+
+            res.body.working.should.be.eq("working1working2working3");
+        });
+
+        it('should have abstract route with diff base', async () => {
+
+            let res = await request(app.handle)
+                .get('/test2/abstract?test=11');
+
+            res.should.to.have.status(200);
+
+            res.body.working.should.be.eq("working1working2working3fromTest2");
+        });
+
+        // it('should have abstract inherit route', async () => {
+        //
+        //     let res = await request(app.handle)
+        //         .get('/test/abstract?test=11');
+        //
+        //     res.should.to.have.status(200);
+        //
+        //     res.body.working.should.be.eq(":working1working2working31");
+        // });
+
+    });
+
 });
 
 

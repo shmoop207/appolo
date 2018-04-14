@@ -1,7 +1,7 @@
 "use strict";
-import {define, inject, IResponse, pathGet, StaticController} from '../../../../../index';
+import {controller, inject, IResponse, pathGet, StaticController} from '../../../../../index';
 
-@define()
+@controller()
 export class ViewController extends StaticController {
 
 

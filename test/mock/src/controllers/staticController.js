@@ -31,7 +31,7 @@ tslib_1.__decorate([
     index_1.validation("name", index_1.validator.string())
 ], StaticController2.prototype, "test2", null);
 StaticController2 = tslib_1.__decorate([
-    index_1.define(),
+    index_1.controller(),
     index_1.singleton(),
     index_1.lazy()
 ], StaticController2);

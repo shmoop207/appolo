@@ -7,7 +7,8 @@ import {Manager4} from "../mock/src/manager/manager4";
 import {Manager6} from "../mock/src/manager/manager6";
 import {Manager7} from "../mock/src/manager/manager7";
 import {Manager8} from "../mock/src/manager/manager8";
-import {App} from "../../index";
+import {App, createApp} from "../../index";
+import {Util} from "../../lib/util/util";
 
 let should = chai.should()
 chai.use(sinonChai);
@@ -20,7 +21,7 @@ describe('Appolo Express Unit', () => {
         let app: App
 
         beforeEach(async () => {
-            app = new App({
+            app = createApp({
                 environment: "testing",
                 root: process.cwd() + '/test/mock',
                 port: 8183
@@ -128,6 +129,17 @@ describe('Appolo Express Unit', () => {
             (env === app.environment).should.be.ok;
 
             env.type.should.be.eq("testing")
+
+        })
+
+        it("convert model case", function () {
+
+            let  output = Util.convertModelToCamelCase({aa_bb:1,cc_dd_ff:2,ffGg:3})
+
+            output.aaBb.should.be.eq(1);
+            output.ccDdFf.should.be.eq(2);
+            output.ffGg.should.be.eq(3);
+
 
         })
 

@@ -21,7 +21,7 @@ let ValidationParamController = class ValidationParamController extends index_1.
         let model = this.getModel();
         res.json({ test: model.test, name: this.constructor.name });
     }
-    validation2(req, res, route, model) {
+    validation2(req, res, model, route) {
         res.json({ test: model.test, id: model.id, name: this.constructor.name });
     }
 };
@@ -34,7 +34,7 @@ tslib_1.__decorate([
     index_1.validation(Validation2Model)
 ], ValidationParamController.prototype, "validation2", null);
 ValidationParamController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], ValidationParamController);
 exports.ValidationParamController = ValidationParamController;
 //# sourceMappingURL=validationParamController.js.map

@@ -1,6 +1,6 @@
 "use strict";
 import {
-    define,
+    controller,
     inject,
     lazy,
     pathGet,
@@ -11,7 +11,7 @@ import {
     validator
 } from '../../../../index';
 
-@define()
+@controller()
 @singleton()
 @lazy()
 export class StaticController2 extends StaticController {

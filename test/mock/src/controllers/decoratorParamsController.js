@@ -21,7 +21,7 @@ tslib_1.__decorate([
     tslib_1.__param(4, index_1.injectParam())
 ], DecoratorParamsController.prototype, "test", null);
 DecoratorParamsController = tslib_1.__decorate([
-    index_1.define(),
+    index_1.controller(),
     index_1.singleton(),
     index_1.lazy(),
     tslib_1.__param(0, index_1.injectParam())

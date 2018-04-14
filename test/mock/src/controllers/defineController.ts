@@ -1,8 +1,8 @@
 "use strict";
-import {define, inject,Controller} from '../../../../index';
+import {controller, inject,Controller} from '../../../../index';
 import {Manager5} from "../manager/manager5";
 
-@define()
+@controller()
 export class DefineController extends Controller {
 
     @inject() manager5: Manager5;

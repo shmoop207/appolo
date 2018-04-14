@@ -11,12 +11,12 @@ import {
     singleton,
     StaticController,
     validation,
-    validator
+    validator,controller
 } from '../../../../index';
 import {Manager} from "../manager/manager";
 import {UserMiddleware} from "../middleware/userMiddleware";
 
-@define()
+@controller()
 @singleton()
 @lazy()
 export class DecoratorParamsController extends StaticController {

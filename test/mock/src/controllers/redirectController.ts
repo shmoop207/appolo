@@ -1,7 +1,7 @@
 "use strict";
-import {define, inject,pathGet,StaticController,IRequest,IResponse} from '../../../../index';
+import {controller, inject,pathGet,StaticController,IRequest,IResponse} from '../../../../index';
 
-@define()
+@controller()
 export class RedirectController extends StaticController {
 
     @pathGet("/test/redirect")
@@ -9,7 +9,7 @@ export class RedirectController extends StaticController {
         res.redirect("/test/redirectTo");
     }
     @pathGet("/test/redirectTo")
-    redirectTo(req, res,route) {
+    redirectTo(req, res,model,route) {
         res.json({name: route.actionName})
     }
 }

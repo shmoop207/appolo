@@ -1,7 +1,7 @@
 "use strict";
-import {Controller, define, IRequest, IResponse, pathGet, validation, validator} from '../../../../index';
+import {Controller, controller, IRequest, IResponse, pathGet, validation, validator} from '../../../../index';
 
-@define()
+@controller()
 export class ValidationController extends Controller {
 
     @pathGet("/test/validations/")

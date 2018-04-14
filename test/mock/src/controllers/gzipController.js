@@ -22,7 +22,7 @@ tslib_1.__decorate([
     index_1.middleware(compression({ threshold: 512 }))
 ], GzipController.prototype, "compression", null);
 GzipController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], GzipController);
 exports.GzipController = GzipController;
 //# sourceMappingURL=gzipController.js.map

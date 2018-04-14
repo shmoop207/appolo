@@ -1,6 +1,8 @@
 import    http = require('http');
+import    _path = require('path');
+import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
-import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
+import {IApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
 import {Define, IEnv, Injector} from "appolo-engine";
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Launcher} from "./launcher/launcher";
@@ -8,8 +10,9 @@ import {Route} from "./routes/route";
 import {IController} from "./controller/IController";
 import {Controller} from "./controller/controller";
 import {StaticController} from "./controller/staticController";
+import {IResponse} from "./interfaces/IResponse";
 
-export class App {
+export class App implements IApp {
 
     private _launcher: Launcher;
 
@@ -19,11 +22,29 @@ export class App {
         this._launcher = new Launcher(options);
 
         this._launcher.engine.injector.addObject("app", this, true);
+        this._launcher.agent.requestApp = this;
     }
 
     public static create(options: IOptions): App {
         return new App(options);
     };
+
+    render(path: string | string[], params?: any, res?: IResponse): Promise<string> {
+
+        if (!res) {
+            return this._launcher.agent.render(path, params);
+        }
+
+        if (!path) {
+            path = _path.resolve(this._launcher.options.root, "src/controllers", res.req.route.controllerName, res.req.route.actionName);
+        }
+        let paths = _.isArray(path) ? path : [path];
+
+        if (_.isString(path)) {
+            paths.push(_path.resolve(this._launcher.options.root, "src/controllers", res.req.route.controllerName, path))
+        }
+        return this._launcher.agent.render(paths, params)
+    }
 
     public async launch(): Promise<App> {
 
@@ -31,6 +52,10 @@ export class App {
 
 
         return this;
+    }
+
+    public get options(): IOptions {
+        return this._launcher.options
     }
 
 
@@ -92,5 +117,4 @@ export class App {
 
 //TODO abstract routes on class
 //TODO response try catch
-//TODO fix view
 //TODO add server load message

@@ -1,6 +1,6 @@
 "use strict";
 import {
-    define,
+    controller,
     Controller,
     IResponse,
     IRequest,
@@ -8,7 +8,7 @@ import {
 } from '../../../../index';
 
 
-@define()
+@controller()
 export class HelloController extends Controller {
 
     @pathGet('/test/hello')

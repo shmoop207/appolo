@@ -22,7 +22,7 @@ tslib_1.__decorate([
     })
 ], ValidationController.prototype, "validaion", null);
 ValidationController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], ValidationController);
 exports.ValidationController = ValidationController;
 //# sourceMappingURL=validationController.js.map

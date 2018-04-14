@@ -1,13 +1,13 @@
 "use strict";
-import {StaticController, define, singleton, pathGet, IRequest, IResponse} from '../../../../index';
+import {controller, IRequest, IResponse, pathGet, singleton, StaticController} from '../../../../index';
 
 
-@define()
+@controller()
 @singleton()
 export class IndexController extends StaticController {
 
     @pathGet("/test/")
-    public hello(req: IRequest, res: IResponse, route) {
+    public hello(req: IRequest, res: IResponse) {
         res.send('hello world')
     }
 }

@@ -1,5 +1,7 @@
 import {IOptions} from "./lib/interfaces/IOptions";
 import * as validator from 'joi';
+import {App} from "./lib/app";
+import {IRequest} from "./lib/interfaces/IRequest";
 
 export {
 
@@ -18,7 +20,7 @@ export {
     injectAlias,
     injectAliasFactory,
     IParamInject,
-    define,singleton,
+    define, singleton,
     EventDispatcher,
     Util,
     lazy,
@@ -26,31 +28,26 @@ export {
     IEnv,
     IBootstrap,
     IFactory,
-    Injector,bootstrap
+    Injector, bootstrap
 } from 'appolo-engine';
-export { Route} from './lib/routes/route';
+export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';
 export {StaticController} from './lib/controller/staticController';
 export * from './lib/decorators/decorators'
 
 export {Middleware} from './lib/middleware/middleware';
 export {StaticMiddleware} from './lib/middleware/staticMiddleware';
-//export {default as router, Router} from './lib/routes/router';
-//export {Methods} from 'appolo-agent'
-//export {HttpError} from './lib/common/error/httpError'
-
-//export {default as launcher} from './lib/launcher/launcher';
 export {App} from './lib/app';
 
 
 export {validator}
-import {App} from "./lib/app";
 
 
 export {IOptions} from "./lib/interfaces/IOptions";
+export {IRequest} from "./lib/interfaces/IRequest";
 export {IRouteOptions} from "./lib/interfaces/IRouteOptions";
 export {RouteModel} from "./lib/routes/routeModel";
-export {IRequest, IResponse, NextFn,MiddlewareHandlerParams,Methods} from "appolo-agent";
+export {IResponse, NextFn, MiddlewareHandlerParams, Methods} from "appolo-agent";
 
 export function createApp(options?: IOptions): App {
     return new App(options)

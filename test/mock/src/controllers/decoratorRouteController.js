@@ -26,7 +26,7 @@ tslib_1.__decorate([
     index_1.validation("test", index_1.validator.string())
 ], DecoratorRouteController.prototype, "test2", null);
 DecoratorRouteController = tslib_1.__decorate([
-    index_1.define(),
+    index_1.controller(),
     index_1.singleton(),
     index_1.lazy()
 ], DecoratorRouteController);

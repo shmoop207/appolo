@@ -1,8 +1,8 @@
 "use strict";
-import {define, Controller, inject,pathGet,validation,validator} from '../../../../index';
+import {controller, Controller, inject,pathGet,validation,validator} from '../../../../index';
 import {Manager4} from "../manager/manager4";
 
-@define()
+@controller()
 export class ParamsController extends Controller {
 
     @inject() manager4: Manager4;

@@ -1,9 +1,9 @@
 "use strict";
-import {Controller, define, inject, middleware, pathGet} from '../../../../index';
+import {Controller, controller, inject, middleware, pathGet} from '../../../../index';
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
 
-@define()
+@controller()
 export class MiddlewareController extends Controller {
     @inject() manager: any;
 

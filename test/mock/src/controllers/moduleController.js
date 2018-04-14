@@ -21,7 +21,7 @@ tslib_1.__decorate([
     index_1.pathGet("/test/module/")
 ], ModuleController.prototype, "test", null);
 ModuleController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], ModuleController);
 exports.ModuleController = ModuleController;
 //# sourceMappingURL=moduleController.js.map

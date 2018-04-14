@@ -47,7 +47,7 @@ tslib_1.__decorate([
     index_1.path("/test/cookie_clear")
 ], QueryController.prototype, "cookieClear", null);
 QueryController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], QueryController);
 exports.QueryController = QueryController;
 //# sourceMappingURL=queryController.js.map

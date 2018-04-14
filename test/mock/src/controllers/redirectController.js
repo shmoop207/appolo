@@ -6,7 +6,7 @@ let RedirectController = class RedirectController extends index_1.StaticControll
     redirect(req, res) {
         res.redirect("/test/redirectTo");
     }
-    redirectTo(req, res, route) {
+    redirectTo(req, res, model, route) {
         res.json({ name: route.actionName });
     }
 };
@@ -17,7 +17,7 @@ tslib_1.__decorate([
     index_1.pathGet("/test/redirectTo")
 ], RedirectController.prototype, "redirectTo", null);
 RedirectController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], RedirectController);
 exports.RedirectController = RedirectController;
 //# sourceMappingURL=redirectController.js.map

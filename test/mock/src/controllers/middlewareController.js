@@ -28,7 +28,7 @@ tslib_1.__decorate([
     })
 ], MiddlewareController.prototype, "testOrderMiddleware", null);
 MiddlewareController = tslib_1.__decorate([
-    index_1.define()
+    index_1.controller()
 ], MiddlewareController);
 exports.MiddlewareController = MiddlewareController;
 //# sourceMappingURL=middlewareController.js.map
