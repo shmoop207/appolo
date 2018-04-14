@@ -6,7 +6,7 @@ import {
     lazy,
     StaticController,
     inject,
-    path,
+    get,
     validation,
     validator,
     IRequest,
@@ -20,7 +20,7 @@ export class DecoratorRouteController extends StaticController {
 
     @inject() manager: any;
 
-    @path("/test/decorator/route/:name/:name2")
+    @get("/test/decorator/route/:name/:name2")
     @validation("name2", validator.string())
     @validation("name", validator.string())
     @validation("test", validator.string())
@@ -29,7 +29,7 @@ export class DecoratorRouteController extends StaticController {
     }
 
 
-    @path("/test/decorator2/route/:name/:name2")
+    @get("/test/decorator2/route/:name/:name2")
     @validation("name2", validator.string())
     @validation("name", validator.string())
     @validation("test", validator.string())

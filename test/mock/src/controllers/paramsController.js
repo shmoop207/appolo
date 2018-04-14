@@ -21,12 +21,12 @@ tslib_1.__decorate([
     index_1.inject()
 ], ParamsController.prototype, "manager4", void 0);
 tslib_1.__decorate([
-    index_1.pathGet('/test/params/:name/:name2'),
-    index_1.pathGet('/test/params/:name/test/:name2'),
+    index_1.get('/test/params/:name/:name2'),
+    index_1.get('/test/params/:name/test/:name2'),
     index_1.validation("userName", index_1.validator.string().required())
 ], ParamsController.prototype, "test", null);
 tslib_1.__decorate([
-    index_1.pathGet('/test/params/empty/:name/:name2'),
+    index_1.get('/test/params/empty/:name/:name2'),
     index_1.validation("userName", index_1.validator.string().required())
 ], ParamsController.prototype, "empty", null);
 ParamsController = tslib_1.__decorate([

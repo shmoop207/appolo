@@ -14,10 +14,10 @@ tslib_1.__decorate([
     index_1.inject()
 ], PromiseController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.path("test/promise")
+    index_1.get("test/promise")
 ], PromiseController.prototype, "test", null);
 tslib_1.__decorate([
-    index_1.path("test/promise/error")
+    index_1.get("test/promise/error")
 ], PromiseController.prototype, "testError", null);
 PromiseController = tslib_1.__decorate([
     index_1.controller()

@@ -11,10 +11,10 @@ let RedirectController = class RedirectController extends index_1.StaticControll
     }
 };
 tslib_1.__decorate([
-    index_1.pathGet("/test/redirect")
+    index_1.get("/test/redirect")
 ], RedirectController.prototype, "redirect", null);
 tslib_1.__decorate([
-    index_1.pathGet("/test/redirectTo")
+    index_1.get("/test/redirectTo")
 ], RedirectController.prototype, "redirectTo", null);
 RedirectController = tslib_1.__decorate([
     index_1.controller()

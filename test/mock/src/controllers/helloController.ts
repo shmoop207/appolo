@@ -4,14 +4,14 @@ import {
     Controller,
     IResponse,
     IRequest,
-    pathGet,
+    get,
 } from '../../../../index';
 
 
 @controller()
 export class HelloController extends Controller {
 
-    @pathGet('/test/hello')
+    @get('/test/hello')
     public hello(req: IRequest, res: IResponse) {
 
 

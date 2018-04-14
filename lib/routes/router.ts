@@ -87,12 +87,6 @@ export class Router {
 
     protected _invokeAction = (req: IRequest, res: IResponse, next: NextFn) => {
 
-        try {
-
-        } catch (e) {
-
-        }
-
         let route = req.route;
 
         let controller: StaticController = this._injector.getObject<StaticController>(route.controller, [req, res, route]);
@@ -118,19 +112,8 @@ export class Router {
         let result = controller[fnName](req, res, req.model, route);
 
         if (result && result.then && result.catch) {
-            result.then(data => {
-
-                if (!res.headersSent) {
-                    res.send(data);
-                }
-
-            }).catch((e) => {
-                res.status(500).json({
-                    status: 500,
-                    statusText: "Internal Server Error",
-                    //error: e ? e.toString() : "",
-                });
-            })
+            result.then(data => !res.headersSent && res.send(data))
+                .catch(e => res.status(500).json({status: 500, statusText: "Internal Server Error"}))
         }
     };
 

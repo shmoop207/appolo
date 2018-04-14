@@ -1,5 +1,5 @@
 "use strict";
-import {Controller, controller, inject, middleware, pathGet} from '../../../../index';
+import {Controller, controller, inject, middleware, get} from '../../../../index';
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
 
@@ -15,7 +15,7 @@ export class MiddlewareController extends Controller {
         res.json({working: req.working})
     }
 
-    @pathGet("/test/middleware/order")
+    @get("/test/middleware/order")
     @middleware(function (req, res, next) {
         (req as any).working = "working1";
         next()

@@ -580,26 +580,17 @@ describe('Appolo Http e2e', () => {
             res.should.to.have.status(200);
             res.body.working.should.be.eq("working1working2working3fromTest2");
         });
-        // it('should have abstract inherit route', async () => {
-        //
-        //     let res = await request(app.handle)
-        //         .get('/test/abstract?test=11');
-        //
-        //     res.should.to.have.status(200);
-        //
-        //     res.body.working.should.be.eq(":working1working2working31");
-        // });
+    });
+    describe('simple mode', function () {
+        it('should handel simple mode request', async () => {
+            let app = await index_1.createApp().get("test/simple", function (req, res) {
+                res.send("ok");
+            }).launch();
+            let res = await request(app.handle)
+                .get('/test/simple?test=11');
+            res.should.to.have.status(200);
+            res.text.should.be.eq("ok");
+        });
     });
 });
-// import Benchmark = require('benchmark');
-//
-// let suite = new Benchmark.Suite;
-// suite.
-// add('vanilla', function() {
-//     new Test(11).getName()
-// }).add('fast', function() {
-//     (new Test(22) as any).getName2()
-// }).on('cycle', function(event) {
-//     console.log(String(event.target));
-// }).run();
 //# sourceMappingURL=e2eSpec.js.map

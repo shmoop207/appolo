@@ -1,5 +1,5 @@
 "use strict";
-import {controller, inject,pathGet,StaticController} from '../../../../index'
+import {controller, inject,get,StaticController} from '../../../../index'
 import {} from '../../../../decorators';
 
 @controller()
@@ -8,11 +8,11 @@ export class RootController extends StaticController {
     all(req, res,route) {
         res.json({name: route.actionName})
     }
-    @pathGet("/")
+    @get("/")
     root(req, res,model,route) {
         res.json({name: route.actionName})
     }
-    @pathGet("/raw")
+    @get("/raw")
     raw(req, res,model,route) {
         res.end(route.actionName)
     }

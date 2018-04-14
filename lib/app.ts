@@ -1,4 +1,5 @@
 import    http = require('http');
+import    https = require('https');
 import    _path = require('path');
 import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
@@ -11,6 +12,7 @@ import {IController} from "./controller/IController";
 import {Controller} from "./controller/controller";
 import {StaticController} from "./controller/staticController";
 import {IResponse} from "./interfaces/IResponse";
+import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
 
 export class App implements IApp {
 
@@ -108,6 +110,30 @@ export class App implements IApp {
         this._launcher.router.addRoute(route);
 
         return route
+    }
+
+    public get(path: string, ...handler: MiddlewareHandlerParams[]): this {
+        this._launcher.agent.get(path, ...handler)
+        return this;
+    }
+
+    public post(path: string, ...handler: MiddlewareHandlerParams[]): this {
+        this._launcher.agent.post(path, ...handler)
+        return this;
+    }
+
+    public delete(path: string, ...handler: MiddlewareHandlerParams[]): this {
+        this._launcher.agent.post(path, ...handler)
+        return this;
+    }
+
+    public patch(path: string, ...handler: MiddlewareHandlerParams[]): this {
+        this._launcher.agent.patch(path, ...handler);
+        return this;
+    }
+
+    public get server(): http.Server | https.Server {
+        return this._launcher.agent.server
     }
 
     public handle = (request: http.IncomingMessage, response: http.ServerResponse) => {

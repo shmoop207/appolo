@@ -1,5 +1,5 @@
 "use strict";
-import {Controller, controller, define, inject, middleware, path,singleton} from '../../../../index';
+import {Controller, controller, define, inject, middleware, get,singleton} from '../../../../index';
 
 @middleware(function (req, res, next) {
     (req as any).working = "working1";
@@ -18,7 +18,7 @@ export class AbstractController extends Controller {
         (req).working3 = req.working + req.working2 + "working3";
         next()
     })
-    @path("abstract")
+    @get("abstract")
     test(req, res) {
         res.json({working: req.working3})
     }

@@ -8,7 +8,7 @@ let HelloController = class HelloController extends index_1.Controller {
     }
 };
 tslib_1.__decorate([
-    index_1.pathGet('/test/hello')
+    index_1.get('/test/hello')
 ], HelloController.prototype, "hello", null);
 HelloController = tslib_1.__decorate([
     index_1.controller()

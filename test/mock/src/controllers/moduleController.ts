@@ -1,5 +1,5 @@
 "use strict";
-import {controller,Controller,inject,pathGet} from "../../../../index";
+import {controller,Controller,inject,get} from "../../../../index";
 
 
 @controller()
@@ -7,7 +7,7 @@ export class ModuleController extends Controller {
     @inject() logger2: any;
     @inject() logger3: any;
 
-    @pathGet("/test/module/")
+    @get("/test/module/")
     test(req, res) {
         res.json({
             working: true,

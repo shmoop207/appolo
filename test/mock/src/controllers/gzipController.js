@@ -15,10 +15,10 @@ tslib_1.__decorate([
     index_1.inject()
 ], GzipController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.pathGet('/test/gzip')
+    index_1.get('/test/gzip')
 ], GzipController.prototype, "gzip", null);
 tslib_1.__decorate([
-    index_1.pathGet('/test/compression'),
+    index_1.get('/test/compression'),
     index_1.middleware(compression({ threshold: 512 }))
 ], GzipController.prototype, "compression", null);
 GzipController = tslib_1.__decorate([

@@ -7,7 +7,7 @@ import {
     IRequest,
     IResponse,
     lazy,
-    path,
+    get,
     singleton,
     StaticController,
     validation,
@@ -31,7 +31,7 @@ export class DecoratorParamsController extends StaticController {
 
     //@inject() manager: any;
 
-    @path("/test/decorator/param/:name/:name2")
+    @get("/test/decorator/param/:name/:name2")
     @validation("name2", validator.string())
     @validation("name", validator.string())
     @abstract({middleware: [UserMiddleware]})

@@ -3,8 +3,8 @@ import {
     controller,
     inject,
     lazy,
-    pathGet,
-    pathPost,
+    get,
+    post,
     singleton,
     StaticController,
     validation,
@@ -17,7 +17,7 @@ import {
 export class StaticController2 extends StaticController {
     @inject() manager: any;
 
-    @pathPost("/test/static/controller/:name/:bbb/post")
+    @post("/test/static/controller/:name/:bbb/post")
     @validation("test", validator.string())
     @validation("name", validator.string())
     @validation("userName", validator.string())
@@ -28,7 +28,7 @@ export class StaticController2 extends StaticController {
         res.json({model: this.getModel(req)})
     }
 
-    @pathGet("/test/static/controller/:name/:name2")
+    @get("/test/static/controller/:name/:name2")
     @validation("test", validator.string())
     @validation("name", validator.string())
     @validation("userName", validator.string())

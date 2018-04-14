@@ -14,10 +14,10 @@ tslib_1.__decorate([
     index_1.inject()
 ], JsonController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.pathGet("/test/json")
+    index_1.get("/test/json")
 ], JsonController.prototype, "json", null);
 tslib_1.__decorate([
-    index_1.pathPost("/test/json")
+    index_1.post("/test/json")
 ], JsonController.prototype, "jsonPost", null);
 JsonController = tslib_1.__decorate([
     index_1.controller()

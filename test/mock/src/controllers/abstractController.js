@@ -15,7 +15,7 @@ tslib_1.__decorate([
         (req).working3 = req.working + req.working2 + "working3";
         next();
     }),
-    index_1.path("abstract")
+    index_1.get("abstract")
 ], AbstractController.prototype, "test", null);
 AbstractController = tslib_1.__decorate([
     index_1.middleware(function (req, res, next) {

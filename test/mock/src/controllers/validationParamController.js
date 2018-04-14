@@ -26,11 +26,11 @@ let ValidationParamController = class ValidationParamController extends index_1.
     }
 };
 tslib_1.__decorate([
-    index_1.pathGet('/test/validations/param'),
+    index_1.get('/test/validations/param'),
     index_1.validation(ValidationModel)
 ], ValidationParamController.prototype, "validation", null);
 tslib_1.__decorate([
-    index_1.pathGet('/test/validations/param2'),
+    index_1.get('/test/validations/param2'),
     index_1.validation(Validation2Model)
 ], ValidationParamController.prototype, "validation2", null);
 ValidationParamController = tslib_1.__decorate([

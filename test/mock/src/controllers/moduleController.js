@@ -18,7 +18,7 @@ tslib_1.__decorate([
     index_1.inject()
 ], ModuleController.prototype, "logger3", void 0);
 tslib_1.__decorate([
-    index_1.pathGet("/test/module/")
+    index_1.get("/test/module/")
 ], ModuleController.prototype, "test", null);
 ModuleController = tslib_1.__decorate([
     index_1.controller()

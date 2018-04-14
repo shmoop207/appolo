@@ -1,16 +1,16 @@
 "use strict";
-import {Controller, controller, IRequest, IResponse, pathGet, validation, validator} from '../../../../index';
+import {Controller, controller, IRequest, IResponse, get, validation, validator} from '../../../../index';
 
 @controller()
 export class ValidationController extends Controller {
 
-    @pathGet("/test/validations/")
+    @get("/test/validations/")
     @validation("userName", validator.string().required())
     test(req: IRequest, res: IResponse) {
         res.json({working: true, controllerName: this.route.controller, model: req.model})
     }
 
-    @pathGet("/test/validations/auth")
+    @get("/test/validations/auth")
     @validation({
         username: validator.string().alphanum().min(3).max(30).required(),
         password: validator.string().alphanum().min(3).max(30).required()

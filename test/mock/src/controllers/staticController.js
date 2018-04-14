@@ -14,7 +14,7 @@ tslib_1.__decorate([
     index_1.inject()
 ], StaticController2.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.pathPost("/test/static/controller/:name/:bbb/post"),
+    index_1.post("/test/static/controller/:name/:bbb/post"),
     index_1.validation("test", index_1.validator.string()),
     index_1.validation("name", index_1.validator.string()),
     index_1.validation("userName", index_1.validator.string()),
@@ -23,7 +23,7 @@ tslib_1.__decorate([
     index_1.validation("testPost", index_1.validator.boolean().required())
 ], StaticController2.prototype, "test", null);
 tslib_1.__decorate([
-    index_1.pathGet("/test/static/controller/:name/:name2"),
+    index_1.get("/test/static/controller/:name/:name2"),
     index_1.validation("test", index_1.validator.string()),
     index_1.validation("name", index_1.validator.string()),
     index_1.validation("userName", index_1.validator.string()),

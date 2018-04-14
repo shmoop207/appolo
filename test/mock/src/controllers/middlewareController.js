@@ -17,7 +17,7 @@ tslib_1.__decorate([
     index_1.inject()
 ], MiddlewareController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.pathGet("/test/middleware/order"),
+    index_1.get("/test/middleware/order"),
     index_1.middleware(function (req, res, next) {
         req.working = "working1";
         next();

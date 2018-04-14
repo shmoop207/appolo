@@ -11,10 +11,10 @@ let ViewController = class ViewController extends index_1.StaticController {
     }
 };
 tslib_1.__decorate([
-    index_1.pathGet("/test/view")
+    index_1.get("/test/view")
 ], ViewController.prototype, "raw", null);
 tslib_1.__decorate([
-    index_1.pathGet("/test/view2")
+    index_1.get("/test/view2")
 ], ViewController.prototype, "view2", null);
 ViewController = tslib_1.__decorate([
     index_1.controller()

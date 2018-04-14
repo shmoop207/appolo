@@ -4,7 +4,7 @@ import {
     Controller,
     IRequest,
     IResponse,
-    pathGet,
+    get,
     validation,
     validationParam,
     validator
@@ -28,7 +28,7 @@ class Validation2Model extends ValidationModel {
 @controller()
 export class ValidationParamController extends Controller {
 
-    @pathGet('/test/validations/param')
+    @get('/test/validations/param')
     @validation(ValidationModel)
     public validation(req: IRequest, res: IResponse) {
 
@@ -37,7 +37,7 @@ export class ValidationParamController extends Controller {
         res.json({test: model.test, name: this.constructor.name})
     }
 
-    @pathGet('/test/validations/param2')
+    @get('/test/validations/param2')
     @validation(Validation2Model)
     public validation2(req: IRequest, res: IResponse, model: Validation2Model, route) {
 

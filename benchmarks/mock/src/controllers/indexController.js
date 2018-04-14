@@ -8,7 +8,7 @@ let IndexController = class IndexController extends index_1.StaticController {
     }
 };
 tslib_1.__decorate([
-    index_1.pathGet("/test/")
+    index_1.get("/test/")
 ], IndexController.prototype, "hello", null);
 IndexController = tslib_1.__decorate([
     index_1.controller(),

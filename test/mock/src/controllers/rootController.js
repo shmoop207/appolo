@@ -14,10 +14,10 @@ let RootController = class RootController extends index_1.StaticController {
     }
 };
 tslib_1.__decorate([
-    index_1.pathGet("/")
+    index_1.get("/")
 ], RootController.prototype, "root", null);
 tslib_1.__decorate([
-    index_1.pathGet("/raw")
+    index_1.get("/raw")
 ], RootController.prototype, "raw", null);
 RootController = tslib_1.__decorate([
     index_1.controller()

@@ -1,21 +1,21 @@
 "use strict";
-import {controller, inject, path,Controller,IRequest,IResponse,pathGet} from '../../../../index';
+import {controller, inject, get,Controller,IRequest,IResponse} from '../../../../index';
 
 
 @controller()
 export class QueryController extends Controller {
 
-    @pathGet("/test/query")
+    @get("/test/query")
     test(req, res) {
         res.json(req.query);
     }
 
-    @path("/test/protocol")
+    @get("/test/protocol")
     protocol(req: IRequest, res) {
         res.json({protocol: req.protocol, secure: req.secure, host: req.hostname});
     }
 
-    @path("/test/cookie")
+    @get("/test/cookie")
     cookie(req: IRequest, res: IResponse) {
 
         let date = new Date()
@@ -26,7 +26,7 @@ export class QueryController extends Controller {
         res.json((req as any).cookies);
     }
 
-    @path("/test/cookie_json")
+    @get("/test/cookie_json")
     cookieJson(req: IRequest, res: IResponse) {
 
         let date = new Date()
@@ -37,7 +37,7 @@ export class QueryController extends Controller {
         res.json((req as any).cookies);
     }
 
-    @path("/test/cookie_clear")
+    @get("/test/cookie_clear")
     cookieClear(req: IRequest, res: IResponse) {
 
         let date = new Date()

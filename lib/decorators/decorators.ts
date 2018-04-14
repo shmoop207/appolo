@@ -61,29 +61,29 @@ function defineRouteProperty(params: { name: string, args: any[] }[]): (target: 
 }
 
 //
-export function path(path: string): any {
-    return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.GET]}])
+// export function path(path: string): any {
+//     return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.GET]}])
+//
+// }
 
+export function get(path?: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+    return defineRouteProperty([{name: "path", args: [path || ""]}, {name: "method", args: [Methods.GET]}])
 }
 
-export function pathGet(path: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
-    return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.GET]}])
+export function post(path?: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+    return defineRouteProperty([{name: "path", args: [path || ""]}, {name: "method", args: [Methods.POST]}])
 }
 
-export function pathPost(path: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
-    return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.POST]}])
+export function patch(path?: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+    return defineRouteProperty([{name: "path", args: [path || ""]}, {name: "method", args: [Methods.PATCH]}])
 }
 
-export function pathPatch(path: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
-    return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.PATCH]}])
+export function put(path?: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+    return defineRouteProperty([{name: "path", args: [path || ""]}, {name: "method", args: [Methods.PUT]}])
 }
 
-export function pathPut(path: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
-    return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.PUT]}])
-}
-
-export function pathDelete(path: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
-    return defineRouteProperty([{name: "path", args: [path]}, {name: "method", args: [Methods.DELETE]}])
+export function del(path?: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+    return defineRouteProperty([{name: "path", args: [path || ""]}, {name: "method", args: [Methods.DELETE]}])
 }
 
 export function method(method: 'get' | 'post' | 'delete' | 'patch' | 'head' | 'put' | Methods) {
