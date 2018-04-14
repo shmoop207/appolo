@@ -861,6 +861,41 @@ describe('Appolo Http e2e', () => {
             res.text.should.be.eq("");
         });
 
+        it('should call controller delete', async () => {
+
+            let res = await request(app.handle)
+                .delete('/test/params/empty/aaa/bbb/?userName=11');
+
+            res.should.to.have.status(204);
+            res.header["access-control-allow-origin"].should.be.eq('*');
+            res.header["content-length"].should.be.eq('0');
+            should.not.exist(res.header["content-type"]);
+
+            res.text.should.be.eq("");
+        });
+
+        it('should call controller put', async () => {
+
+            let res = await request(app.handle)
+                .put('/test/params/aaa/bbb/?userName=11');
+
+            res.should.to.have.status(200);
+
+
+            res.body.working.should.be.eq(true);
+        });
+
+        it('should call controller patch', async () => {
+
+            let res = await request(app.handle)
+                .patch('/test/params/aaa/bbb/?userName=11');
+
+            res.should.to.have.status(200);
+
+
+            res.body.working.should.be.eq(true);
+        });
+
 
     })
 
@@ -927,6 +962,8 @@ describe('Appolo Http e2e', () => {
             res.should.to.have.status(200);
 
             res.text.should.be.eq("ok");
+
+            await app.reset();
         });
     });
 });

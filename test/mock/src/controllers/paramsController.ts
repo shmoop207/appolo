@@ -1,5 +1,5 @@
 "use strict";
-import {controller, Controller, inject,get,validation,validator} from '../../../../index';
+import {controller, Controller, del, get, inject, patch, put, validation, validator} from '../../../../index';
 import {Manager4} from "../manager/manager4";
 
 @controller()
@@ -8,8 +8,10 @@ export class ParamsController extends Controller {
     @inject() manager4: Manager4;
 
     @get('/test/params/:name/:name2')
+    @patch('/test/params/:name/:name2')
+    @put('/test/params/:name/:name2')
     @get('/test/params/:name/test/:name2')
-    @validation("userName",validator.string().required())
+    @validation("userName", validator.string().required())
     test(req, res) {
         res.json({
             working: true,
@@ -20,8 +22,10 @@ export class ParamsController extends Controller {
             name2: req.params.name2
         })
     }
+
     @get('/test/params/empty/:name/:name2')
-    @validation("userName",validator.string().required())
+    @del('/test/params/empty/:name/:name2')
+    @validation("userName", validator.string().required())
     empty(req, res) {
         this.sendNoContent()
     }
