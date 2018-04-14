@@ -4,10 +4,10 @@ const tslib_1 = require("tslib");
 const index_1 = require("../../../../../index");
 let ViewController = class ViewController extends index_1.StaticController {
     async raw(req, res, route) {
-        res.render({ test: req.query.test });
+        await res.render({ test: req.query.test });
     }
     async view2(req, res, route) {
-        res.render("raw2", { test: req.query.test });
+        await res.render("raw2", { test: req.query.test });
     }
 };
 tslib_1.__decorate([

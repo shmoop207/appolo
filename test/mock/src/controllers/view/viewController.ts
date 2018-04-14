@@ -8,14 +8,14 @@ export class ViewController extends StaticController {
     @pathGet("/test/view")
     async raw(req, res: IResponse, route) {
 
-        res.render({test: req.query.test})
+        await res.render({test: req.query.test})
 
     }
 
     @pathGet("/test/view2")
     async view2(req, res: IResponse, route) {
 
-        res.render("raw2", {test: req.query.test})
+        await res.render("raw2", {test: req.query.test})
 
 
     }

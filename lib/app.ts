@@ -114,7 +114,3 @@ export class App implements IApp {
         this._launcher.agent.handle(request, response)
     }
 }
-
-//TODO abstract routes on class
-//TODO response try catch
-//TODO add server load message

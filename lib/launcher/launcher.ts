@@ -80,6 +80,8 @@ export class Launcher {
         this._router.initialize();
 
         await this._agent.listen(this._port);
+
+        this._logServerMessage();
     }
 
     private _addRoute(fn: Function) {
@@ -135,17 +137,17 @@ export class Launcher {
 
     }
 
-    // public async startServer() {
-    //
-    //     let msg = _.template(this._options.startMessage, {interpolate: /\${([\s\S]+?)}/g})({
-    //         port: this._port,
-    //         version: appolo.environment.version,
-    //         environment: appolo.environment.type
-    //     });
-    //
-    //     console.log(msg);
-    //
-    // }
+    private _logServerMessage() {
+
+        let msg = _.template(this._options.startMessage, {interpolate: /\${([\s\S]+?)}/g})({
+            port: this._port,
+            version: this._engine.env.version,
+            environment: this._engine.env.type
+        });
+
+        console.log(msg);
+
+    }
 
 
     public async reset() {

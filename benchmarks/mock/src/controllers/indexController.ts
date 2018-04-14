@@ -7,7 +7,7 @@ import {controller, IRequest, IResponse, pathGet, singleton, StaticController} f
 export class IndexController extends StaticController {
 
     @pathGet("/test/")
-    public hello(req: IRequest, res: IResponse) {
+    public  hello(req: IRequest, res: IResponse) {
         res.send('hello world')
     }
 }

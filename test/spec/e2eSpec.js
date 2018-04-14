@@ -246,6 +246,20 @@ describe('Appolo Http e2e', () => {
             res.type.should.be.match(/text\/html/);
         });
     });
+    describe('promise', function () {
+        it('should should call promise', async () => {
+            let res = await request(app.handle)
+                .get('/test/promise');
+            res.should.to.have.status(200);
+            res.body.working.should.be.eq("working");
+        });
+        it('should should call promise with error', async () => {
+            let res = await request(app.handle)
+                .get('/test/promise/error');
+            res.should.to.have.status(500);
+            res.body.statusText.should.be.eq("Internal Server Error");
+        });
+    });
     describe('query', function () {
         it('should should have query params', async () => {
             let res = await request(app.handle)
