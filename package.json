@@ -29,7 +29,7 @@
     "test-cov": "nyc --reporter=text mocha test/spec/**/*.js"
   },
   "main": "./index.js",
-  "version": "2.0.32",
+  "version": "5.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",

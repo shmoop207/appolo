@@ -111,10 +111,16 @@ export class Router {
 
         let result = controller[fnName](req, res, req.model, route);
 
-        if (result && result.then && result.catch) {
-            result.then(data => !res.headersSent && res.send(data))
-                .catch(e => res.status(500).json({status: 500, statusText: "Internal Server Error"}))
+        if (result && !res.headersSent) {
+            if (result.then && result.catch) {
+                result.then(data => !res.headersSent && res.send(data))
+                    .catch(e => res.status(500).json({status: 500, statusText: "Internal Server Error"}))
+            } else {
+                res.send(result)
+            }
         }
+
+
     };
 
     protected _checkValidation = (req: IRequest, res: IResponse, next: NextFn) => {

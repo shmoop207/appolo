@@ -67,8 +67,8 @@ export class App implements IApp {
         return this;
     }
 
-    public module(moduleFn: ModuleFn): Promise<any> {
-        return this._launcher.engine.module(moduleFn)
+    public module(...moduleFn: ModuleFn[]): Promise<any> {
+        return this._launcher.engine.module(...moduleFn)
     }
 
     public viewEngine(fn: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>, ext: string = "html"): void {

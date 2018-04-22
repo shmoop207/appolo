@@ -25,8 +25,7 @@ AbstractController = tslib_1.__decorate([
     index_1.middleware(function (req, res, next) {
         req.working2 = "working2";
         next();
-    }),
-    index_1.define()
+    })
 ], AbstractController);
 exports.AbstractController = AbstractController;
 let Abstract2Controller = class Abstract2Controller extends AbstractController {

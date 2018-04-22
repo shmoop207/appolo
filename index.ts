@@ -24,7 +24,7 @@ export {
     EventDispatcher,
     Util,
     lazy,
-    module,
+    module, Module,
     IEnv,
     IBootstrap,
     IFactory,

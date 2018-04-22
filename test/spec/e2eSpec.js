@@ -10,7 +10,7 @@ const authMiddleware_1 = require("../mock/src/middleware/authMiddleware");
 const middleware_1 = require("../mock/src/middleware/middleware");
 let should = chai.should();
 chai.use(require("chai-http"));
-describe('Appolo Http e2e', () => {
+describe('Appolo e2e', () => {
     let app;
     beforeEach(async () => {
         app = index_1.createApp({
@@ -207,6 +207,15 @@ describe('Appolo Http e2e', () => {
             should.exist(res.body);
             res.body.logger.should.be.ok;
             res.body.logger.should.be.eq("testinglogger2testinglogger3");
+        });
+        it.only('should call controller with external modules ', async () => {
+            let res = await request(app.handle)
+                .get('/test/monitor');
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+            should.exist(res.body);
+            res.body.ok.should.be.eq(true);
+            res.body.type.should.be.eq("testing");
         });
     });
     describe('params', function () {

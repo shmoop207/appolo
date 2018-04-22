@@ -1,5 +1,5 @@
 "use strict";
-import {Controller, controller, define, inject, middleware, get,singleton} from '../../../../index';
+import {Controller, controller, define, get, inject, middleware, singleton} from '../../../../index';
 
 @middleware(function (req, res, next) {
     (req as any).working = "working1";
@@ -9,7 +9,6 @@ import {Controller, controller, define, inject, middleware, get,singleton} from 
     (req as any).working2 = "working2";
     next()
 })
-@define()
 export class AbstractController extends Controller {
     @inject() manager: any;
 

@@ -17,6 +17,7 @@ export class PromiseController extends Controller {
     @get("test/promise/error")
     async testError(req, res) {
 
+
         throw new Error("not working")
 
 

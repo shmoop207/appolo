@@ -25,6 +25,7 @@ exports.EventDispatcher = appolo_engine_1.EventDispatcher;
 exports.Util = appolo_engine_1.Util;
 exports.lazy = appolo_engine_1.lazy;
 exports.module = appolo_engine_1.module;
+exports.Module = appolo_engine_1.Module;
 exports.Injector = appolo_engine_1.Injector;
 exports.bootstrap = appolo_engine_1.bootstrap;
 var route_1 = require("./lib/routes/route");
@@ -43,6 +44,9 @@ exports.App = app_2.App;
 var routeModel_1 = require("./lib/routes/routeModel");
 exports.RouteModel = routeModel_1.RouteModel;
 var appolo_agent_1 = require("appolo-agent");
+exports.IResponse = appolo_agent_1.IResponse;
+exports.NextFn = appolo_agent_1.NextFn;
+exports.MiddlewareHandlerParams = appolo_agent_1.MiddlewareHandlerParams;
 exports.Methods = appolo_agent_1.Methods;
 function createApp(options) {
     return new app_1.App(options);
