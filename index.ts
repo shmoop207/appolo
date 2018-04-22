@@ -4,7 +4,6 @@ import {App} from "./lib/app";
 import {IRequest} from "./lib/interfaces/IRequest";
 
 export {
-
     factory,
     inject,
     initMethod,
@@ -47,7 +46,7 @@ export {IOptions} from "./lib/interfaces/IOptions";
 export {IRequest} from "./lib/interfaces/IRequest";
 export {IRouteOptions} from "./lib/interfaces/IRouteOptions";
 export {RouteModel} from "./lib/routes/routeModel";
-export {IResponse, NextFn, MiddlewareHandlerParams, Methods} from "appolo-agent";
+export {IResponse, NextFn, MiddlewareHandlerParams, Methods, HttpError} from "appolo-agent";
 
 export function createApp(options?: IOptions): App {
     return new App(options)

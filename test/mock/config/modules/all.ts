@@ -1,7 +1,7 @@
 import {logger} from './logger';
 import {logger2} from './logger2';
 import {logger3} from './logger3';
-import {App} from "../../../index";
+import {App} from "../../../../index";
 import {MonitorModule} from "./monitor/monitorModule";
 
 export = async function (env, app: App) {

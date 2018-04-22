@@ -130,8 +130,8 @@ export class Launcher {
 
     protected async loadCustomConfigurations() {
 
-        let allPath = path.join(this._options.root, 'config/express/all.js'),
-            environmentPath = path.join(this._options.root, 'config/express/', this._options.environment + '.js');
+        let allPath = path.join(this._options.root, 'config/middlewares/all.js'),
+            environmentPath = path.join(this._options.root, 'config/middlewares/', this._options.environment + '.js');
 
         await Util.loadPathWithArgs([allPath, environmentPath], this._engine.injector);
 

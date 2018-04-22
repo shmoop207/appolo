@@ -1,4 +1,4 @@
-import {Module, module} from '../../../../index';
+import {Module, module} from '../../../../../index';
 import {MonitorController} from "./src/monitorController";
 
 @module({

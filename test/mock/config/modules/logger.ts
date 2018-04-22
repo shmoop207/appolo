@@ -1,4 +1,4 @@
-import appolo = require('../../../index');
+import appolo = require('../../../../index');
 
 
 export  function logger(env,inject:appolo.Injector,callback) {

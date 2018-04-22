@@ -45,6 +45,7 @@ var routeModel_1 = require("./lib/routes/routeModel");
 exports.RouteModel = routeModel_1.RouteModel;
 var appolo_agent_1 = require("appolo-agent");
 exports.Methods = appolo_agent_1.Methods;
+exports.HttpError = appolo_agent_1.HttpError;
 function createApp(options) {
     return new app_1.App(options);
 }

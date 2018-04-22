@@ -8,4 +8,4 @@ module.exports = async function (env, app) {
     await app.module(logger2_1.logger2({ test: 'test' }));
     await app.module(logger3_1.logger3({ test: 'test3' }), monitorModule_1.MonitorModule);
 };
-//# sourceMappingURL=modules.js.map
+//# sourceMappingURL=all.js.map
