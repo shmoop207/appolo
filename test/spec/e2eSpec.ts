@@ -327,7 +327,7 @@ describe('Appolo e2e', () => {
             res.body.logger.should.be.eq("testinglogger2testinglogger3");
         });
 
-        it.only('should call controller with external modules ', async () => {
+        it('should call controller with external modules ', async () => {
 
 
             let res = await request(app.handle)

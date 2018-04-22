@@ -44,9 +44,6 @@ exports.App = app_2.App;
 var routeModel_1 = require("./lib/routes/routeModel");
 exports.RouteModel = routeModel_1.RouteModel;
 var appolo_agent_1 = require("appolo-agent");
-exports.IResponse = appolo_agent_1.IResponse;
-exports.NextFn = appolo_agent_1.NextFn;
-exports.MiddlewareHandlerParams = appolo_agent_1.MiddlewareHandlerParams;
 exports.Methods = appolo_agent_1.Methods;
 function createApp(options) {
     return new app_1.App(options);
