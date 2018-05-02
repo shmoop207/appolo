@@ -4,7 +4,7 @@ import    _path = require('path');
 import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
 import {IApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
-import {Define, IEnv, Injector} from "appolo-engine";
+import {Class, Define, IEnv, Injector} from "appolo-engine";
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Launcher} from "./launcher/launcher";
 import {Route} from "./routes/route";
@@ -84,7 +84,7 @@ export class App implements IApp {
         await this._launcher.reset();
     }
 
-    public register(id: string | Function, type?: Function): Define {
+    public register(id: string | Class, type?: Class): Define {
         return this._launcher.engine.register(id, type)
     }
 
@@ -112,6 +112,14 @@ export class App implements IApp {
         return route
     }
 
+    // get parent(): AppEngine {
+    //     return this._launcher.engine.parent;
+    // }
+
+    public get children() {
+        return this._launcher.engine.children;
+    }
+
     public get(path: string, ...handler: MiddlewareHandlerParams[]): this {
         this._launcher.agent.get(path, ...handler)
         return this;
@@ -135,6 +143,7 @@ export class App implements IApp {
     public get server(): http.Server | https.Server {
         return this._launcher.agent.server
     }
+
 
     public handle = (request: http.IncomingMessage, response: http.ServerResponse) => {
         this._launcher.agent.handle(request, response)
