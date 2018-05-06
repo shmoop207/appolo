@@ -4,7 +4,7 @@ import    _path = require('path');
 import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
 import {IApp as IViewApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
-import {App as AppEngine, Class, Define, IApp as IEngineApp, IEnv, Injector} from "appolo-engine";
+import {App as AppEngine, IClass, Define, IApp as IEngineApp, IEnv, Injector} from "appolo-engine";
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Launcher} from "./launcher/launcher";
 import {Route} from "./routes/route";
@@ -84,7 +84,7 @@ export class App implements IViewApp, IEngineApp {
         await this._launcher.reset();
     }
 
-    public register(id: string | Class, type?: Class): Define {
+    public register(id: string | IClass, type?: IClass): Define {
         return this._launcher.engine.register(id, type)
     }
 
