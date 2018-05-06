@@ -3,7 +3,7 @@ import * as validator from 'joi';
 import {App} from "./lib/app";
 import {IRequest} from "./lib/interfaces/IRequest";
 
-export {
+import {
     factory,
     inject,
     initMethod,
@@ -27,8 +27,34 @@ export {
     IEnv,
     IBootstrap,
     IFactory,
-    Injector, bootstrap
+    Injector, bootstrap,
+    IApp
 } from 'appolo-engine';
+export {factory,
+    inject,
+    initMethod,
+    injectParam,
+    injectFactory,
+    injectFactoryMethod,
+    alias,
+    aliasFactory,
+    injectValue,
+    injectObjectProperty,
+    injectDictionary,
+    injectArray,
+    injectAlias,
+    injectAliasFactory,
+    IParamInject,
+    define, singleton,
+    EventDispatcher,
+    Util,
+    lazy,
+    module, Module,
+    IEnv,
+    IBootstrap,
+    IFactory,
+    Injector, bootstrap,
+    IApp}
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';
 export {StaticController} from './lib/controller/staticController';

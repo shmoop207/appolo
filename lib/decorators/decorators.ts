@@ -9,10 +9,10 @@ import {RouteModel} from "../routes/routeModel";
 import {Util} from "../util/util";
 import {IController} from "../controller/IController";
 
-export const RouterDefinitionsSymbol = Symbol("__RouterDefinitions__");
-export const RouterDefinitionsClassSymbol = Symbol("__RouterDefinitionsClass__");
-export const RouterModelSymbol = Symbol("__RouterModelDefinitions__");
-export const RouterControllerSymbol = Symbol("__RouterControllerDefinitions__");
+export const RouterDefinitionsSymbol = "__RouterDefinitions__";
+export const RouterDefinitionsClassSymbol = "__RouterDefinitionsClass__";
+export const RouterModelSymbol = "__RouterModelDefinitions__";
+export const RouterControllerSymbol = "__RouterControllerDefinitions__";
 
 function defineRouteClass(params: { name: string, args: any[] }[], target: any): void {
 
