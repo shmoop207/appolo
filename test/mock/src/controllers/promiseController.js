@@ -9,6 +9,9 @@ let PromiseController = class PromiseController extends index_1.Controller {
     async testError(req, res) {
         throw new Error("not working");
     }
+    testErrorNoPromise(req, res) {
+        throw new index_1.BadRequestError("not working", { a: 1 }, 123);
+    }
 };
 tslib_1.__decorate([
     index_1.inject()
@@ -19,6 +22,9 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     index_1.get("test/promise/error")
 ], PromiseController.prototype, "testError", null);
+tslib_1.__decorate([
+    index_1.get("test/promise/no_error")
+], PromiseController.prototype, "testErrorNoPromise", null);
 PromiseController = tslib_1.__decorate([
     index_1.controller()
 ], PromiseController);

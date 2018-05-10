@@ -39,11 +39,9 @@ export abstract class StaticMiddleware implements IMiddleware {
     }
 
     protected _callNext(next: NextFn, status: number, statusText: string, error: Error, code: number) {
-        next(new HttpError(status, statusText, {
-            status: status,
-            statusText: statusText,
-            error: error && error.message,
-            code: code
-        }));
+
+        let err = new HttpError(status,statusText,error,{},code)
+
+        next(err);
     }
 }

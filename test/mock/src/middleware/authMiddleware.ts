@@ -12,6 +12,6 @@ export class AuthMiddleware extends StaticMiddleware {
 
     public run(req:IRequest, res:IResponse, next:NextFn) {
 
-        this.sendUnauthorized(next,new HttpError(403,"NOT AUTHORIZED"),11);
+        this.sendUnauthorized(next,new HttpError(403,"NOT AUTHORIZED"),201);
     }
 }

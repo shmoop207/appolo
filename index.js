@@ -4,6 +4,11 @@ const tslib_1 = require("tslib");
 const validator = require("joi");
 exports.validator = validator;
 const app_1 = require("./lib/app");
+const appolo_agent_1 = require("appolo-agent");
+exports.Methods = appolo_agent_1.Methods;
+exports.HttpError = appolo_agent_1.HttpError;
+exports.BadRequestError = appolo_agent_1.BadRequestError;
+exports.InternalServerError = appolo_agent_1.InternalServerError;
 const appolo_engine_1 = require("appolo-engine");
 exports.factory = appolo_engine_1.factory;
 exports.inject = appolo_engine_1.inject;
@@ -43,9 +48,6 @@ var app_2 = require("./lib/app");
 exports.App = app_2.App;
 var routeModel_1 = require("./lib/routes/routeModel");
 exports.RouteModel = routeModel_1.RouteModel;
-var appolo_agent_1 = require("appolo-agent");
-exports.Methods = appolo_agent_1.Methods;
-exports.HttpError = appolo_agent_1.HttpError;
 function createApp(options) {
     return new app_1.App(options);
 }

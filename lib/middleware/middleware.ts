@@ -40,12 +40,10 @@ export abstract class Middleware {
     }
 
     protected _callNext(status: number, statusText: string, error: Error, code: number) {
-        this.next(new HttpError(status, statusText, {
-            status: status,
-            statusText: statusText,
-            error: error.message,
-            code: code
-        }));
+
+        let err = new HttpError(status,statusText,error,{},code)
+
+        this.next(err);
     }
 
 }

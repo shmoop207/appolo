@@ -167,7 +167,7 @@ describe('Appolo e2e', () => {
                 .get('/test/middleware/auth/');
             res.should.to.have.status(403);
             should.exist(res.text);
-            res.text.should.be.eq('{"status":403,"statusText":"Unauthorized","error":"NOT AUTHORIZED","code":11}');
+            res.text.should.be.eq('{"statusCode":403,"message":"Unauthorized","code":201,"error":"Error: NOT AUTHORIZED"}');
         });
         it('should  call middleware before controller with class', async () => {
             let res = await request(app.handle)
@@ -266,7 +266,15 @@ describe('Appolo e2e', () => {
             let res = await request(app.handle)
                 .get('/test/promise/error');
             res.should.to.have.status(500);
-            res.body.statusText.should.be.eq("Internal Server Error");
+            res.body.message.should.be.eq("Internal Server Error");
+        });
+        it('should should call promise with no error', async () => {
+            let res = await request(app.handle)
+                .get('/test/promise/no_error');
+            res.should.to.have.status(400);
+            res.body.message.should.be.eq("Bad Request");
+            res.body.a.should.be.eq(1);
+            res.body.code.should.be.eq(123);
         });
     });
     describe('query', function () {
@@ -461,7 +469,7 @@ describe('Appolo e2e', () => {
             res.should.to.be.json;
             should.exist(res.body);
             res.body.error.should.contain("ValidationError: child \"userName\"");
-            res.body.statusText.should.contain("Bad Request");
+            res.body.message.should.contain("Bad Request");
         });
         it('should call validations error', async () => {
             let res = await request(app.handle)

@@ -1,14 +1,15 @@
 "use strict";
 import    _ = require('lodash');
-import    joi = require('joi');
 import {Controller} from '../controller/controller';
 import {IEnv, Injector} from "appolo-engine";
-import {Agent, HttpError, IRequest, IResponse, Methods, MiddlewareHandlerParams, NextFn} from "appolo-agent";
+import {Agent, HttpError, IResponse, Methods, MiddlewareHandlerParams, NextFn} from "appolo-agent";
 import {IMiddleware, IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {Route} from "./route";
 import {IController} from "../controller/IController";
 import {IOptions} from "../interfaces/IOptions";
-import {StaticController} from "../controller/staticController";
+import {IRequest} from "../interfaces/IRequest";
+import {invokeActionMiddleware} from "./invokeActionMiddleware";
+import {checkValidationMiddleware} from "./checkValidationMiddleware";
 
 
 export class Router {
@@ -54,10 +55,10 @@ export class Router {
 
         this._convertStrMiddleware(middleware);
 
-        middleware.push(this._invokeAction);
+        middleware.push(invokeActionMiddleware);
 
         if (!_.isEmpty(def.validations)) {
-            middleware.unshift(this._checkValidation);
+            middleware.unshift(checkValidationMiddleware);
         }
 
         for (let i = 0, len = def.path.length; i < len; i++) {
@@ -85,65 +86,6 @@ export class Router {
 
     }
 
-    protected _invokeAction = (req: IRequest, res: IResponse, next: NextFn) => {
-
-        let route = req.route;
-
-        let controller: StaticController = this._injector.getObject<StaticController>(route.controller, [req, res, route]);
-
-        if (!controller) {
-            next(new HttpError(500, `failed to find controller ${route.controller}`));
-            return;
-        }
-
-        let fnName: string = route.actionName;
-
-        if (!fnName) {
-            fnName = _.isString(route.action) ? route.action : route.action(controller).name;
-
-            if (!controller[fnName]) {
-                next(new HttpError(500, `failed to invoke ${this.constructor.name} fnName ${fnName}`));
-                return;
-            }
-
-            route.actionName = fnName;
-        }
-
-        let result = controller[fnName](req, res, req.model, route);
-
-        if (result && !res.headersSent) {
-            if (result.then && result.catch) {
-                result.then(data => !res.headersSent && res.send(data))
-                    .catch(e => res.status(500).json({status: 500, statusText: "Internal Server Error"}))
-            } else {
-                res.send(result)
-            }
-        }
-
-
-    };
-
-    protected _checkValidation = (req: IRequest, res: IResponse, next: NextFn) => {
-
-        let data = _.extend({}, req.params, req.query, (req as any).body);
-
-        joi.validate(data, req.route.validations, this._options.validatorOptions, function (e, params) {
-
-            if (e) {
-                next(new HttpError(400, e.toString(), {
-                    status: 400,
-                    statusText: "Bad Request",
-                    error: e.toString(),
-                    code: 400
-                }));
-                return;
-            }
-
-            req.model = params;
-
-            next();
-        });
-    };
 
     public reset() {
         this._routes.length = 0;

@@ -1,5 +1,5 @@
 "use strict";
-import {Controller, controller, define, inject, get, singleton} from '../../../../index';
+import {Controller, controller, get, inject,BadRequestError} from '../../../../index';
 
 
 @controller()
@@ -19,6 +19,15 @@ export class PromiseController extends Controller {
 
 
         throw new Error("not working")
+
+
+    }
+
+    @get("test/promise/no_error")
+    testErrorNoPromise(req, res) {
+
+
+        throw new BadRequestError("not working",{a:1},123)
 
 
     }
