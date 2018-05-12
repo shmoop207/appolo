@@ -202,11 +202,11 @@ You can also define routes using `appolo.route` method:
 import {controller,inject,Controller,IRequest,IResponse} from 'appolo';  
   
 @controller()  
-export class TestController extends Controller{  
-	@inject() dataManager:DataManager  
-	public test (req:IRequest, res:IResponse) {
-		res.send(this.dataManager.getData());  
-	}
+export class TestController extends Controller{
+    @inject() dataManager:DataManager
+    public test (req:IRequest, res:IResponse) {
+        res.send(this.dataManager.getData());
+    }
  }  
   
 app.route<TestController>(TestController)  
@@ -274,8 +274,8 @@ export class LoginController extends StaticController{
     @post("/login/")
     @validation("username", validator.string().required())
     @validation("password", validator.string().required())
-	public aynsc loginUser(req:IRequest,res:IResponse,model:any){
-	    return await this.authManager.validateUser(req.model.username,req.model.password)  
+    public aynsc loginUser(req:IRequest,res:IResponse,model:any){
+        return await this.authManager.validateUser(req.model.username,req.model.password)  
 	}
 }  
 ``` 
@@ -337,12 +337,11 @@ now you can added the middleware to our route
 ```javascript  
 @controller()  
 export class LoginController extends Controller{
-	
-	@post("/someroute/")
-	@middaleware(AuthMiddleware)
-	public async someAction(req:IRequest,res:IResponse){
-		return req.user
-	 } 
+    @post("/someroute/")
+    @middaleware(AuthMiddleware)
+    public async someAction(req:IRequest,res:IResponse){
+        return req.user
+    } 
 }  
 ```  
   
@@ -377,33 +376,36 @@ import {define,singleton,initMethod,inject,IFactory,factory} from 'appolo';
 @define()  
 @singleton()  
 export class DataRemoteManager {
-	getData(){ ...}
+    getData(){ ...}
 }
 //dataManager.ts  
 @define()  
 @singleton()
 @factory()  
 export class DataManager implement IFactory {
-	@inject() dataRemoteManager:DataRemoteManager  
-	get(){ 
-		return this.dataRemoteManager;
+    @inject() dataRemoteManager:DataRemoteManager
+    
+    get(){
+        return this.dataRemoteManager;
 	}
 }    
 //fooController.ts  
 @controller()  
-export class FooController{  
-	@inject() dataManager:DataManager  
-	constructor() {  
-	this.data = null 
-	} 
-	@initMethod()
-	initialize(){  
-		 this.data =  this.dataManager.getData();
-	}
-	@get("/data")
-	getData(){
-		return this.data;
-	}
+export class FooController{
+    @inject() dataManager:DataManager
+    constructor() {
+        this.data = null
+    }
+    
+    @initMethod()
+    initialize(){
+        this.data =  this.dataManager.getData();
+    }
+    
+    @get("/data")
+    getData(){
+        return this.data;
+    }
 }   
 ```  
 You can also use constructor injection or method parameter injection:  
@@ -412,18 +414,20 @@ import {define,singleton,injectParam,initMethod,inject} from 'appolo';
 @define()  
 @singleton()  
 export class DataManager {
-	getData(){ ... }
+    getData(){ ... }
 }  
-@define()  
+@define()
 class FooController{
-	constructor(@injectParam() dataManager:DataManager) {
-		this.dataManager = dataManager; 
-	} 
-	@initMethod() 
-	public initialize(){
-		this.data =  this.dataManager.getData();  
-	 } 
-	 public test(@injectParam() logger:Logger){... }
+    constructor(@injectParam() dataManager:DataManager) {
+        this.dataManager = dataManager;
+    }
+    
+    @initMethod()
+    public initialize(){
+        this.data =  this.dataManager.getData();
+    }
+    
+    public test(@injectParam() logger:Logger){... }
 }  
 ```  
   
@@ -435,55 +439,42 @@ Remember not to use `@define` on the parent class.
 import {define,singleton,injectParam,initMethod,inject} from 'appolo';  
   
 export class BaseManager {
-	@inject() protected env:any
-	private getData(){...}
+    @inject() protected env:any
+    private getData(){...}
 }  
+
 @define()  
 class FooManager extends BaseManager{
-	@initMethod()
-	public initialize(){
-		//the env object in injected from the base class
-		console.log(this.env.test)
-	}
+    @initMethod()
+    public initialize(){
+        //the env object in injected from the base class
+        console.log(this.env.test)
+    }
 }    
 ```   
 ## Event Dispatcher  
 Appolo has a built-in event dispatcher to enable classes to listen to and fire events.  
 Event Dispatcher has the following methods:  
-  
-- `eventDispatcher.on(event,callback,[scope])` add an event listener  
-  - `event` - event name.  
-  - `callback` - callback function that will triggered on event name.  
-  - `scope` - optional, the scope of the `callback` function default: `this`.  
-  
-- `eventDispatcher.un(event,callback,[scope])` - remove an event listener. All the arguments must be `===` to the onces used in the `on` method, or else it won\`t be removed.  
-  - `event` - event name.  
-  - `callback` - callback function.  
-  - `scope` - optional, the scope of the callback function.  
-   
-- `eventDispatcher.fireEvent(event,[arguments])` fireEvent - triggers the callback functions of a given event name  
-  - `eventName` - name of the event  
-  - `arguments` -  all other `arguments` will be passed to the `callback` function  
-  
+    
 ```javascript  
 import {define,singleton,injectParam,initMethod,inject,EventDispatcher} from 'appolo';  
 @define()  
 @singleton()  
 export class FooManager extends EventDispatcher{
-	public notifyUsers(){
-		this.fireEvent('someEventName',{someData:'someData'})  
-	}
+    public notifyUsers(){
+        this.fireEvent('someEventName',{someData:'someData'})
+    }
 }  
 @define()  
 export class FooController {
-	@inject() fooManager:FooManager;
-	@initMethod()
-	public initialize(){
-		this.fooManager.on('someEventName',(data)=>{  
-			this.doSomething(data.someData)
-		},this); 
-	}  
-	doSomething(data){...}  
+    @inject() fooManager:FooManager;
+    @initMethod()
+    public initialize(){
+        this.fooManager.on('someEventName',(data)=>{
+            this.doSomething(data.someData)
+        },this);
+    }
+    doSomething(data){...}  
 }  
 ```  
   
@@ -502,12 +493,12 @@ By default, each module can inject:
 Module example:  
 ```javascript  
 import {App} from 'appolo';  
-export = async function(app:App){  
-	await app.module(async function(env:any,inject:appolo.Injector){
-		let myModuleObject = {data:'test'};  
-		 await toSomeThing();
-		 inject.addObject('myModuleObject',myModuleObject);
-	});  
+export = async function(app:App){
+    await app.module(async function(env:any,inject:appolo.Injector){
+        let myModuleObject = {data:'test'};
+        await toSomeThing();
+        inject.addObject('myModuleObject',myModuleObject);
+    });  
 } 
 ```  
 Now we can inject `myModuleObject` to any class:  
@@ -515,10 +506,10 @@ Now we can inject `myModuleObject` to any class:
 import {define,singleton,initMethod,inject} from 'appolo';  
 @define()
 export  class AuthMiddleware{
-	@inject('myModuleObject') testObject:any
-	public doSomeThing() {
-		return this.testObject.data; //return 'test'  
-	 }
+    @inject('myModuleObject') testObject:any
+    public doSomeThing() {
+        return this.testObject.data; //return 'test'
+    }
 }  
 ```  
   
@@ -529,26 +520,26 @@ loggerModule.js file:
 ```javascript  
 import winston = require('winston');  
 import {App} from 'appolo';  
-export = async function(app:App){  
-	await appolo.module(async function(env:any,inject:appolo.Injector){  
-	    transports = [];
-	    transports.push(new (winston.transports.Console)({  
-			json: false,  
-		    timestamp: true,  
-		    handleExceptions: true  
-		 }));  
-	 let logger = new (winston.Logger)({  transports: transports});  
-	 inject.addObject('logger', logger);});  
+export = async function(app:App){
+    await appolo.module(async function(env:any,inject:appolo.Injector){
+        transports = [];
+        transports.push(new (winston.transports.Console)({
+            json: false,
+            timestamp: true
+        })
+    });
+    let logger = new (winston.Logger)({  transports: transports});
+    inject.addObject('logger', logger);});  
 ```  
 Now we you inject logger anywhere we need it:  
 ```javascript  
 import {define,singleton,initMethod,inject} from 'appolo';  
 @define()  
 export class DataManager{
-	@inject() logger:Logger  
-	public initialize(){
-		this.logger.info("dataManager initialized",{someData:'someData'})
-	}
+    @inject() logger:Logger
+    public initialize(){
+        this.logger.info("dataManager initialized",{someData:'someData'})
+    }
 }  
 ```  
   
@@ -560,11 +551,11 @@ import {define,singleton,injectParam,initMethod,inject,bootstrap,IBootstrap} fro
 @define()  
 @bootstrap()  
 export class Bootstrap implements IBootstrap{
-	@inject() someManager1:SomeManager1
-	public async run(){  
-	 //start your application logic here 
-	 await this.someManager1.doSomeThing();
-	 }
+    @inject() someManager1:SomeManager1
+    public async run(){  
+        //start your application logic here
+        await this.someManager1.doSomeThing();
+    }
 }  
   
 ```  
