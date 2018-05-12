@@ -174,13 +174,13 @@ Each route class has the following methods:
 import {define,inject,Controller,IRequest,IResponse,get,post} from 'appolo';  
   
 @define()  
-export class TestController extends Controller{  
-	@inject() dataManager:DataManager  
-	
-	@get("/test/:userId")  
-	public test (req:IRequest, res:IResponse){
-		return this.dataManager.getData(req.params.userId));  
-	}
+export class TestController extends Controller{
+    @inject() dataManager:DataManager
+    
+    @get("/test/:userId")
+    public test (req:IRequest, res:IResponse){
+        return this.dataManager.getData(req.params.userId));
+    }
 }  
  ``` 
  or you can return response by using `res.send`
@@ -223,18 +223,18 @@ The validator takes request params from `req.param` , `req.query` and `req.body`
 ```javascript  
 import {controller,inject,Controller,IRequest,IResponse,validator,get} from 'appolo';  
 @controller()  
-export class TestController extends Controller{  
-	@inject() dataManager:DataManager  
-	
-	@get("/search/")
-	@validations({  
-		search:validator.string().required(),  
-		pageSize:validator.number().default(20),  
-		page:validator.number().default(1)  
-	 }) 
-	public async search (req:IRequest, res:IResponse,model:any) { 
-		return await this.dataManager.getSearchResults(model.search,model.page,model.pageSize)  
-	}      
+export class TestController extends Controller{
+    @inject() dataManager:DataManager
+    
+    @get("/search/")
+    @validations({
+        search:validator.string().required(),
+        pageSize:validator.number().default(20),
+        page:validator.number().default(1)
+    })
+    public async search (req:IRequest, res:IResponse,model:any) {
+        return await this.dataManager.getSearchResults(model.search,model.page,model.pageSize)
+    }      
 }  
 ```  
 If the request params are not valid, appolo will return a `400 Bad Request` response with detailed validation errors.  
@@ -252,14 +252,14 @@ import {controller,inject,validation,Controller,IRequest,IResponse,validator} fr
   
 @controller()  
 export class LoginController extends Controller{
-	@inject() authManager:AuthManager;
-	
-	@post("/login/")
-	@validation("username", validator.string())
-	@validation("password", validator.string())
-	public async loginUser(req:IRequest,res:IResponse,model:any){
-		return  await this.authManager.validateUser(model.username,model.password)
-	 } 
+    @inject() authManager:AuthManager;
+    
+    @post("/login/")
+    @validation("username", validator.string())
+    @validation("password", validator.string())
+    public async loginUser(req:IRequest,res:IResponse,model:any){
+        return  await this.authManager.validateUser(model.username,model.password)
+    } 
 }  
 ```  
 By default, appolo creates a new controller instance for every request. If you do not need a new controller instance for every request, you can inherit from StaticController which is singleton.  
@@ -269,13 +269,14 @@ import {controller,singleton,inject,lazy,mehtod,path,validation,StaticController
 @singleton()  
 @lazy()  
 export class LoginController extends StaticController{
-	@inject() authManager:AuthManager;  
-    @post("/login/")  
-	@validation("username", validator.string().required())  
-	@validation("password", validator.string().required())
+    @inject() authManager:AuthManager;  
+    
+    @post("/login/")
+    @validation("username", validator.string().required())
+    @validation("password", validator.string().required())
 	public aynsc loginUser(req:IRequest,res:IResponse,model:any){
-		return await this.authManager.validateUser(req.model.username,req.model.password)  
-	 }
+	    return await this.authManager.validateUser(req.model.username,req.model.password)  
+	}
 }  
 ``` 
   
@@ -290,24 +291,23 @@ import {controller,inject,validation,Controller,IRequest,IResponse,validator} fr
   
 @controller()  
 export class LoginController extends Controller{
-	@inject() authManager:AuthManager;
-	
-	@post("/login/")
-	@validation("username", validator.string())
-	@validation("password", validator.string())
-	public async loginUser(req:IRequest,res:IResponse,model:any){
-		try{
-			return  await this.authManager.validateUser(model.username,model.password)
-		catch(e){
-			throw new HttpError(401,"Not Found",e,{key:"value"},1000)
-		}
-	 } 
+    @inject() authManager:AuthManager;
+    @post("/login/")
+    @validation("username", validator.string())
+    @validation("password", validator.string())
+    public async loginUser(req:IRequest,res:IResponse,model:any){
+        try{
+            return  await this.authManager.validateUser(model.username,model.password)
+        }catch(e){
+            throw new HttpError(401,"Not Found",e,{key:"value"},1000)
+        }
+    } 
 }  
 ``` 
 
 ```javascript  
-{  
-	"status": 401, "message": "Not Foundr", "error":"something is wrong", "code":1001,key:"value"
+{
+    "status": 401, "message": "Not Foundr", "error":"something is wrong", "code":1001,key:"value"
 }  
 ```  
   
@@ -320,16 +320,16 @@ Middleware file:
 import {define,inject,Middleware,IRequest,IResponse,NextFn,IRouteOptions} from 'appolo';  
 @define()  
 export class AuthMiddleware extends Middleware {
-	@inject() authManager:AuthManager;
-	public async run(req:appolo.IRequest,res:IResponse,next:NextFn,route:IRouteOptions){
-		try{
-			let user =  await this.authManager.validateToken(req.headers.authorization)
-			req.user = user;
-			next();
-		}catch(e){
-			this.sendUnauthorized();
-		}
-	}
+    @inject() authManager:AuthManager;
+    public async run(req:appolo.IRequest,res:IResponse,next:NextFn,route:IRouteOptions){
+        try{
+            let user =  await this.authManager.validateToken(req.headers.authorization)
+            req.user = user;
+            next();
+        }catch(e){
+            this.sendUnauthorized();
+        }
+    }
 }  
 ```  
   
