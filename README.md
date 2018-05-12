@@ -32,7 +32,8 @@ npm install appolo --save
 	"experimentalDecorators": true
 }  
 ```  
-## Quick Start In your app.js file:  
+## Quick Start 
+In your app.js file:  
 ```javascript  
 var {createApp}  from 'appolo';
 createApp().launch();  
