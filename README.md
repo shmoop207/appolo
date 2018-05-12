@@ -1,4 +1,4 @@
-# Appolo HTTP 
+# Appolo 
 [![Build Status](https://travis-ci.org/shmoop207/appolo.png?branch=master)](https://travis-ci.org/shmoop207/appolo) [![Dependencies status](https://david-dm.org/shmoop207/appolo.png)](https://david-dm.org/shmoop207/appolo) [![NPM version](https://badge.fury.io/js/appolo.svg)](https://badge.fury.io/js/appolo)  [![npm Downloads](https://img.shields.io/npm/dm/wascally.svg?style=flat)](https://www.npmjs.com/package/appolo)   
   ![appolo](https://www.dropbox.com/s/pwdvd6ohb74t7r7/appollo.png?raw=1)
   
