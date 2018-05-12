@@ -73,9 +73,9 @@ git clone https://github.com/shmoop207/appolo-express-boilerplate.git
         |- development.ts
         |- production.ts
     |- middlewares 
-		|- all.ts 
+        |- all.ts 
 	|- modules 
-		|- logger.ts  
+	    |- logger.ts  
 |- src  
     |- controllers 
     |- managers  
@@ -101,13 +101,13 @@ appolo launch configuration options, all options are optional
 ```javascript  
 import {createApp}  from 'appolo';
 (async ()=>{
-	let app = await createApp({  
-		paths:[ 'src'],  
-		root : process.cwd()+'/app',  
-		environment : 'testing',  
-		port:8182 
-	  }).launch();
-  	})();  
+    let app = await createApp({
+        paths:[ 'src'],
+        root : process.cwd()+'/app',
+        environment : 'testing',
+        port:8182
+     }).launch();
+ })();  
 ```  
   
 ## Environments  
@@ -150,12 +150,13 @@ import favicon = require('static-favicon');
 import bodyParser = require("body-parser");  
 import {App,IRequest,IResponse,NextFn}  from 'appolo';
 
-export = function (app: App) {  
-	app.use(bodyParser.json());  
-	app.use(function (req:IRequest, res: IResponse, next: NextFn) {  
-		res.setHeader("Access-Control-Allow-Origin", "*"); next(); 
-	}); 
-	app.use(favicon());}  
+export = function (app: App) {
+    app.use(bodyParser.json());
+    app.use(function (req:IRequest, res: IResponse, next: NextFn) {
+        res.setHeader("Access-Control-Allow-Origin", "*"); 
+        next();
+    });
+    app.use(favicon());}  
 ```  
 ## Routes  
 You can easily bind a route path to a controller method.  
