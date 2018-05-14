@@ -1,11 +1,8 @@
 "use strict";
 
-import path = require('path');
-import _= require('lodash');
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {IMiddleware} from "../interfaces/IMiddleware";
-import {IRequest, IResponse, NextFn,HttpError} from "appolo-agent";
-import {Err} from "joi";
+import {HttpError, IRequest, IResponse, NextFn} from "appolo-agent";
 
 
 export abstract class StaticMiddleware implements IMiddleware {
@@ -29,7 +26,7 @@ export abstract class StaticMiddleware implements IMiddleware {
 
     public sendUnauthorized(next: NextFn, error?: Error, code?: number) {
 
-        this._callNext(next, 403, "Unauthorized", error, code);
+        this._callNext(next, 401, "Unauthorized", error, code);
 
     }
 
@@ -40,7 +37,7 @@ export abstract class StaticMiddleware implements IMiddleware {
 
     protected _callNext(next: NextFn, status: number, statusText: string, error: Error, code: number) {
 
-        let err = new HttpError(status,statusText,error,{},code)
+        let err = new HttpError(status, statusText, error, {}, code)
 
         next(err);
     }

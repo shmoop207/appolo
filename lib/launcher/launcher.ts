@@ -145,13 +145,7 @@ export class Launcher {
             environment: this._engine.env.type
         });
 
-        try {
-            this._engine.injector.get<any>("logger").info(msg);
-        } catch (e) {
-            console.log(msg);
-        }
-
-
+        Util.logger(this._engine.injector).info(msg)
     }
 
 

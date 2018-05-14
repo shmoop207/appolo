@@ -2,7 +2,7 @@ import {IOptions} from "./lib/interfaces/IOptions";
 import * as validator from 'joi';
 import {App} from "./lib/app";
 import {IRequest} from "./lib/interfaces/IRequest";
-import {IResponse, NextFn, MiddlewareHandlerParams, Methods, HttpError,BadRequestError,InternalServerError} from "appolo-agent";
+import {IResponse, NextFn, MiddlewareHandlerParams, Methods, HttpError,BadRequestError,InternalServerError,NotFoundError,UnauthorizedError} from "appolo-agent";
 import {
     factory,
     inject,
@@ -72,7 +72,7 @@ export {IOptions} from "./lib/interfaces/IOptions";
 export {IRequest} from "./lib/interfaces/IRequest";
 export {IRouteOptions} from "./lib/interfaces/IRouteOptions";
 export {RouteModel} from "./lib/routes/routeModel";
-export {IResponse, NextFn, MiddlewareHandlerParams, Methods, HttpError,BadRequestError,InternalServerError}
+export {IResponse, NextFn, MiddlewareHandlerParams, Methods, HttpError,BadRequestError,InternalServerError,NotFoundError,UnauthorizedError}
 
 export function createApp(options?: IOptions): App {
     return new App(options)

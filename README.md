@@ -386,7 +386,7 @@ export class DataManager implement IFactory {
     
     get(){
         return this.dataRemoteManager;
-	}
+    }
 }    
 //fooController.ts  
 @controller()  
@@ -542,7 +542,7 @@ export class DataManager{
 }  
 ```  
   
-## Appolo Bootstrap  
+## Bootstrap  
   
 Once it launched, appolo will try to find an appolo `bootstrap` class and call it's `run` method. Only when the bootstrap is finished, the server will start  
 ```javascript  
@@ -560,7 +560,7 @@ export class Bootstrap implements IBootstrap{
 ```  
   
   
-## Appolo Reset ##  
+## Reset ##  
 You can reset appolo sever by calling `appolo.reset()`. This will clean all environments, config, injector and close the server.  
   
       

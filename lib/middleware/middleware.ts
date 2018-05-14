@@ -30,7 +30,7 @@ export abstract class Middleware {
 
     public sendUnauthorized(error?: Error, code?: number) {
 
-        this._callNext(403, "Unauthorized", error, code);
+        this._callNext(401, "Unauthorized", error, code);
 
     }
 
