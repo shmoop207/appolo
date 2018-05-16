@@ -1,6 +1,6 @@
 "use strict";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
-import {IRequest, IResponse, NextFn,HttpError} from "appolo-agent";
+import {IRequest, IResponse, NextFn,HttpError,BadRequestError,UnauthorizedError,NotFoundError,InternalServerError} from "appolo-agent";
 
 
 export abstract class Middleware {
@@ -20,30 +20,30 @@ export abstract class Middleware {
 
     public sendError(error?: Error, code?: number): void {
 
-        this._callNext(500, "Internal Server Error", error, code);
+        this._callNext( new InternalServerError(error, {}, code));
     }
 
     public sendBadRequest(error?: Error, code?: number) {
 
-        this._callNext(400, "Bad Request", error, code);
+        this._callNext(new BadRequestError(error, {}, code));
     }
 
     public sendUnauthorized(error?: Error, code?: number) {
 
-        this._callNext(401, "Unauthorized", error, code);
+        this._callNext(new UnauthorizedError(error, {}, code));
 
     }
 
     public sendNotFound(error?: Error, code?: number) {
 
-        this._callNext(404, "Not Found", error, code);
+        this._callNext( new NotFoundError(error, {}, code));
     }
 
-    protected _callNext(status: number, statusText: string, error: Error, code: number) {
+    protected _callNext(e:HttpError) {
 
-        let err = new HttpError(status,statusText,error,{},code)
 
-        this.next(err);
+
+        this.next(e);
     }
 
 }

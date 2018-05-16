@@ -2,8 +2,9 @@
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {IRequest, IResponse} from "appolo-agent";
 import {IController} from "./IController";
+import {BadRequestError, InternalServerError, NotFoundError, UnauthorizedError} from "appolo-agent/index";
 
-export abstract class Controller implements IController{
+export abstract class Controller implements IController {
 
     protected req: IRequest;
     protected res: IResponse;
@@ -38,40 +39,21 @@ export abstract class Controller implements IController{
         this.res.status(204).send();
     }
 
-    public sendError(error?, code?) {
-        this.res.status(500).json({
-            status: 500,
-            statusText: "Internal Server Error",
-            error: error ? error.toString() : "",
-            code: code
-        });
+    public sendError(res: IResponse, error?: Error, code?: number, data?: any) {
+
+        throw new InternalServerError(error, data, code)
     }
 
-    public sendBadRequest(error?, code?) {
-        this.res.status(400).json({
-            status: 400,
-            statusText: "Bad Request",
-            error: (error instanceof Error) ? error.toString() : "",
-            code: code
-        });
+    public sendBadRequest(res: IResponse, error?: Error, code?: number, data?: any) {
+        throw new BadRequestError(error, data, code)
     }
 
-    public sendUnauthorized(error?, code?) {
-        this.res.status(401).json({
-            status: 401,
-            statusText: "Unauthorized",
-            error: error ? error.toString() : "",
-            code: code
-        });
+    public sendUnauthorized(res: IResponse, error?: Error, code?: number, data?: any) {
+        throw new UnauthorizedError(error, data, code)
     }
 
-    public sendNotFound(error?, code?) {
-        this.res.status(404).json({
-            status: 404,
-            statusText: "Not Found",
-            error: error ? error.toString() : "",
-            code: code
-        });
+    public sendNotFound(res: IResponse, error?: Error, code?: number, data?: any) {
+        throw new NotFoundError(error, data, code)
     }
 
     public getModel<T>(): T {

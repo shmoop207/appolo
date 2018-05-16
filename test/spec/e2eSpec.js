@@ -165,9 +165,9 @@ describe('Appolo e2e', () => {
         it('should  call auth middleware before controller', async () => {
             let res = await request(app.handle)
                 .get('/test/middleware/auth/');
-            res.should.to.have.status(403);
+            res.should.to.have.status(401);
             should.exist(res.text);
-            res.text.should.be.eq('{"statusCode":403,"message":"Unauthorized","code":201,"error":"Error: NOT AUTHORIZED"}');
+            res.text.should.be.eq('{"statusCode":401,"message":"Unauthorized","code":201,"error":"Error: NOT AUTHORIZED"}');
         });
         it('should  call middleware before controller with class', async () => {
             let res = await request(app.handle)

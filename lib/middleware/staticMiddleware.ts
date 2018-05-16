@@ -3,6 +3,7 @@
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {IMiddleware} from "../interfaces/IMiddleware";
 import {HttpError, IRequest, IResponse, NextFn} from "appolo-agent";
+import {BadRequestError, InternalServerError, NotFoundError, UnauthorizedError} from "appolo-agent/index";
 
 
 export abstract class StaticMiddleware implements IMiddleware {
@@ -16,29 +17,28 @@ export abstract class StaticMiddleware implements IMiddleware {
 
     public sendError(next: NextFn, error?: Error, code?: number): void {
 
-        this._callNext(next, 500, "Internal Server Error", error, code);
+        this._callNext(next, new InternalServerError(error, {}, code));
     }
 
-    public sendBadRequest(next: NextFn, error?: Error, code?: number) {
+    public sendBadRequest(next: NextFn, error?: Error, code?: number,data?:any) {
 
-        this._callNext(next, 400, "Bad Request", error, code);
+        this._callNext(next, new BadRequestError(error, data, code));
     }
 
-    public sendUnauthorized(next: NextFn, error?: Error, code?: number) {
+    public sendUnauthorized(next: NextFn, error?: Error, code?: number,data?:any) {
 
-        this._callNext(next, 401, "Unauthorized", error, code);
+        this._callNext(next, new UnauthorizedError(error, data, code));
 
     }
 
-    public sendNotFound(next: NextFn, error?: Error, code?: number) {
+    public sendNotFound(next: NextFn, error?: Error, code?: number,data?:any) {
 
-        this._callNext(next, 404, "Not Found", error, code);
+        this._callNext(next, new NotFoundError(error, data, code));
     }
 
-    protected _callNext(next: NextFn, status: number, statusText: string, error: Error, code: number) {
+    protected _callNext(next: NextFn, e: HttpError) {
 
-        let err = new HttpError(status, statusText, error, {}, code)
 
-        next(err);
+        next(e);
     }
 }

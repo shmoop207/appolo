@@ -55,11 +55,12 @@ export class Router {
 
         this._convertStrMiddleware(middleware);
 
+        if (!_.isEmpty(def.validations)) {
+            middleware.push(checkValidationMiddleware);
+        }
+
         middleware.push(invokeActionMiddleware);
 
-        if (!_.isEmpty(def.validations)) {
-            middleware.unshift(checkValidationMiddleware);
-        }
 
         for (let i = 0, len = def.path.length; i < len; i++) {
             this._agent.add(def.method[i] || Methods.GET, def.path[i], middleware as MiddlewareHandlerParams[], def);
