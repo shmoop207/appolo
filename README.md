@@ -25,11 +25,18 @@ npm install appolo --save
 ```  
 ## Typescript  
 `appolo` requires TypeScript compiler version > 2.1 and the following settings in `tsconfig.json`:  
-```javascript  
-{  
-	"experimentalDecorators": true
-}  
+```json  
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "es2015"
+  }
+} 
 ```  
+### Notes: 
+- The examples in this README also assume that you set `"module": "commonjs"` but it is not required by appolo.
+- The `"target": "es2015"` is a requirement because appolo is dependant on the `Class` structure. You can obviously set `"target"` to anything higher than `"es2015"` as well.
+
 ## Quick Start 
 In your app.js file:  
 ```javascript  
