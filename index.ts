@@ -22,7 +22,7 @@ import {
     define, singleton,
     EventDispatcher,
     Util,
-    lazy,
+    lazy,override,
     module, Module,
     IEnv,
     IBootstrap,
@@ -53,7 +53,7 @@ export {factory,
     IEnv,
     IBootstrap,
     IFactory,
-    Injector, bootstrap,
+    Injector, bootstrap,override,
     IApp}
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';

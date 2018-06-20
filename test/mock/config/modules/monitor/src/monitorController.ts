@@ -4,6 +4,7 @@ import {IEnv} from "../../../../config/env/IEnv";
 @controller("test/monitor")
 export class MonitorController extends Controller {
 
+
     @inject() env: IEnv;
 
     @get()

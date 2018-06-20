@@ -11,7 +11,7 @@ export abstract class Controller implements IController {
     protected route: IRouteOptions;
     protected action: string | Function;
 
-    protected constructor(req: IRequest, res: IResponse, route: IRouteOptions) {
+    public constructor(req: IRequest, res: IResponse, route: IRouteOptions) {
 
         this.req = req;
         this.res = res;

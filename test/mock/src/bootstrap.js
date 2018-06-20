@@ -15,7 +15,8 @@ tslib_1.__decorate([
 Bootstrap = tslib_1.__decorate([
     index_1.define(),
     index_1.bootstrap(),
-    index_1.singleton()
+    index_1.singleton(),
+    index_1.override()
 ], Bootstrap);
 exports.Bootstrap = Bootstrap;
 //# sourceMappingURL=bootstrap.js.map

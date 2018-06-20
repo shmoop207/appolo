@@ -31,6 +31,7 @@ exports.singleton = appolo_engine_1.singleton;
 exports.EventDispatcher = appolo_engine_1.EventDispatcher;
 exports.Util = appolo_engine_1.Util;
 exports.lazy = appolo_engine_1.lazy;
+exports.override = appolo_engine_1.override;
 exports.module = appolo_engine_1.module;
 exports.Module = appolo_engine_1.Module;
 exports.Injector = appolo_engine_1.Injector;
