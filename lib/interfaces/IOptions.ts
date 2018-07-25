@@ -9,6 +9,7 @@ export interface IOptions extends IEngineOptions {
     environment?: string
     errorStack?: boolean
     errorMessage?: boolean
+    decodeUrlParams?:boolean
     maxRouteCache?: number
     qsParser?: "qs" | "querystring"
     urlParser?: "url" | "fast"
