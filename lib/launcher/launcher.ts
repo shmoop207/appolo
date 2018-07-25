@@ -23,7 +23,7 @@ let Defaults: IOptions = {
     urlParser: "fast",
     viewExt: "html",
     viewEngine: null,
-    viewFolder: "server/views",
+    viewFolder: "src/views",
     validatorOptions: {
         abortEarly: false,
         allowUnknown: true,
