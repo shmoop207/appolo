@@ -14,6 +14,7 @@ export interface IOptions extends IEngineOptions {
     qsParser?: "qs" | "querystring"
     urlParser?: "url" | "fast"
     viewFolder?: string
+    viewCache?: boolean
     viewEngine?: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>;
     viewExt?: string
     ssl?: {

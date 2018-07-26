@@ -4,7 +4,7 @@ import    _path = require('path');
 import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
 import {IApp as IViewApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
-import {App as AppEngine, IClass, Define, IApp as IEngineApp, IEnv, Injector} from "appolo-engine";
+import {Define, IApp as IEngineApp, IClass, IEnv, Injector} from "appolo-engine";
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Launcher} from "./launcher/launcher";
 import {Route} from "./routes/route";
@@ -71,9 +71,10 @@ export class App implements IViewApp, IEngineApp {
         return this._launcher.engine.module(...moduleFn)
     }
 
-    public viewEngine(fn: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>, ext: string = "html"): void {
+    public viewEngine(fn: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>, ext: string = "html", cache: boolean = true): void {
         this._launcher.options.viewEngine = fn;
         this._launcher.options.viewExt = ext;
+        this._launcher.options.viewCache = cache;
     }
 
     public set(name: keyof IOptions, value: any) {
