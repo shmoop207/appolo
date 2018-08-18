@@ -15,7 +15,7 @@ let child, instance;
             console.log("running fastify");
             break;
         default:
-            console.log("running appolo-http");
+            console.log("running appolo");
             child = child_process_1.exec('node ./benchmarks/mock/app.js');
     }
     child.stdout.on('data', function (data) {

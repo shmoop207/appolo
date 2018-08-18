@@ -18,7 +18,7 @@ let child: ChildProcess, instance;
 
             break;
         default:
-            console.log("running appolo-http");
+            console.log("running appolo");
 
             child = exec('node ./benchmarks/mock/app.js');
     }

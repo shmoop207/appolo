@@ -2,35 +2,59 @@ import {IOptions} from "./lib/interfaces/IOptions";
 import * as validator from 'joi';
 import {App} from "./lib/app";
 import {IRequest} from "./lib/interfaces/IRequest";
-import {IResponse, NextFn, MiddlewareHandlerParams, Methods, HttpError,BadRequestError,InternalServerError,NotFoundError,UnauthorizedError} from "appolo-agent";
 import {
-    factory,
-    inject,
-    initMethod,
-    injectParam,
-    injectFactory,
-    injectFactoryMethod,
+    BadRequestError,
+    HttpError,
+    InternalServerError,
+    IResponse,
+    Methods,
+    MiddlewareHandlerParams,
+    NextFn,
+    NotFoundError,
+    UnauthorizedError
+} from "appolo-agent";
+import {
     alias,
     aliasFactory,
-    injectValue,
-    injectObjectProperty,
-    injectDictionary,
-    injectArray,
+    bind,
+    bootstrap,
+    cache,
+    debounce,
+    define,
+    delay,
+    interval,
+    throttle,
+    once,
+    EventDispatcher,
+    factory,
+    IApp,
+    IBootstrap,
+    IEnv,
+    IFactory,
+    initMethod,
+    inject,
     injectAlias,
     injectAliasFactory,
+    injectArray,
+    injectDictionary,
+    injectFactory,
+    injectFactoryMethod,
+    injectObjectProperty,
+    Injector,
+    injectParam,
+    injectValue,
     IParamInject,
-    define, singleton,
-    EventDispatcher,
-    Util,
-    lazy,override,
-    module, Module,
-    IEnv,
-    IBootstrap,
-    IFactory,
-    Injector, bootstrap,
-    IApp
+    lazy,
+    mixins,
+    module,
+    Module,
+    override,
+    singleton,
+    Util
 } from 'appolo-engine';
-export {factory,
+
+export {
+    factory,
     inject,
     initMethod,
     injectParam,
@@ -53,8 +77,9 @@ export {factory,
     IEnv,
     IBootstrap,
     IFactory,
-    Injector, bootstrap,override,
-    IApp}
+    Injector, bootstrap, override,
+    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache
+}
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';
 export {StaticController} from './lib/controller/staticController';
@@ -72,7 +97,17 @@ export {IOptions} from "./lib/interfaces/IOptions";
 export {IRequest} from "./lib/interfaces/IRequest";
 export {IRouteOptions} from "./lib/interfaces/IRouteOptions";
 export {RouteModel} from "./lib/routes/routeModel";
-export {IResponse, NextFn, MiddlewareHandlerParams, Methods, HttpError,BadRequestError,InternalServerError,NotFoundError,UnauthorizedError}
+export {
+    IResponse,
+    NextFn,
+    MiddlewareHandlerParams,
+    Methods,
+    HttpError,
+    BadRequestError,
+    InternalServerError,
+    NotFoundError,
+    UnauthorizedError
+}
 
 export function createApp(options?: IOptions): App {
     return new App(options)
