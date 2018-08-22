@@ -24,6 +24,9 @@ let ValidationParamController = class ValidationParamController extends index_1.
     validation2(req, res, model, route) {
         res.json({ test: model.test, id: model.id, name: this.constructor.name });
     }
+    validation3(req, res, model, route) {
+        res.json({ test: model.test, id: model.id, name: this.constructor.name, working: req.model.working });
+    }
 };
 tslib_1.__decorate([
     index_1.get('/test/validations/param'),
@@ -33,6 +36,14 @@ tslib_1.__decorate([
     index_1.get('/test/validations/param2'),
     index_1.validation(Validation2Model)
 ], ValidationParamController.prototype, "validation2", null);
+tslib_1.__decorate([
+    index_1.post('/test/validations/param2'),
+    index_1.validation(Validation2Model),
+    index_1.middleware((function (req, res, next) {
+        req.model.working = "true";
+        next();
+    }))
+], ValidationParamController.prototype, "validation3", null);
 ValidationParamController = tslib_1.__decorate([
     index_1.controller()
 ], ValidationParamController);

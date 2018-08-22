@@ -811,6 +811,23 @@ describe('Appolo e2e', () => {
             res.body.name.should.be.eq("ValidationParamController");
         });
 
+        it.only('should call validations param inherit with post', async () => {
+
+            let res = await request(app.handle)
+                .post('/test/validations/param2').send("test=aaa&test2=2&id=www");
+
+
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+
+            should.exist(res.body);
+
+            res.body.test.should.be.eq("aaa");
+            res.body.id.should.be.eq("www");
+            res.body.working.should.be.ok;
+            res.body.name.should.be.eq("ValidationParamController");
+        });
+
     });
 
     describe('json', function () {

@@ -2,9 +2,11 @@
 import {
     controller,
     Controller,
+    get,
     IRequest,
     IResponse,
-    get,
+    middleware,
+    post,
     validation,
     validationParam,
     validator
@@ -43,6 +45,18 @@ export class ValidationParamController extends Controller {
 
 
         res.json({test: model.test, id: model.id, name: this.constructor.name})
+    }
+
+    @post('/test/validations/param2')
+    @validation(Validation2Model)
+    @middleware((function (req, res, next) {
+        req.model.working = "true"
+        next()
+    }))
+    public validation3(req: IRequest, res: IResponse, model: Validation2Model, route) {
+
+
+        res.json({test: model.test, id: model.id, name: this.constructor.name, working: req.model.working})
     }
 }
 

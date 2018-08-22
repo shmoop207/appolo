@@ -56,7 +56,7 @@ export class Router {
         this._convertStrMiddleware(middleware);
 
         if (!_.isEmpty(def.validations)) {
-            middleware.push(checkValidationMiddleware);
+            middleware.unshift(checkValidationMiddleware);
         }
 
         middleware.push(invokeActionMiddleware);
