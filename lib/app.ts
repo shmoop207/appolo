@@ -5,6 +5,8 @@ import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
 import {IApp as IViewApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
 import {Define, IApp as IEngineApp, IClass, IEnv, Injector} from "appolo-engine";
+import {Context, namespace} from "appolo-context";
+
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Launcher} from "./launcher/launcher";
 import {Route} from "./routes/route";
@@ -13,6 +15,9 @@ import {Controller} from "./controller/controller";
 import {StaticController} from "./controller/staticController";
 import {IResponse} from "./interfaces/IResponse";
 import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
+import {IRequest} from "./interfaces/IRequest";
+import {NextFn} from "appolo-agent/index";
+import {RequestContextSymbol} from "./interfaces/IMiddleware";
 
 export class App implements IViewApp, IEngineApp {
 
@@ -23,7 +28,9 @@ export class App implements IViewApp, IEngineApp {
 
         this._launcher = new Launcher(options);
 
-        this._launcher.engine.injector.addObject("app", this, true);
+        this.injector.addObject("app", this, true);
+
+
         this._launcher.agent.requestApp = this;
     }
 
@@ -50,7 +57,7 @@ export class App implements IViewApp, IEngineApp {
 
     public async launch(): Promise<App> {
 
-        await  this._launcher.launch();
+        await this._launcher.launch();
 
 
         return this;
@@ -58,6 +65,21 @@ export class App implements IViewApp, IEngineApp {
 
     public get options(): IOptions {
         return this._launcher.options
+    }
+
+    public enableContext(contextCtr?: typeof Context) {
+
+        let context = namespace.create(RequestContextSymbol, contextCtr);
+
+        this.injector.addObject("context", context);
+
+        context.initialize();
+
+        this.use((req: IRequest, res: IResponse, next: NextFn) => context.scope(next))
+    }
+
+    public getContext() {
+        return namespace.get(RequestContextSymbol);
     }
 
 

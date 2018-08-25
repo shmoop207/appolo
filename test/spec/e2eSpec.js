@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai = require("chai");
 const request = require("supertest");
+const Q = require("bluebird");
 const index_1 = require("../../index");
 const defineController_1 = require("../mock/src/controllers/defineController");
 const envController_1 = require("../mock/src/controllers/envController");
@@ -514,7 +515,7 @@ describe('Appolo e2e', () => {
             res.body.id.should.be.eq("www");
             res.body.name.should.be.eq("ValidationParamController");
         });
-        it.only('should call validations param inherit with post', async () => {
+        it('should call validations param inherit with post', async () => {
             let res = await request(app.handle)
                 .post('/test/validations/param2').send("test=aaa&test2=2&id=www");
             res.should.to.have.status(200);
@@ -630,16 +631,30 @@ describe('Appolo e2e', () => {
             res.body.working.should.be.eq("working1working2working3fromTest2");
         });
     });
+    describe('context', function () {
+        it('should get context from manager', async () => {
+            let res = await request(app.handle)
+                .get('/test/context?userName=bla');
+            res.should.to.have.status(200);
+            res.body.userName.should.be.eq("bla");
+        });
+        it('should get context from manager parallel', async () => {
+            let [res, res2] = await Q.all([request(app.handle).get('/test/context?userName=bla'), request(app.handle).get('/test/context?userName=foo')]);
+            res.should.to.have.status(200);
+            res.body.userName.should.be.eq("bla");
+            res2.body.userName.should.be.eq("foo");
+        });
+    });
     describe('simple mode', function () {
         it('should handel simple mode request', async () => {
-            let app = await index_1.createApp().get("test/simple", function (req, res) {
+            let app2 = await index_1.createApp().get("test/simple", function (req, res) {
                 res.send("ok");
             }).launch();
-            let res = await request(app.handle)
+            let res = await request(app2.handle)
                 .get('/test/simple?test=11');
             res.should.to.have.status(200);
             res.text.should.be.eq("ok");
-            await app.reset();
+            await app2.reset();
         });
     });
 });

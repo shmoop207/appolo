@@ -1,6 +1,7 @@
 import {IOptions} from "./lib/interfaces/IOptions";
 import * as validator from 'joi';
 import {App} from "./lib/app";
+import {Context} from "appolo-context";
 import {IRequest} from "./lib/interfaces/IRequest";
 import {
     BadRequestError,
@@ -22,9 +23,6 @@ import {
     debounce,
     define,
     delay,
-    interval,
-    throttle,
-    once,
     EventDispatcher,
     factory,
     IApp,
@@ -43,13 +41,16 @@ import {
     Injector,
     injectParam,
     injectValue,
+    interval,
     IParamInject,
     lazy,
     mixins,
     module,
     Module,
+    once,
     override,
     singleton,
+    throttle,
     Util
 } from 'appolo-engine';
 
@@ -85,6 +86,7 @@ export {Controller} from './lib/controller/controller';
 export {StaticController} from './lib/controller/staticController';
 export * from './lib/decorators/decorators'
 
+export {Context}
 export {Middleware} from './lib/middleware/middleware';
 export {StaticMiddleware} from './lib/middleware/staticMiddleware';
 export {App} from './lib/app';

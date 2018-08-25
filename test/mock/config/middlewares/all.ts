@@ -4,9 +4,13 @@ import    serve = require('serve-static');
 import    path = require('path');
 import cookieParser = require('cookie-parser');
 import consolidate = require('consolidate');
+import {IEnv} from "../env/IEnv";
 
 
-export = function (app: appolo.App) {
+export = function (app: appolo.App,env:IEnv) {
+
+    app.enableContext();
+
     app.use(bodyParser.urlencoded({
         extended: true,
         parameterLimit: 10000,

@@ -1,5 +1,6 @@
 import * as chai from 'chai';
 import * as request from 'supertest';
+import * as Q from 'bluebird';
 import {App, createApp, Methods, validator} from '../../index';
 import {DefineController} from "../mock/src/controllers/defineController";
 import {EnvController} from "../mock/src/controllers/envController";
@@ -811,7 +812,7 @@ describe('Appolo e2e', () => {
             res.body.name.should.be.eq("ValidationParamController");
         });
 
-        it.only('should call validations param inherit with post', async () => {
+        it('should call validations param inherit with post', async () => {
 
             let res = await request(app.handle)
                 .post('/test/validations/param2').send("test=aaa&test2=2&id=www");
@@ -994,22 +995,51 @@ describe('Appolo e2e', () => {
 
     });
 
+    describe('context', function () {
+        it('should get context from manager', async () => {
+
+
+            let res = await request(app.handle)
+                .get('/test/context?userName=bla');
+
+            res.should.to.have.status(200);
+
+            res.body.userName.should.be.eq("bla");
+
+        });
+
+        it('should get context from manager parallel', async () => {
+
+
+            let [res,res2] = await Q.all([request(app.handle).get('/test/context?userName=bla'), request(app.handle).get('/test/context?userName=foo')]);
+
+            res.should.to.have.status(200);
+
+            res.body.userName.should.be.eq("bla");
+
+            res2.body.userName.should.be.eq("foo");
+
+        });
+    });
+
     describe('simple mode', function () {
         it('should handel simple mode request', async () => {
 
-            let app = await createApp().get("test/simple", function (req, res) {
+            let app2 = await createApp().get("test/simple", function (req, res) {
                 res.send("ok")
             }).launch();
 
 
-            let res = await request(app.handle)
+            let res = await request(app2.handle)
                 .get('/test/simple?test=11');
 
             res.should.to.have.status(200);
 
             res.text.should.be.eq("ok");
 
-            await app.reset();
+            await app2.reset();
         });
     });
+
+
 });
