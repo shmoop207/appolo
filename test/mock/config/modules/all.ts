@@ -5,6 +5,10 @@ import {App} from "../../../../index";
 import {MonitorModule} from "./monitor/monitorModule";
 
 export = async function (env, app: App) {
+
+    app.enableContext();
+
+
     await app.module(logger)
 
     await app.module(logger2({test: 'test'}))

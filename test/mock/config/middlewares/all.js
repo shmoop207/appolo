@@ -5,7 +5,6 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const consolidate = require("consolidate");
 module.exports = function (app, env) {
-    app.enableContext();
     app.use(bodyParser.urlencoded({
         extended: true,
         parameterLimit: 10000,

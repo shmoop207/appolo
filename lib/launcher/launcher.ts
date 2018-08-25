@@ -73,9 +73,10 @@ export class Launcher {
 
         this._engine.plugin((fn: Function) => this._addRoute(fn));
 
+        await this._engine.launch();
+
         await this.loadCustomConfigurations();
 
-        await this._engine.launch();
 
         this._router.initialize();
 

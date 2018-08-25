@@ -104,6 +104,7 @@ export class App implements IViewApp, IEngineApp {
     }
 
     public async reset() {
+        namespace.delete(RequestContextSymbol)
         await this._launcher.reset();
     }
 

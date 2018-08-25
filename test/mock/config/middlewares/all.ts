@@ -9,7 +9,6 @@ import {IEnv} from "../env/IEnv";
 
 export = function (app: appolo.App,env:IEnv) {
 
-    app.enableContext();
 
     app.use(bodyParser.urlencoded({
         extended: true,
