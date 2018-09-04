@@ -3,7 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 const compression = require("compression");
+const Q = require("bluebird");
 let GzipController = class GzipController extends index_1.Controller {
+    async gzipAsync(req, res) {
+        await Q.delay(10);
+        res.gzip().json({ working: true });
+    }
     gzip(req, res) {
         res.gzip().json({ working: true });
     }
@@ -14,6 +19,9 @@ let GzipController = class GzipController extends index_1.Controller {
 tslib_1.__decorate([
     index_1.inject()
 ], GzipController.prototype, "manager", void 0);
+tslib_1.__decorate([
+    index_1.get('/test/gzip_async')
+], GzipController.prototype, "gzipAsync", null);
 tslib_1.__decorate([
     index_1.get('/test/gzip')
 ], GzipController.prototype, "gzip", null);

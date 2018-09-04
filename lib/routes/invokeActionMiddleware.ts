@@ -40,7 +40,7 @@ export function invokeActionMiddleware(req: IRequest, res: IResponse, next: Next
         }
 
         result
-            .then(data => !res.headersSent && res.send(data))
+            .then(data => (!res.headersSent && !res.sending) && res.send(data))
             .catch(e => next(_handleError(e, res)));
 
     } catch (e) {
