@@ -4,7 +4,15 @@ import    _path = require('path');
 import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
 import {IApp as IViewApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
-import {Define, IApp as IEngineApp, IClass, IEnv, Injector} from "appolo-engine";
+import {
+    Define,
+    EventDispatcher,
+    Events as EngineEvents,
+    IApp as IEngineApp,
+    IClass,
+    IEnv,
+    Injector
+} from "appolo-engine";
 import {Context, namespace} from "appolo-context";
 
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
@@ -18,13 +26,14 @@ import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
 import {IRequest} from "./interfaces/IRequest";
 import {NextFn} from "appolo-agent/index";
 import {RequestContextSymbol} from "./interfaces/IMiddleware";
+import * as Events from "events";
 
-export class App implements IViewApp, IEngineApp {
+export class App extends EventDispatcher implements IViewApp, IEngineApp {
 
     private _launcher: Launcher;
 
-
     constructor(options: IOptions) {
+        super();
 
         this._launcher = new Launcher(options);
 
@@ -171,5 +180,20 @@ export class App implements IViewApp, IEngineApp {
 
     public handle = (request: http.IncomingMessage, response: http.ServerResponse) => {
         this._launcher.agent.handle(request, response)
+    }
+
+    public on(event: Events | string, fn: (...args: any[]) => any, scope?: any, once?: boolean): void {
+        event in EngineEvents
+            ? this._launcher.engine.on(event, fn, scope, once)
+            : super.on(event.toString(), fn, scope, once)
+        
+    }
+
+    public once(event: Events | string, fn?: (...args: any[]) => any, scope?: any): Promise<any> | void {
+        if (event in EngineEvents) {
+            this._launcher.engine.once(event, fn, scope)
+        } else {
+            super.once(event.toString(), fn, scope)
+        }
     }
 }
