@@ -1,9 +1,7 @@
 import    http = require('http');
 import    https = require('https');
-import    _path = require('path');
-import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
-import {IApp as IViewApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
+import {Events as AgentEvents, IApp as IAgentApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
 import {
     Define,
     EventDispatcher,
@@ -26,9 +24,9 @@ import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
 import {IRequest} from "./interfaces/IRequest";
 import {NextFn} from "appolo-agent/index";
 import {RequestContextSymbol} from "./interfaces/IMiddleware";
-import * as Events from "events";
+import {Events} from "./interfaces/events";
 
-export class App extends EventDispatcher implements IViewApp, IEngineApp {
+export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
     private _launcher: Launcher;
 
@@ -46,23 +44,6 @@ export class App extends EventDispatcher implements IViewApp, IEngineApp {
     public static create(options: IOptions): App {
         return new App(options);
     };
-
-    render(path: string | string[], params?: any, res?: IResponse): Promise<string> {
-
-        if (!res) {
-            return this._launcher.agent.render(path, params);
-        }
-
-        if (!path) {
-            path = _path.resolve(this._launcher.options.root, "src/controllers", res.req.route.controllerName, res.req.route.actionName);
-        }
-        let paths = _.isArray(path) ? path : [path];
-
-        if (_.isString(path)) {
-            paths.push(_path.resolve(this._launcher.options.root, "src/controllers", res.req.route.controllerName, path))
-        }
-        return this._launcher.agent.render(paths, params)
-    }
 
     public async launch(): Promise<App> {
 
@@ -183,17 +164,27 @@ export class App extends EventDispatcher implements IViewApp, IEngineApp {
     }
 
     public on(event: Events | string, fn: (...args: any[]) => any, scope?: any, once?: boolean): void {
-        event in EngineEvents
-            ? this._launcher.engine.on(event, fn, scope, once)
-            : super.on(event.toString(), fn, scope, once)
-        
+        if (event in EngineEvents) {
+            this._launcher.engine.on(event as EngineEvents, fn, scope, once)
+        } else if (event in AgentEvents) {
+            this._launcher.agent.on(event as AgentEvents, fn, scope, once)
+        } else {
+            super.once(event.toString(), fn, scope)
+        }
+
     }
 
     public once(event: Events | string, fn?: (...args: any[]) => any, scope?: any): Promise<any> | void {
         if (event in EngineEvents) {
-            this._launcher.engine.once(event, fn, scope)
+            this._launcher.engine.once(event as EngineEvents, fn, scope)
+        } else if (event in AgentEvents) {
+            this._launcher.agent.once(event as AgentEvents, fn, scope)
         } else {
             super.once(event.toString(), fn, scope)
         }
+    }
+
+    public decorate(fn: (req: http.IncomingMessage, res: http.ServerResponse, app: App, inject: Injector) => void) {
+        this._launcher.agent.decorate((req, res) => fn(req, res, this.constructor.prototype, this.injector.constructor.prototype))
     }
 }

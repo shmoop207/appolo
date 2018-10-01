@@ -11,6 +11,7 @@ import {RouterControllerSymbol, RouterDefinitionsClassSymbol, RouterDefinitionsS
 import {Route} from "../routes/route";
 import {IController} from "../controller/IController";
 import {Util} from "../util/util";
+import {decorate} from "../routes/decorate";
 
 
 let Defaults: IOptions = {
@@ -33,11 +34,11 @@ let Defaults: IOptions = {
 
 export class Launcher {
 
-    private _engine: Engine;
-    private _agent: Agent;
-    private _options: IOptions;
-    private _port: number;
-    private _router: Router;
+    private readonly _engine: Engine;
+    private readonly _agent: Agent;
+    private readonly _options: IOptions;
+    private readonly _port: number;
+    private readonly _router: Router;
 
     constructor(options: IOptions) {
 
@@ -47,6 +48,8 @@ export class Launcher {
         this._agent = new Agent(this._options);
         this._port = this._getPort();
         this._engine.injector.addObject("httpServer", this._agent.server);
+
+        this._agent.decorate(decorate);
 
         this._router = new Router(this._engine.env, this._engine.injector, this._options, this._agent);
 

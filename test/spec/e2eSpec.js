@@ -617,7 +617,7 @@ describe('Appolo e2e', () => {
             res.header["content-type"].should.be.eq('text/html;charset=utf-8');
             res.text.should.be.eq("hello 11");
         });
-        it('should render view', async () => {
+        it('should render view with path', async () => {
             let res = await request(app.handle)
                 .get('/test/view2?test=11');
             res.should.to.have.status(200);
