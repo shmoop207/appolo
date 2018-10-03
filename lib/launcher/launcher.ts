@@ -1,6 +1,6 @@
 "use strict";
 
-import {App as Engine} from 'appolo-engine';
+import {App as Engine, Events as EngineEvents} from 'appolo-engine';
 import {Agent} from 'appolo-agent';
 
 import {Router} from '../routes/router';
@@ -12,6 +12,8 @@ import {Route} from "../routes/route";
 import {IController} from "../controller/IController";
 import {Util} from "../util/util";
 import {decorate} from "../routes/decorate";
+import {App} from "../app";
+import {Plugin} from "../interfaces/IDefinition";
 
 
 let Defaults: IOptions = {
@@ -39,8 +41,10 @@ export class Launcher {
     private readonly _options: IOptions;
     private readonly _port: number;
     private readonly _router: Router;
+    private _plugins: { plugin: Plugin, options: any }[] = [];
 
-    constructor(options: IOptions) {
+
+    constructor(options: IOptions, private _app: App) {
 
         this._options = _.defaults({}, options, Defaults);
 
@@ -74,12 +78,13 @@ export class Launcher {
 
     public async launch(): Promise<void> {
 
-        this._engine.plugin((fn: Function) => this._addRoute(fn));
+        this._engine.on(EngineEvents.InjectRegister, this._addRoute, this);
+
+        this._app.on(EngineEvents.ModuleExport, this._addRoute, this);
 
         await this._engine.launch();
 
         await this.loadCustomConfigurations();
-
 
         this._router.initialize();
 
@@ -157,32 +162,17 @@ export class Launcher {
 
         await this._agent.close();
         this._engine.reset();
+        this._app = null;
 
+        this._plugins.length = 0;
 
-        //     super.reset(isSoftReset);
-        //
-        //     if (!isSoftReset) {
-        //
-        //         _.forEach(this.cachedRequire, (filePath) => delete require.cache[filePath]);
-        //
-        //         router.reset();
-        //     }
-        //
-        //     this.cachedRequire.length = 0;
-        //     this._options = null;
-        //
-        //     try {
-        //         this._server.close();
-        //     } catch (e) {
-        //         console.log("failed to close server", e)
-        //     }
-        //
         process.removeAllListeners();
     }
 
-    //
-    // public softReset() {
-    //     this.reset(true)
-    // }
+    public plugin(plugin: Plugin, options: any) {
+        this._plugins.push({plugin, options});
+    }
+
+
 }
 

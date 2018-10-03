@@ -25,6 +25,7 @@ import {IRequest} from "./interfaces/IRequest";
 import {NextFn} from "appolo-agent/index";
 import {RequestContextSymbol} from "./interfaces/IMiddleware";
 import {Events} from "./interfaces/events";
+import {Plugin} from "./interfaces/IDefinition";
 
 export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
@@ -33,7 +34,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     constructor(options: IOptions) {
         super();
 
-        this._launcher = new Launcher(options);
+        this._launcher = new Launcher(options, this);
 
         this.injector.addObject("app", this, true);
 
@@ -169,7 +170,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         } else if (event in AgentEvents) {
             this._launcher.agent.on(event as AgentEvents, fn, scope, once)
         } else {
-            super.once(event.toString(), fn, scope)
+            super.on(event.toString(), fn, scope)
         }
 
     }
@@ -184,7 +185,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         }
     }
 
-    public decorate(fn: (req: http.IncomingMessage, res: http.ServerResponse, app: App, inject: Injector) => void) {
-        this._launcher.agent.decorate((req, res) => fn(req, res, this.constructor.prototype, this.injector.constructor.prototype))
+    public plugin(plugin: Plugin, options: any) {
+        this._launcher.plugin(plugin, options);
     }
 }

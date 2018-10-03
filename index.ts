@@ -29,6 +29,7 @@ import {
     IBootstrap,
     IEnv,
     IFactory,
+    IModuleOptions,
     initMethod,
     inject,
     injectAlias,
@@ -79,7 +80,7 @@ export {
     IBootstrap,
     IFactory,
     Injector, bootstrap, override,
-    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache
+    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions
 }
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';
