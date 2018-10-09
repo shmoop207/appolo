@@ -46,6 +46,7 @@ exports.override = appolo_engine_1.override;
 exports.singleton = appolo_engine_1.singleton;
 exports.throttle = appolo_engine_1.throttle;
 exports.Util = appolo_engine_1.Util;
+exports.injectLazy = appolo_engine_1.injectLazy;
 var route_1 = require("./lib/routes/route");
 exports.Route = route_1.Route;
 var controller_1 = require("./lib/controller/controller");

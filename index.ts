@@ -52,7 +52,7 @@ import {
     override,
     singleton,
     throttle,
-    Util
+    Util,injectLazy
 } from 'appolo-engine';
 
 export {
@@ -80,7 +80,7 @@ export {
     IBootstrap,
     IFactory,
     Injector, bootstrap, override,
-    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions
+    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions,injectLazy
 }
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';
