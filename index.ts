@@ -3,11 +3,11 @@ import * as validator from 'joi';
 import {App} from "./lib/app";
 import {Context} from "appolo-context";
 import {IRequest} from "./lib/interfaces/IRequest";
+import {IResponse} from "./lib/interfaces/IResponse";
 import {
     BadRequestError,
     HttpError,
     InternalServerError,
-    IResponse,
     Methods,
     MiddlewareHandlerParams,
     NextFn,

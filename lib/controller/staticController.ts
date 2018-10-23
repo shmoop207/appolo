@@ -2,12 +2,12 @@
 import {
     BadRequestError,
     InternalServerError,
-    IRequest,
-    IResponse,
     NotFoundError,
     UnauthorizedError
 } from "appolo-agent";
 import {IController} from "./IController";
+import {IResponse} from "../interfaces/IResponse";
+import {IRequest} from "../interfaces/IRequest";
 
 export abstract class StaticController implements IController {
 

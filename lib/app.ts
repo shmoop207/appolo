@@ -164,11 +164,11 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         this._launcher.agent.handle(request, response)
     }
 
-    public on(event: Events | string, fn: (...args: any[]) => any, scope?: any, once?: boolean): void {
+    public on(event: Events | string, fn: (...args: any[]) => any, scope?: any): void {
         if (event in EngineEvents) {
-            this._launcher.engine.on(event as EngineEvents, fn, scope, once)
+            this._launcher.engine.on(event as EngineEvents, fn, scope)
         } else if (event in AgentEvents) {
-            this._launcher.agent.on(event as AgentEvents, fn, scope, once)
+            this._launcher.agent.on(event as AgentEvents, fn, scope)
         } else {
             super.on(event.toString(), fn, scope)
         }

@@ -1,5 +1,7 @@
 import {IRouteOptions} from "./IRouteOptions";
-import {IRequest, IResponse, NextFn} from "appolo-agent";
+import { NextFn} from "appolo-agent";
+import {IRequest} from "./IRequest";
+import {IResponse} from "./IResponse";
 
 
 export interface IMiddleware {

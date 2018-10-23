@@ -2,7 +2,7 @@
 import    _ = require('lodash');
 import {Controller} from '../controller/controller';
 import {IEnv, Injector} from "appolo-engine";
-import {Agent, HttpError, IResponse, Methods, MiddlewareHandlerParams, NextFn} from "appolo-agent";
+import {Agent, HttpError, Methods, MiddlewareHandlerParams, NextFn} from "appolo-agent";
 import {IMiddleware, IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {Route} from "./route";
 import {IController} from "../controller/IController";
@@ -10,6 +10,7 @@ import {IOptions} from "../interfaces/IOptions";
 import {IRequest} from "../interfaces/IRequest";
 import {invokeActionMiddleware} from "./invokeActionMiddleware";
 import {checkValidationMiddleware} from "./checkValidationMiddleware";
+import {IResponse} from "../interfaces/IResponse";
 
 
 export class Router {

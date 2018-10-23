@@ -1,11 +1,13 @@
 "use strict";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
-import {IRequest, IResponse, NextFn,HttpError,BadRequestError,UnauthorizedError,NotFoundError,InternalServerError} from "appolo-agent";
+import {NextFn,HttpError,BadRequestError,UnauthorizedError,NotFoundError,InternalServerError} from "appolo-agent";
+import {IRequest} from "../interfaces/IRequest";
+import {IResponse} from "../interfaces/IResponse";
 
 
 export abstract class Middleware {
 
-    protected req: IRequest;
+    protected req: IRequest
     protected res: IResponse;
     protected next: NextFn;
     protected route: IRouteOptions;
