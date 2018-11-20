@@ -7,12 +7,16 @@ let child, instance;
 (async function () {
     switch (process.env.TYPE) {
         case "express":
-            child = child_process_1.exec('node ./benchmarks/express.js');
             console.log("running express");
+            child = child_process_1.exec('node ./benchmarks/express.js');
             break;
         case "fastify":
-            child = child_process_1.exec('node ./benchmarks/fastify.js');
             console.log("running fastify");
+            child = child_process_1.exec('node ./benchmarks/fastify.js');
+            break;
+        case "nest":
+            console.log("running nest");
+            child = child_process_1.exec('node ./benchmarks/nest.js');
             break;
         default:
             console.log("running appolo");

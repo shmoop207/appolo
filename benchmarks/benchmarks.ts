@@ -1,4 +1,4 @@
-import {ChildProcess, exec} from "child_process";
+import { ChildProcess, exec } from "child_process";
 
 const Table = require('cli-table');
 
@@ -6,24 +6,23 @@ const autocannon = require('autocannon');
 let child: ChildProcess, instance;
 
 (async function () {
-
-    switch (process.env.TYPE){
+    switch (process.env.TYPE) {
         case "express":
-            child = exec('node ./benchmarks/express.js');
             console.log("running express");
+            child = exec('node ./benchmarks/express.js');
             break;
         case "fastify":
-            child = exec('node ./benchmarks/fastify.js');
             console.log("running fastify");
-
+            child = exec('node ./benchmarks/fastify.js');
+            break;
+        case "nest":
+            console.log("running nest");
+            child = exec('node ./benchmarks/nest.js');
             break;
         default:
             console.log("running appolo");
-
             child = exec('node ./benchmarks/mock/app.js');
     }
-
-
 
     child.stdout.on('data', function (data) {
         run();
@@ -32,8 +31,6 @@ let child: ChildProcess, instance;
     child.stderr.on('data', function (data) {
         console.log('stderr: ' + data);
     });
-
-
 })();
 
 
@@ -64,12 +61,10 @@ function run() {
         }, 10)
     });
 
-
     process.once('SIGINT', () => kill())
 }
 
 function kill() {
     process.kill(child.pid);
     instance.stop();
-
 }
