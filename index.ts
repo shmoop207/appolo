@@ -38,6 +38,7 @@ import {
     injectDictionary,
     injectFactory,
     injectFactoryMethod,
+    injectLazy,
     injectObjectProperty,
     Injector,
     injectParam,
@@ -52,7 +53,7 @@ import {
     override,
     singleton,
     throttle,
-    Util,injectLazy
+    Util
 } from 'appolo-engine';
 
 export {
@@ -80,7 +81,7 @@ export {
     IBootstrap,
     IFactory,
     Injector, bootstrap, override,
-    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions,injectLazy
+    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions, injectLazy,
 }
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';
@@ -91,6 +92,7 @@ export {Context}
 export {Middleware} from './lib/middleware/middleware';
 export {StaticMiddleware} from './lib/middleware/staticMiddleware';
 export {App} from './lib/app';
+export {Events} from './lib/interfaces/events';
 
 
 export {validator}
