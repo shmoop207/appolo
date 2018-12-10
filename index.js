@@ -60,6 +60,8 @@ var staticMiddleware_1 = require("./lib/middleware/staticMiddleware");
 exports.StaticMiddleware = staticMiddleware_1.StaticMiddleware;
 var app_2 = require("./lib/app");
 exports.App = app_2.App;
+var events_1 = require("./lib/interfaces/events");
+exports.Events = events_1.Events;
 var routeModel_1 = require("./lib/routes/routeModel");
 exports.RouteModel = routeModel_1.RouteModel;
 function createApp(options) {

@@ -55,6 +55,7 @@ import {
     throttle,
     Util
 } from 'appolo-engine';
+import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent/index";
 
 export {
     factory,
@@ -121,6 +122,8 @@ export function createApp(options?: IOptions): App {
 export default function (options?: IOptions): App {
     return new App(options)
 };
+
+
 
 
 

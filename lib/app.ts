@@ -46,6 +46,11 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return new App(options);
     };
 
+    public get exportedClasses(): { fn: Function, path: string }[] {
+        return this._launcher.engine.exportedClasses;
+    }
+
+
     public async launch(): Promise<App> {
 
         await this._launcher.launch();
@@ -95,7 +100,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     }
 
     public async reset() {
-        namespace.delete(RequestContextSymbol)
+        namespace.delete(RequestContextSymbol);
         await this._launcher.reset();
     }
 
@@ -127,12 +132,12 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return route
     }
 
-    get parent(): IEngineApp {
-        return this._launcher.engine.parent;
+    public get parent(): App {
+        return this._launcher.engine.parent as App;
     }
 
-    public get children(): IEngineApp[] {
-        return this._launcher.engine.children;
+    public get children(): App[] {
+        return this._launcher.engine.children as App[];
     }
 
     public get(path: string, ...handler: MiddlewareHandlerParams[]): this {

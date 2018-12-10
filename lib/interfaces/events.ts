@@ -1,9 +1,18 @@
-import {Events as AgentEvents} from "appolo-agent";
-import {Events as EngineEvents} from "appolo-engine";
-
-export enum AppEvents {
-
-
+export enum Events {
+    RouteAdded = "routeAdded",
+    ServerClosed = "serverClosed",
+    RequestInit = "requestInit",
+    ResponseSend = "ResponseSend",
+    BeforeModulesLoad = "beforeModulesLoad",
+    ModulesLoaded = "modulesLoaded",
+    BeforeInjectorInit = "beforeInjectorInit",
+    InjectorInit = "injectorInit",
+    BeforeBootstrap = "beforeBootstrap",
+    Bootstrap = "bootstrap",
+    BeforeInjectRegister = "beforeInjectRegister",
+    InjectRegister = "injectRegister",
+    BeforeModuleInit = "beforeModuleInit",
+    ModuleInit = "moduleInit",
+    ModuleExport = "moduleExport",
+    ClassExport = "classExport"
 }
-
-export type Events = AgentEvents | AppEvents | EngineEvents;
