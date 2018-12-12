@@ -15,23 +15,23 @@ export abstract class StaticMiddleware implements IMiddleware {
 
     public abstract run(req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions): void
 
-    public sendError(next: NextFn, error?: Error, code?: number): void {
+    public sendError(next: NextFn, error?: Error | string, code?: number): void {
 
         this._callNext(next, new InternalServerError(error, {}, code));
     }
 
-    public sendBadRequest(next: NextFn, error?: Error, code?: number,data?:any) {
+    public sendBadRequest(next: NextFn, error?: Error | string, code?: number, data?: any) {
 
         this._callNext(next, new BadRequestError(error, data, code));
     }
 
-    public sendUnauthorized(next: NextFn, error?: Error, code?: number,data?:any) {
+    public sendUnauthorized(next: NextFn, error?: Error | string, code?: number, data?: any) {
 
         this._callNext(next, new UnauthorizedError(error, data, code));
 
     }
 
-    public sendNotFound(next: NextFn, error?: Error, code?: number,data?:any) {
+    public sendNotFound(next: NextFn, error?: Error | string, code?: number, data?: any) {
 
         this._callNext(next, new NotFoundError(error, data, code));
     }

@@ -1,10 +1,5 @@
 "use strict";
-import {
-    BadRequestError,
-    InternalServerError,
-    NotFoundError,
-    UnauthorizedError
-} from "appolo-agent";
+import {BadRequestError, InternalServerError, NotFoundError, UnauthorizedError} from "appolo-agent";
 import {IController} from "./IController";
 import {IResponse} from "../interfaces/IResponse";
 import {IRequest} from "../interfaces/IRequest";
@@ -32,20 +27,20 @@ export abstract class StaticController implements IController {
         res.status(204).send();
     }
 
-    public sendError(res: IResponse, error?: Error, code?: number, data?: any) {
+    public sendError(res: IResponse, error?: Error | string, code?: number, data?: any) {
 
         throw new InternalServerError(error, data, code)
     }
 
-    public sendBadRequest(res: IResponse, error?: Error, code?: number, data?: any) {
+    public sendBadRequest(res: IResponse, error?: Error | string, code?: number, data?: any) {
         throw new BadRequestError(error, data, code)
     }
 
-    public sendUnauthorized(res: IResponse, error?: Error, code?: number, data?: any) {
+    public sendUnauthorized(res: IResponse, error?: Error | string, code?: number, data?: any) {
         throw new UnauthorizedError(error, data, code)
     }
 
-    public sendNotFound(res: IResponse, error?: Error, code?: number, data?: any) {
+    public sendNotFound(res: IResponse, error?: Error | string, code?: number, data?: any) {
         throw new NotFoundError(error, data, code)
     }
 

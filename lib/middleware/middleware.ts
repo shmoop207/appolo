@@ -20,23 +20,23 @@ export abstract class Middleware {
         this.route = route;
     }
 
-    public sendError(error?: Error, code?: number): void {
+    public sendError(error?: Error|string, code?: number): void {
 
         this._callNext( new InternalServerError(error, {}, code));
     }
 
-    public sendBadRequest(error?: Error, code?: number) {
+    public sendBadRequest(error?: Error|string, code?: number) {
 
         this._callNext(new BadRequestError(error, {}, code));
     }
 
-    public sendUnauthorized(error?: Error, code?: number) {
+    public sendUnauthorized(error?: Error|string, code?: number) {
 
         this._callNext(new UnauthorizedError(error, {}, code));
 
     }
 
-    public sendNotFound(error?: Error, code?: number) {
+    public sendNotFound(error?: Error|string, code?: number) {
 
         this._callNext( new NotFoundError(error, {}, code));
     }

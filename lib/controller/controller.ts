@@ -39,20 +39,20 @@ export abstract class Controller implements IController {
         this.res.status(204).send();
     }
 
-    public sendError( error?: Error, code?: number, data?: any) {
+    public sendError(error?: Error | string, code?: number, data?: any) {
 
         throw new InternalServerError(error, data, code)
     }
 
-    public sendBadRequest(error?: Error, code?: number, data?: any) {
+    public sendBadRequest(error?: Error | string, code?: number, data?: any) {
         throw new BadRequestError(error, data, code)
     }
 
-    public sendUnauthorized( error?: Error, code?: number, data?: any) {
+    public sendUnauthorized(error?: Error | string, code?: number, data?: any) {
         throw new UnauthorizedError(error, data, code)
     }
 
-    public sendNotFound( error?: Error, code?: number, data?: any) {
+    public sendNotFound(error?: Error | string, code?: number, data?: any) {
         throw new NotFoundError(error, data, code)
     }
 
