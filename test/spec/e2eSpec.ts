@@ -270,7 +270,7 @@ describe('Appolo e2e', () => {
 
             should.exist(res.text)
 
-            res.text.should.be.eq('{"statusCode":401,"message":"Unauthorized","code":201,"error":"Error: NOT AUTHORIZED"}')
+            res.text.should.be.eq('{"statusCode":401,"message":"Unauthorized","code":201,"error":"NOT AUTHORIZED"}')
 
         });
 

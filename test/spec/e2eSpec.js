@@ -177,7 +177,7 @@ describe('Appolo e2e', () => {
                 .get('/test/middleware/auth/');
             res.should.to.have.status(401);
             should.exist(res.text);
-            res.text.should.be.eq('{"statusCode":401,"message":"Unauthorized","code":201,"error":"Error: NOT AUTHORIZED"}');
+            res.text.should.be.eq('{"statusCode":401,"message":"Unauthorized","code":201,"error":"NOT AUTHORIZED"}');
         });
         it('should  call middleware before controller with class', async () => {
             let res = await request(app.handle)
