@@ -1,6 +1,7 @@
 import {IOptions} from "./lib/interfaces/IOptions";
 import * as validator from 'joi';
 import {App} from "./lib/app";
+import {Util} from "./lib/util/util";
 import {Context} from "appolo-context";
 import {IRequest} from "./lib/interfaces/IRequest";
 import {IResponse} from "./lib/interfaces/IResponse";
@@ -52,8 +53,7 @@ import {
     once,
     override,
     singleton,
-    throttle,
-    Util
+    throttle
 } from 'appolo-engine';
 import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent/index";
 
