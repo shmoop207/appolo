@@ -160,8 +160,10 @@ export class Launcher {
 
     public async reset() {
 
-        await this._agent.close();
         this._engine.reset();
+
+        await this._agent.close();
+
         this._app = null;
 
         this._plugins.length = 0;
