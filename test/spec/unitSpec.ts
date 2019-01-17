@@ -9,6 +9,7 @@ import {Manager7} from "../mock/src/manager/manager7";
 import {Manager8} from "../mock/src/manager/manager8";
 import {App, createApp} from "../../index";
 import {Util} from "../../lib/util/util";
+import {Events} from "appolo-engine/lib/interfaces/events";
 
 let should = chai.should()
 chai.use(sinonChai);
