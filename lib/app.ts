@@ -46,7 +46,11 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return new App(options);
     };
 
-    public get exportedClasses(): { fn: Function, path: string }[] {
+    public get exportedClasses(): { fn: Function, path: string,define:Define }[] {
+        return this.exported
+    }
+
+    public get exported(): { fn: Function, path: string,define:Define }[] {
         return this._launcher.engine.exportedClasses;
     }
 
