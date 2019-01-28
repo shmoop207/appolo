@@ -16,6 +16,7 @@ exports.Methods = appolo_agent_1.Methods;
 exports.NotFoundError = appolo_agent_1.NotFoundError;
 exports.UnauthorizedError = appolo_agent_1.UnauthorizedError;
 const appolo_engine_1 = require("appolo-engine");
+exports.Define = appolo_engine_1.Define;
 exports.alias = appolo_engine_1.alias;
 exports.aliasFactory = appolo_engine_1.aliasFactory;
 exports.bind = appolo_engine_1.bind;

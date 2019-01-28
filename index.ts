@@ -16,6 +16,7 @@ import {
     UnauthorizedError
 } from "appolo-agent";
 import {
+    Define,
     alias,
     aliasFactory,
     bind,
@@ -58,6 +59,7 @@ import {
 import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent/index";
 
 export {
+    Define,
     factory,
     inject,
     initMethod,
