@@ -18,6 +18,8 @@ export class Router {
     protected readonly controllerSuffix: string = 'Controller';
     protected readonly actionSuffix: string = 'Action';
 
+    private _isInitialize = false;
+
     protected _routes: Route<IController>[];
 
     constructor(private _env: IEnv, private _injector: Injector, private _options: IOptions, private _agent: Agent) {
@@ -27,6 +29,8 @@ export class Router {
 
     public initialize() {
 
+        this._isInitialize = true;
+
         _.forEach(this._routes, route => this._initRoute(route))
     }
 
@@ -34,18 +38,23 @@ export class Router {
 
         this._routes.push(route);
 
-        if (route.definition.action && route.definition.path.length) {
-            this._initRoute(route)
-        }
-        else {
-            setImmediate(() => this._initRoute(route))
+        if (this._isInitialize) {
+            setImmediate(()=>this._initRoute(route))
         }
     }
 
     protected _initRoute(route: Route<IController>): void {
 
         let def = route.definition;
+
+        if (def.$initialized) {
+            return;
+        }
+
+        def.$initialized = true;
+
         let middleware = _.clone(def.middleware);
+
 
         //check if we have valid path
         if (!def.path.length || !def.action || (def.environments.length && !_.includes(def.environments, (this._env.name || this._env.type)))) {
@@ -53,6 +62,8 @@ export class Router {
         }
 
         def.controllerName = def.controller.replace(this.controllerSuffix, '');
+
+        def.definition = this._injector.getDefinition(def.controller);
 
         this._convertStrMiddleware(middleware);
 

@@ -1,8 +1,8 @@
 import    joi = require('joi');
 import {IController} from "../controller/IController";
 import {IMiddlewareCtr} from "./IMiddleware";
-import {MiddlewareHandler, Methods, MiddlewareHandlerParams} from "appolo-agent";
-import {MiddlewareHandlerAny} from "appolo-agent/index";
+import {Methods, MiddlewareHandlerParams} from "appolo-agent";
+import {IDefinition} from "appolo-engine";
 
 
 export interface IRouteOptions {
@@ -20,6 +20,8 @@ export interface IRouteOptions {
     params: { [index: string]: any }
     controllerName?: string
     actionName?: string
+    definition: IDefinition
+    $initialized?:boolean
 
 
 }

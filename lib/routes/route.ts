@@ -30,6 +30,7 @@ export class Route<T extends IController> {
             order: orderIndex++,
             params: {},
             action: null,
+            definition: null
 
         };
     }

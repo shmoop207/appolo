@@ -13,16 +13,18 @@ import {
     MiddlewareHandlerParams,
     NextFn,
     NotFoundError,
+    Request,
+    Response,
     UnauthorizedError
 } from "appolo-agent";
 import {
-    Define,
     alias,
     aliasFactory,
     bind,
     bootstrap,
     cache,
     debounce,
+    Define,
     define,
     delay,
     EventDispatcher,
@@ -56,7 +58,6 @@ import {
     singleton,
     throttle
 } from 'appolo-engine';
-import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent/index";
 
 export {
     Define,
@@ -114,7 +115,8 @@ export {
     BadRequestError,
     InternalServerError,
     NotFoundError,
-    UnauthorizedError
+    UnauthorizedError,
+    Request, Response
 }
 
 export function createApp(options?: IOptions): App {
