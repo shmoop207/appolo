@@ -3,7 +3,7 @@ import _ = require('lodash');
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {Controller} from "../controller/controller";
 import {StaticController} from "../controller/staticController";
-
+import {Request, Response} from "appolo-agent";
 
 export class Util extends appolo.Util {
 
@@ -45,6 +45,18 @@ export class Util extends appolo.Util {
 
     public static getControllerName(controller: string | typeof Controller | typeof StaticController): string {
         return _.isFunction(controller) && controller.name ? _.camelCase(controller.name) : controller as string
+    }
+
+    public static decorateRequest(name: string, fn: Function) {
+        Request.prototype[name] = function () {
+            return fn.apply(this, arguments)
+        }
+    }
+
+    public static decorateResponse(name: string, fn: Function) {
+        Response.prototype[name] = function () {
+            return fn.apply(this, arguments)
+        }
     }
 
 

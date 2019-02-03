@@ -179,6 +179,21 @@ describe('Appolo e2e', () => {
             res.body.working.should.be.ok;
         });
 
+        it('should  call  controller with gzip decorator', async () => {
+
+            let res = await request(app.handle)
+                .get('/test/gzip/decorator')
+
+
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+
+            should.exist(res.body)
+            res.header["content-encoding"].should.be.eq("gzip")
+
+            res.body.working.should.be.ok;
+        });
+
 
         it('should  call  controller with gzip async ', async () => {
 
@@ -1028,7 +1043,7 @@ describe('Appolo e2e', () => {
         it('should get context from manager parallel', async () => {
 
 
-            let [res,res2] = await Q.all([request(app.handle).get('/test/context?userName=bla'), request(app.handle).get('/test/context?userName=foo')]);
+            let [res, res2] = await Q.all([request(app.handle).get('/test/context?userName=bla'), request(app.handle).get('/test/context?userName=foo')]);
 
             res.should.to.have.status(200);
 

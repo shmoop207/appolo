@@ -115,8 +115,7 @@ export {
     BadRequestError,
     InternalServerError,
     NotFoundError,
-    UnauthorizedError,
-    Request, Response
+    UnauthorizedError
 }
 
 export function createApp(options?: IOptions): App {

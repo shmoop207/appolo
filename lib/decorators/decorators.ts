@@ -8,6 +8,8 @@ import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {RouteModel} from "../routes/routeModel";
 import {Util} from "../util/util";
 import {IController} from "../controller/IController";
+import {IRequest} from "../interfaces/IRequest";
+import {IResponse} from "../interfaces/IResponse";
 
 export const RouterDefinitionsSymbol = "__RouterDefinitions__";
 export const RouterDefinitionsClassSymbol = "__RouterDefinitionsClass__";
@@ -127,4 +129,18 @@ export function abstract(route: Partial<IRouteOptions>): (target: any, propertyK
 export function roles(role: string | string[]): any {
 
     return defineRouteProperty([{name: "roles", args: [role]}])
+}
+
+
+export function gzip() {
+    return function (target: any, propertyKey: string, descriptor?: PropertyDescriptor) {
+
+        let old = descriptor.value;
+
+        descriptor.value = async function (req: IRequest, res: IResponse) {
+            res.gzip();
+
+            return old.apply(this, arguments);
+        }
+    }
 }

@@ -12,6 +12,9 @@ let GzipController = class GzipController extends index_1.Controller {
     gzip(req, res) {
         res.gzip().json({ working: true });
     }
+    gzipDecorator(req, res) {
+        res.json({ working: true });
+    }
     compression(req, res) {
         res.json({ working: "dsadasnfkjdshfdhsfdgnfdkjgjfdbgjhbdjhbgjhfdbgbdfjhbgbdfbgjdsbgjbdjkhfgbkdfgkfiuthrehilhvbcdbvdsbjhbdsjfbjdsbfbdsbfhjdbfjhbdjsbfjdbfbdsafbjhdbsfjhgndfkgjlkdjgljdlsfjldksjflkdjsflkjdslkjfdjslfjdlksjfldsjlkfjdslkjflkdsjfljdslfjdsiroeiwrioewrejwcnvcnxvkjnckxjbkdbgkdskfdskfkdsfdsnfjdnsfldskfnkdsajfdksjnfjdksnfkjdsahfkjdhsfkdhsfkjhdksfhkjdsadbvcxmnvbdsbjhbdsjhfbdsbfhdfihiuhriehriuhewiuhshkbfkdshfkdksfhdsiuhfudshfdhskfhdkshfkdshfkhdsiufhdisuhfksgkdfhgkhdjkgdjhsgfjhsdjkfgsjkgfjhgdsakfgdjshgfjkdsgjfgsdjhgfdgjfgsdjhgfhjdsghjfgdshfjdhsjkfhkdsjhfkdhskfhkdshfjgdshhjfgdjshfvdsbcn sdmnvchjdsvfhsahjbfjhsdfbdsjbfjhdsb" });
     }
@@ -25,6 +28,10 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     index_1.get('/test/gzip')
 ], GzipController.prototype, "gzip", null);
+tslib_1.__decorate([
+    index_1.get('/test/gzip/decorator'),
+    index_1.gzip()
+], GzipController.prototype, "gzipDecorator", null);
 tslib_1.__decorate([
     index_1.get('/test/compression'),
     index_1.middleware(compression({ threshold: 512 }))

@@ -119,6 +119,15 @@ describe('Appolo e2e', () => {
             res.header["content-encoding"].should.be.eq("gzip");
             res.body.working.should.be.ok;
         });
+        it('should  call  controller with gzip decorator', async () => {
+            let res = await request(app.handle)
+                .get('/test/gzip/decorator');
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+            should.exist(res.body);
+            res.header["content-encoding"].should.be.eq("gzip");
+            res.body.working.should.be.ok;
+        });
         it('should  call  controller with gzip async ', async () => {
             let res = await request(app.handle)
                 .get('/test/gzip_async/');
