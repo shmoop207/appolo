@@ -1,15 +1,13 @@
 import * as _ from 'lodash';
 import * as joi from "joi";
 import {Route} from "../routes/route";
-import {Methods, MiddlewareHandler} from "appolo-agent";
+import {Methods, MiddlewareHandlerErrorOrAny, MiddlewareHandlerOrAny} from "appolo-agent";
 import {define} from "appolo-engine";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {RouteModel} from "../routes/routeModel";
 import {Util} from "../util/util";
 import {IController} from "../controller/IController";
-import {IRequest} from "../interfaces/IRequest";
-import {IResponse} from "../interfaces/IResponse";
 
 export const RouterDefinitionsSymbol = "__RouterDefinitions__";
 export const RouterDefinitionsClassSymbol = "__RouterDefinitionsClass__";
@@ -92,7 +90,7 @@ export function method(method: 'get' | 'post' | 'delete' | 'patch' | 'head' | 'p
     return defineRouteProperty([{name: "method", args: [method]}])
 }
 
-export function middleware(middleware: string | string[] | MiddlewareHandler | MiddlewareHandler[] | IMiddlewareCtr | IMiddlewareCtr[] | ((req: any, res: any, next: any) => void) | ((req: any, res: any, next: any) => void)[]): any {
+export function middleware(middleware: string | string[] | MiddlewareHandlerOrAny | MiddlewareHandlerOrAny[] | IMiddlewareCtr | IMiddlewareCtr[]): any {
 
     if (_.isArray(middleware)) {
         middleware = _(middleware).clone().reverse()
@@ -100,6 +98,16 @@ export function middleware(middleware: string | string[] | MiddlewareHandler | M
 
     return defineRouteProperty([{name: "middleware", args: [middleware, "head"]}])
 }
+
+export function error(middleware: string | string[] | MiddlewareHandlerErrorOrAny | MiddlewareHandlerErrorOrAny[] | IMiddlewareCtr | IMiddlewareCtr[]): any {
+
+    if (_.isArray(middleware)) {
+        middleware = _(middleware).clone().reverse()
+    }
+
+    return defineRouteProperty([{name: "error", args: [middleware, "head"]}])
+}
+
 
 export function validation(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): any {
     if (key.constructor && key.constructor.prototype === RouteModel.constructor.prototype && (key as any).prototype && Reflect.hasMetadata(RouterModelSymbol, key)) {
@@ -133,14 +141,13 @@ export function roles(role: string | string[]): any {
 
 
 export function gzip() {
-    return function (target: any, propertyKey: string, descriptor?: PropertyDescriptor) {
+    return defineRouteProperty([{name: "gzip", args: []}])
+}
 
-        let old = descriptor.value;
+export function headers( key: string, value: string ) {
+    return defineRouteProperty([{name: "headers", args: [key,value]}])
+}
 
-        descriptor.value = async function (req: IRequest, res: IResponse) {
-            res.gzip();
-
-            return old.apply(this, arguments);
-        }
-    }
+export function statusCode(code: number) {
+    return defineRouteProperty([{name: "statusCode", args: [code]}])
 }

@@ -30,7 +30,9 @@ tslib_1.__decorate([
 ], GzipController.prototype, "gzip", null);
 tslib_1.__decorate([
     index_1.get('/test/gzip/decorator'),
-    index_1.gzip()
+    index_1.gzip(),
+    index_1.headers("x-test", "true"),
+    index_1.statusCode(201)
 ], GzipController.prototype, "gzipDecorator", null);
 tslib_1.__decorate([
     index_1.get('/test/compression'),

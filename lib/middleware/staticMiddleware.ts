@@ -13,7 +13,13 @@ export abstract class StaticMiddleware implements IMiddleware {
         return (req).model as T;
     }
 
-    public abstract run(req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions): void
+    public  run(req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions): void{
+        next();
+    }
+
+    public  catch(err,req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions): void{
+        next(err);
+    }
 
     public sendError(next: NextFn, error?: Error | string, code?: number): void {
 

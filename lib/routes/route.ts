@@ -7,7 +7,7 @@ import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IController} from "../controller/IController";
 import {Util} from "../util/util";
 import {RouteModel} from "./routeModel";
-import {MiddlewareHandlerParams} from "appolo-agent/index";
+import {MiddlewareHandlerErrorOrAny, MiddlewareHandlerOrAny, MiddlewareHandlerParams} from "appolo-agent/index";
 import {Controller} from "../controller/controller";
 import {StaticController} from "../controller/staticController";
 
@@ -24,13 +24,17 @@ export class Route<T extends IController> {
             roles: [],
             environments: [],
             middleware: [],
+            middlewareError: [],
             validations: {},
             controller: Util.getControllerName(controller),
             path: [],
             order: orderIndex++,
             params: {},
             action: null,
-            definition: null
+            definition: null,
+            headers: [],
+            statusCode: 0,
+            gzip: false
 
         };
     }
@@ -144,8 +148,16 @@ export class Route<T extends IController> {
         return this
     }
 
-    public middleware(middleware: string | MiddlewareHandlerParams | IMiddlewareCtr, order: "head" | "tail" = "tail"): this {
+    public error(middleware: string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr, order: "head" | "tail" = "tail"): this {
+        return this._addMiddleware(middleware, order, true)
+    }
 
+    public middleware(middleware: string | MiddlewareHandlerOrAny | IMiddlewareCtr, order: "head" | "tail" = "tail"): this {
+
+        return this._addMiddleware(middleware, order, false)
+    }
+
+    private _addMiddleware(middleware: (string | MiddlewareHandlerParams | IMiddlewareCtr), order: "head" | "tail" = "tail", error = false): this {
         let arrMethod = order == "head" ? "unshift" : "push";
         //
         if (_.isArray(middleware)) {
@@ -158,16 +170,18 @@ export class Route<T extends IController> {
             return this.middleware(middle.middleware, middle.order)
         }
 
-        if (Util.isClass(middleware)) {
-            middleware = _.camelCase((middleware as IMiddlewareCtr).name)
+        let id = Util.getClassId(middle);
+
+        if (id) {
+            middleware = id;
         }
 
-        this._route.middleware[arrMethod](middleware);
+        error ? this._route.middlewareError[arrMethod](middleware) : this._route.middleware[arrMethod](middleware);
 
         return this;
     }
 
-    public middlewares(middlewares: string[] | MiddlewareHandlerParams[] | IMiddlewareCtr[], order: "head" | "tail" = "tail"): this {
+    public middlewares(middlewares: string[] | MiddlewareHandlerOrAny[] | IMiddlewareCtr[], order: "head" | "tail" = "tail"): this {
 
         _.forEach(_.isArray(middlewares) ? middlewares : [middlewares], fn => this.middleware(fn as any, order));
 
@@ -189,6 +203,25 @@ export class Route<T extends IController> {
 
             this._route.roles.push(role)
         }
+
+        return this;
+    }
+
+    public gzip(): this {
+        this._route.gzip = true;
+        return this
+    }
+
+    public headers(key: string, value: string): this {
+
+        this._route.headers.push({key: key, value: value})
+
+
+        return this
+    }
+
+    public statusCode(code: number): this {
+        this._route.statusCode = code;
 
         return this;
     }

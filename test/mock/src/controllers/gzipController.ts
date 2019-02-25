@@ -1,5 +1,5 @@
 "use strict";
-import {controller, inject, get, middleware, Controller, gzip} from '../../../../index';
+import {controller, inject, get, middleware, Controller, gzip,statusCode,headers} from '../../../../index';
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
 import compression = require('compression')
@@ -25,6 +25,8 @@ export class GzipController extends Controller {
 
     @get('/test/gzip/decorator')
     @gzip()
+    @headers("x-test","true")
+    @statusCode(201)
     gzipDecorator(req, res) {
         res.json({working: true})
     }

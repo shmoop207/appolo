@@ -7,6 +7,7 @@ import {EnvController} from "../mock/src/controllers/envController";
 import {MiddlewareController} from "../mock/src/controllers/middlewareController";
 import {AuthMiddleware} from "../mock/src/middleware/authMiddleware";
 import {TestMiddleware} from "../mock/src/middleware/middleware";
+import {ErrorMiddleware} from "../mock/src/middleware/errorMiddleware";
 
 let should = chai.should();
 chai.use(require("chai-http"))
@@ -163,11 +164,57 @@ describe('Appolo e2e', () => {
         });
     });
 
+
+    describe('error', function () {
+        it('should  call  custom error', async () => {
+
+            let res = await request(app.handle)
+                .get('/test/error/')
+
+
+            res.should.to.have.status(503);
+            res.should.to.be.json;
+
+            should.exist(res.body)
+
+            res.body.data.should.be.eq("erroraaaa");
+        });
+
+        it('should  call  custom error global', async () => {
+
+            await app.reset();
+
+            app = createApp({
+                port: 8183,
+                environment: "testing",
+                root: process.cwd() + '/test/mock/',
+            });
+
+            app.error(ErrorMiddleware);
+
+            await app.launch();
+
+
+            let res = await request(app.handle)
+                .get('/test/error2/')
+
+
+            res.should.to.have.status(503);
+            res.should.to.be.json;
+
+            should.exist(res.body)
+
+            res.body.data.should.be.eq("erroraaaa");
+        });
+
+
+    })
+
     describe('gzip', function () {
         it('should  call  controller with gzip', async () => {
 
             let res = await request(app.handle)
-                .get('/test/gzip/')
+                .get('/test/gzip/');
 
 
             res.should.to.have.status(200);
@@ -185,11 +232,12 @@ describe('Appolo e2e', () => {
                 .get('/test/gzip/decorator')
 
 
-            res.should.to.have.status(200);
+            res.should.to.have.status(201);
             res.should.to.be.json;
 
             should.exist(res.body)
             res.header["content-encoding"].should.be.eq("gzip")
+            res.header["x-test"].should.be.eq("true")
 
             res.body.working.should.be.ok;
         });
@@ -283,7 +331,7 @@ describe('Appolo e2e', () => {
 
             res.should.to.have.status(401);
 
-            should.exist(res.text)
+            should.exist(res.text);
 
             res.text.should.be.eq('{"statusCode":401,"message":"Unauthorized","code":201,"error":"NOT AUTHORIZED"}')
 

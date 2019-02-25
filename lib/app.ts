@@ -1,7 +1,12 @@
 import    http = require('http');
 import    https = require('https');
 import {IOptions} from "./interfaces/IOptions";
-import {Events as AgentEvents, IApp as IAgentApp, MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent";
+import {
+    Events as AgentEvents,
+    IApp as IAgentApp,
+    MiddlewareHandlerErrorOrAny,
+    MiddlewareHandlerOrAny
+} from "appolo-agent";
 import {
     Define,
     EventDispatcher,
@@ -23,9 +28,11 @@ import {IResponse} from "./interfaces/IResponse";
 import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
 import {IRequest} from "./interfaces/IRequest";
 import {NextFn} from "appolo-agent/index";
-import {RequestContextSymbol} from "./interfaces/IMiddleware";
+import {IMiddlewareCtr, RequestContextSymbol} from "./interfaces/IMiddleware";
 import {Events} from "./interfaces/events";
 import {Plugin} from "./interfaces/IDefinition";
+import {Util} from "./util/util";
+import {invokeMiddleWare, invokeMiddleWareError} from "./routes/invokeActionMiddleware";
 
 export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
@@ -46,11 +53,11 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return new App(options);
     };
 
-    public get exportedClasses(): { fn: Function, path: string,define:Define }[] {
+    public get exportedClasses(): { fn: Function, path: string, define: Define }[] {
         return this.exported
     }
 
-    public get exported(): { fn: Function, path: string,define:Define }[] {
+    public get exported(): { fn: Function, path: string, define: Define }[] {
         return this._launcher.engine.exportedClasses;
     }
 
@@ -83,8 +90,27 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     }
 
 
-    public use(fn: MiddlewareHandler | MiddlewareHandlerAny): this {
-        this._launcher.agent.use(fn);
+    public use(...middleware: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
+
+        return this._addMiddleware(middleware, false)
+    }
+
+    public error(...middleware: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this {
+
+        return this._addMiddleware(middleware, true)
+    }
+
+    private _addMiddleware(middleware: (string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr)[], error: boolean): this {
+
+        for (let i = 0; i < middleware.length; i++) {
+            let id = Util.getClassId(middleware[i]);
+
+            if (id) {
+                middleware[i] = error ? invokeMiddleWareError(id) : invokeMiddleWare(id)
+            }
+        }
+
+        this._launcher.agent.use(...middleware as MiddlewareHandlerErrorOrAny[]);
 
         return this;
     }

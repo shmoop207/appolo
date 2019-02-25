@@ -4,11 +4,18 @@
 
 ![appolo](https://www.dropbox.com/s/pwdvd6ohb74t7r7/appollo.png?raw=1)
 
+<p align=center>
+    <img title="Langauge" src="https://badge.langauge.io/shmoop207/appolo" />
+</p>
 
 Appolo  is an light web server MVC Framework for Node.js written in Typescript<br>  
 Appolo architecture follows common patten of MVC and dependency injection which makes it easy to build better performance, flexibility and easy maintenance server side in nodejs.  
   
-  
+
+
+## Getting started
+- Visit our [docs](https://appolojs.com) site [appolojs.com](https://appolojs.com)
+
 ## Features  
  * Super fast  
  * MVC Architecture  

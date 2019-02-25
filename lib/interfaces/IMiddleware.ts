@@ -6,6 +6,7 @@ import {IResponse} from "./IResponse";
 
 export interface IMiddleware {
     run(req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions)
+    catch(e:any,req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions)
 }
 
 

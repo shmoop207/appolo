@@ -1,6 +1,8 @@
 import {IRequest} from "../interfaces/IRequest";
-import {HttpError, InternalServerError, IResponse, NextFn} from "appolo-agent/index";
+import {IResponse} from "../interfaces/IResponse";
+import {HttpError, InternalServerError, NextFn} from "appolo-agent/index";
 import {StaticController} from "../controller/staticController";
+import {IMiddleware} from "../interfaces/IMiddleware";
 import    _ = require('lodash');
 
 export function invokeActionMiddleware(req: IRequest, res: IResponse, next: NextFn) {
@@ -29,26 +31,46 @@ export function invokeActionMiddleware(req: IRequest, res: IResponse, next: Next
 
 
     try {
+
+        if (route.gzip) {
+            res.gzip();
+        }
+
+        if (route.headers.length) {
+            for (let i = 0, len = route.headers.length; i < len; i++) {
+                let header = route.headers[i];
+                res.setHeader(header.key, header.value);
+            }
+        }
+
+        if (route.statusCode) {
+            res.status(route.statusCode);
+        }
+
         let result = controller[fnName](req, res, req.model, route);
 
         if (res.headersSent || res.sending) {
             return;
         }
 
-        if (!result || !(result.then && result.catch)) {
-            return res.send(result)
+        if (result && result.then && result.catch) {
+
+            result
+                .then(data => (!res.headersSent && !res.sending) && res.send(data))
+                .catch(e => next(_handleError(e)));
+
+            return;
         }
 
-        result
-            .then(data => (!res.headersSent && !res.sending) && res.send(data))
-            .catch(e => next(_handleError(e, res)));
+        res.send(result)
+
 
     } catch (e) {
-        next(_handleError(e, res))
+        next(_handleError(e))
     }
 }
 
-function _handleError(e: Error, res: IResponse): HttpError {
+function _handleError(e: Error): HttpError {
 
 
     if (e instanceof HttpError) {
@@ -60,4 +82,60 @@ function _handleError(e: Error, res: IResponse): HttpError {
     }
 
     return e as HttpError;
+}
+
+export function invokeMiddleWare(middlewareId: string) {
+
+    return function (req: IRequest, res: IResponse, next: NextFn) {
+        let middleware: IMiddleware = req.app.injector.getObject<IMiddleware>(middlewareId, [req, res, next, req.route]);
+
+        if (!middleware) {
+            next(new HttpError(500, `failed to find middleware ${middlewareId}`));
+        }
+
+        let result = middleware.run(req, res, next, req.route);
+
+        if (next.run || res.headersSent || res.sending) {
+            return;
+        }
+
+        if (result && result.then && result.catch) {
+
+            result
+                .then(data => (!next.run && !res.headersSent && !res.sending) && next())
+                .catch(e => next(_handleError(e)));
+
+            return;
+        }
+
+        next();
+    }
+
+}
+
+export function invokeMiddleWareError(middlewareId: string) {
+    return function (err: any, req: IRequest, res: IResponse, next: NextFn) {
+        let middleware: IMiddleware = req.app.injector.getObject<IMiddleware>(middlewareId, [req, res, next, req.route]);
+
+        if (!middleware) {
+            next(new HttpError(500, `failed to find middleware ${middlewareId}`));
+        }
+
+        let result = middleware.catch(err, req, res, next, req.route);
+
+        if (next.run || res.headersSent || res.sending) {
+            return;
+        }
+
+        if (result && result.then && result.catch) {
+
+            result
+                .then(data => (!next.run && !res.headersSent && !res.sending) && next(err))
+                .catch(e => next(_handleError(e)));
+            return;
+        }
+
+        next(err)
+    }
+
 }

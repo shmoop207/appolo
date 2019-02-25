@@ -11,6 +11,7 @@ export interface IRouteOptions {
     environments?: string[]
     roles?: string[]
     middleware?: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]
+    middlewareError?: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]
     validations?: { [index: string]: joi.Schema }
     path?: string[]
     abstract?: boolean,
@@ -21,7 +22,10 @@ export interface IRouteOptions {
     controllerName?: string
     actionName?: string
     definition: IDefinition
-    $initialized?:boolean
+    $initialized?: boolean
+    headers: { key: string, value: string }[]
+    statusCode: number
+    gzip: boolean
 
 
 }

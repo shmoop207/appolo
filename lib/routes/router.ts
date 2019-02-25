@@ -2,15 +2,14 @@
 import    _ = require('lodash');
 import {Controller} from '../controller/controller';
 import {IEnv, Injector} from "appolo-engine";
-import {Agent, HttpError, Methods, MiddlewareHandlerParams, NextFn} from "appolo-agent";
-import {IMiddleware, IMiddlewareCtr} from "../interfaces/IMiddleware";
+import {Agent, Methods, MiddlewareHandlerParams} from "appolo-agent";
+import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {Route} from "./route";
 import {IController} from "../controller/IController";
 import {IOptions} from "../interfaces/IOptions";
-import {IRequest} from "../interfaces/IRequest";
-import {invokeActionMiddleware} from "./invokeActionMiddleware";
+import {invokeActionMiddleware, invokeMiddleWare, invokeMiddleWareError} from "./invokeActionMiddleware";
 import {checkValidationMiddleware} from "./checkValidationMiddleware";
-import {IResponse} from "../interfaces/IResponse";
+import {Util} from "../util/util";
 
 
 export class Router {
@@ -39,7 +38,7 @@ export class Router {
         this._routes.push(route);
 
         if (this._isInitialize) {
-            setImmediate(()=>this._initRoute(route))
+            setImmediate(() => this._initRoute(route))
         }
     }
 
@@ -53,9 +52,6 @@ export class Router {
 
         def.$initialized = true;
 
-        let middleware = _.clone(def.middleware);
-
-
         //check if we have valid path
         if (!def.path.length || !def.action || (def.environments.length && !_.includes(def.environments, (this._env.name || this._env.type)))) {
             return;
@@ -65,38 +61,37 @@ export class Router {
 
         def.definition = this._injector.getDefinition(def.controller);
 
-        this._convertStrMiddleware(middleware);
+        let middewares = this._convertStrMiddleware(def.middleware).concat(this._convertStrMiddleware(def.middlewareError, true));
 
         if (!_.isEmpty(def.validations)) {
-            middleware.unshift(checkValidationMiddleware);
+            middewares.unshift(checkValidationMiddleware);
         }
 
-        middleware.push(invokeActionMiddleware);
-
+        middewares.push(invokeActionMiddleware);
 
         for (let i = 0, len = def.path.length; i < len; i++) {
-            this._agent.add(def.method[i] || Methods.GET, def.path[i], middleware as MiddlewareHandlerParams[], def);
+            this._agent.add(def.method[i] || Methods.GET, def.path[i], middewares, def);
         }
     }
 
-    private _convertStrMiddleware(middleware: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]) {
+    private _convertStrMiddleware(middleware: (string | MiddlewareHandlerParams | IMiddlewareCtr)[], error: boolean = false): MiddlewareHandlerParams[] {
+
+        let output:MiddlewareHandlerParams[] = [];
+
         for (let i = 0, len = middleware.length; i < len; i++) {
-            if (_.isString(middleware[i])) {
-                middleware[i] = this._invokeMiddleWare.bind(this, middleware[i])
+
+            let dto = middleware[i] as MiddlewareHandlerParams;
+
+            let id =  Util.getClassId(middleware[i]);
+
+            if(id){
+                dto = error  ? invokeMiddleWareError(id) :invokeMiddleWare(id)
             }
-        }
-    }
 
-    protected _invokeMiddleWare(middlewareId: string, req: IRequest, res: IResponse, next: NextFn) {
-
-        let middleware: IMiddleware = this._injector.getObject<IMiddleware>(middlewareId, [req, res, next, req.route]);
-
-        if (!middleware) {
-            next(new HttpError(500, `failed to find middleware ${middlewareId}`));
+            output.push(dto);
         }
 
-        middleware.run(req, res, next, req.route);
-
+        return output
     }
 
 
