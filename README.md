@@ -1,13 +1,11 @@
-# Appolo 
-<p align=center>
+# Appolo
 
 ![appolo](https://www.dropbox.com/s/pwdvd6ohb74t7r7/appollo.png?raw=1)
 
 [![Build Status](https://travis-ci.org/shmoop207/appolo.svg?branch=master)](https://travis-ci.org/shmoop207/appolo) [![Dependencies status](https://david-dm.org/shmoop207/appolo.svg)](https://david-dm.org/shmoop207/appolo) [![NPM version](https://badge.fury.io/js/appolo.svg)](https://badge.fury.io/js/appolo)  [![npm Downloads](https://img.shields.io/npm/dm/appolo.svg?style=flat)](https://www.npmjs.com/package/appolo)
 [![Known Vulnerabilities](https://snyk.io/test/github/shmoop207/appolo/badge.svg)](https://snyk.io/test/github/shmoop207/appolo)
 
-    <img title="Langauge" src="https://badge.langauge.io/shmoop207/appolo" />
-</p>
+![Langauge](https://badge.langauge.io/shmoop207/appolo)
 
 Appolo  is an light web server MVC Framework for Node.js written in Typescript<br>  
 Appolo architecture follows common patten of MVC and dependency injection which makes it easy to build better performance, flexibility and easy maintenance server side in nodejs.  
@@ -20,7 +18,7 @@ Appolo architecture follows common patten of MVC and dependency injection which 
 ## Features  
  * Super fast  
  * MVC Architecture  
- * Full support for [express][4] middlewares  
+ * Full support for [express][4] middleware
  * Dependency injection  
  * Simple routing   
  * Routes validation
