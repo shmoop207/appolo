@@ -1,10 +1,11 @@
 # Appolo 
-[![Build Status](https://travis-ci.org/shmoop207/appolo.svg?branch=master)](https://travis-ci.org/shmoop207/appolo) [![Dependencies status](https://david-dm.org/shmoop207/appolo.svg)](https://david-dm.org/shmoop207/appolo) [![NPM version](https://badge.fury.io/js/appolo.svg)](https://badge.fury.io/js/appolo)  [![npm Downloads](https://img.shields.io/npm/dm/appolo.svg?style=flat)](https://www.npmjs.com/package/appolo)
-[![Known Vulnerabilities](https://snyk.io/test/github/shmoop207/appolo/badge.svg)](https://snyk.io/test/github/shmoop207/appolo)
+<p align=center>
 
 ![appolo](https://www.dropbox.com/s/pwdvd6ohb74t7r7/appollo.png?raw=1)
 
-<p align=center>
+[![Build Status](https://travis-ci.org/shmoop207/appolo.svg?branch=master)](https://travis-ci.org/shmoop207/appolo) [![Dependencies status](https://david-dm.org/shmoop207/appolo.svg)](https://david-dm.org/shmoop207/appolo) [![NPM version](https://badge.fury.io/js/appolo.svg)](https://badge.fury.io/js/appolo)  [![npm Downloads](https://img.shields.io/npm/dm/appolo.svg?style=flat)](https://www.npmjs.com/package/appolo)
+[![Known Vulnerabilities](https://snyk.io/test/github/shmoop207/appolo/badge.svg)](https://snyk.io/test/github/shmoop207/appolo)
+
     <img title="Langauge" src="https://badge.langauge.io/shmoop207/appolo" />
 </p>
 
