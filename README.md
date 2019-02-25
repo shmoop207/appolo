@@ -1,6 +1,3 @@
-# Appolo
-
-
 <p align=center>
 <img src="https://www.dropbox.com/s/pwdvd6ohb74t7r7/appollo.png?raw=1" />
 <br/>
