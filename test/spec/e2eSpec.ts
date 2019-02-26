@@ -238,6 +238,7 @@ describe('Appolo e2e', () => {
             should.exist(res.body)
             res.header["content-encoding"].should.be.eq("gzip")
             res.header["x-test"].should.be.eq("true")
+            res.header["x-test2"].should.be.eq("222")
 
             res.body.working.should.be.ok;
         });

@@ -7,7 +7,12 @@ import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {Route} from "./route";
 import {IController} from "../controller/IController";
 import {IOptions} from "../interfaces/IOptions";
-import {invokeActionMiddleware, invokeMiddleWare, invokeMiddleWareError} from "./invokeActionMiddleware";
+import {
+    invokeActionMiddleware,
+    invokeCustomRouteMiddleWare,
+    invokeMiddleWare,
+    invokeMiddleWareError
+} from "./invokeActionMiddleware";
 import {checkValidationMiddleware} from "./checkValidationMiddleware";
 import {Util} from "../util/util";
 
@@ -62,6 +67,10 @@ export class Router {
         def.definition = this._injector.getDefinition(def.controller);
 
         let middewares = this._convertStrMiddleware(def.middleware).concat(this._convertStrMiddleware(def.middlewareError, true));
+
+        if(def.gzip || def.statusCode || def.headers.length || def.customRouteFn.length){
+            middewares.unshift(invokeCustomRouteMiddleWare);
+        }
 
         if (!_.isEmpty(def.validations)) {
             middewares.unshift(checkValidationMiddleware);

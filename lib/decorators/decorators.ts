@@ -8,6 +8,8 @@ import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {RouteModel} from "../routes/routeModel";
 import {Util} from "../util/util";
 import {IController} from "../controller/IController";
+import {IRequest} from "../interfaces/IRequest";
+import {IResponse} from "../interfaces/IResponse";
 
 export const RouterDefinitionsSymbol = "__RouterDefinitions__";
 export const RouterDefinitionsClassSymbol = "__RouterDefinitionsClass__";
@@ -144,10 +146,15 @@ export function gzip() {
     return defineRouteProperty([{name: "gzip", args: []}])
 }
 
-export function headers( key: string, value: string ) {
-    return defineRouteProperty([{name: "headers", args: [key,value]}])
+export function header(key: string, value: string) {
+    return defineRouteProperty([{name: "headers", args: [key, value]}])
 }
 
 export function statusCode(code: number) {
     return defineRouteProperty([{name: "statusCode", args: [code]}])
+}
+
+
+export function customRouteDecorator(fn: ((req: IRequest, res: IResponse, route: IRouteOptions) => void)) {
+    return defineRouteProperty([{name: "customRouteFn", args: [fn]}])
 }

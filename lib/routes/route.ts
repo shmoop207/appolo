@@ -10,6 +10,8 @@ import {RouteModel} from "./routeModel";
 import {MiddlewareHandlerErrorOrAny, MiddlewareHandlerOrAny, MiddlewareHandlerParams} from "appolo-agent/index";
 import {Controller} from "../controller/controller";
 import {StaticController} from "../controller/staticController";
+import {IRequest} from "../interfaces/IRequest";
+import {IResponse} from "../interfaces/IResponse";
 
 let orderIndex = 0;
 
@@ -34,7 +36,8 @@ export class Route<T extends IController> {
             definition: null,
             headers: [],
             statusCode: 0,
-            gzip: false
+            gzip: false,
+            customRouteFn:[]
 
         };
     }
@@ -216,6 +219,12 @@ export class Route<T extends IController> {
 
         this._route.headers.push({key: key, value: value})
 
+        return this
+    }
+
+    public customRouteFn(fn:(req:IRequest,res:IResponse,route:IRouteOptions)=>void): this {
+
+        this._route.customRouteFn.push(fn);
 
         return this
     }

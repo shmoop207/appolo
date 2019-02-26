@@ -1,10 +1,13 @@
 "use strict";
-import {controller, inject, get, middleware, Controller, gzip,statusCode,headers} from '../../../../index';
+import {controller, inject, get, middleware, Controller, gzip,statusCode,header,customRouteDecorator} from '../../../../index';
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
 import compression = require('compression')
 import Q = require('bluebird')
 
+let someHeader =  customRouteDecorator((req,res,route)=>{
+    res.setHeader("x-test2","222")
+})
 
 @controller()
 export class GzipController extends Controller {
@@ -25,7 +28,8 @@ export class GzipController extends Controller {
 
     @get('/test/gzip/decorator')
     @gzip()
-    @headers("x-test","true")
+    @header("x-test","true")
+    @someHeader
     @statusCode(201)
     gzipDecorator(req, res) {
         res.json({working: true})

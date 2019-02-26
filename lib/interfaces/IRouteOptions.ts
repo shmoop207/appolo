@@ -3,6 +3,8 @@ import {IController} from "../controller/IController";
 import {IMiddlewareCtr} from "./IMiddleware";
 import {Methods, MiddlewareHandlerParams} from "appolo-agent";
 import {IDefinition} from "appolo-engine";
+import {IRequest} from "./IRequest";
+import {IResponse} from "./IResponse";
 
 
 export interface IRouteOptions {
@@ -24,6 +26,7 @@ export interface IRouteOptions {
     definition: IDefinition
     $initialized?: boolean
     headers: { key: string, value: string }[]
+    customRouteFn:((req:IRequest,res:IResponse,route:IRouteOptions)=>void)[]
     statusCode: number
     gzip: boolean
 
