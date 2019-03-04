@@ -88,6 +88,10 @@ export function del(path?: string): (target: any, propertyKey: string, descripto
     return defineRouteProperty([{name: "path", args: [path || ""]}, {name: "method", args: [Methods.DELETE]}])
 }
 
+export function purge(path?: string): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
+    return defineRouteProperty([{name: "path", args: [path || ""]}, {name: "method", args: [Methods.PURGE]}])
+}
+
 export function method(method: 'get' | 'post' | 'delete' | 'patch' | 'head' | 'put' | Methods) {
     return defineRouteProperty([{name: "method", args: [method]}])
 }
