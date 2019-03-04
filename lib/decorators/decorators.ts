@@ -158,3 +158,53 @@ export function statusCode(code: number) {
 export function customRouteDecorator(fn: ((req: IRequest, res: IResponse, route: IRouteOptions) => void)) {
     return defineRouteProperty([{name: "customRouteFn", args: [fn]}])
 }
+
+export function customRouteParam(fn: ((req: IRequest, res: IResponse, route: IRouteOptions) => void)) {
+
+    return function (target: Object, propertyKey: string, parameterIndex: number) {
+        defineRouteProperty([{name: "customRouteParam", args: [parameterIndex, fn]}])(target, propertyKey)
+    }
+}
+
+export let body = function (param?: string) {
+    return customRouteParam(function (req: IRequest) {
+        return param != undefined ? req.body[param] : req.body
+    })
+}
+
+export let headers = function (param?: string) {
+    return customRouteParam(function (req: IRequest) {
+        return param != undefined ? req.headers[param] : req.headers
+    })
+}
+
+export let query = function (param?: string) {
+    return customRouteParam(function (req: IRequest) {
+        return param != undefined ? req.query[param] : req.query
+    })
+}
+
+export let model = function (param?: string) {
+    return customRouteParam(function (req: IRequest) {
+        return param != undefined ? req.model[param] : req.model
+    })
+}
+
+export let params = function (param?: string) {
+    return customRouteParam(function (req: IRequest) {
+        return param != undefined ? req.params[param] : req.params
+    })
+}
+
+export let req = function () {
+    return customRouteParam(function (req: IRequest) {
+        return req
+    })
+}
+
+export let res = function () {
+    return customRouteParam(function (req: IRequest, res: IResponse) {
+        return res
+    })
+}
+

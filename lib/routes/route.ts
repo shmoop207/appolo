@@ -37,7 +37,8 @@ export class Route<T extends IController> {
             headers: [],
             statusCode: 0,
             gzip: false,
-            customRouteFn:[]
+            customRouteFn: [],
+            customRouteParam: []
 
         };
     }
@@ -222,9 +223,18 @@ export class Route<T extends IController> {
         return this
     }
 
-    public customRouteFn(fn:(req:IRequest,res:IResponse,route:IRouteOptions)=>void): this {
+    public customRouteFn(fn: (req: IRequest, res: IResponse, route: IRouteOptions) => void): this {
 
         this._route.customRouteFn.push(fn);
+
+        return this
+    }
+
+    public customRouteParam(index: number, fn: (req: IRequest,res: IResponse, route: IRouteOptions) => void): this {
+
+        this._route.customRouteParam.push({index, fn});
+
+        this._route.customRouteParam = _.orderBy(this._route.customRouteParam,data=>data.index);
 
         return this
     }

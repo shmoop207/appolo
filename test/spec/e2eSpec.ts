@@ -277,6 +277,22 @@ describe('Appolo e2e', () => {
         });
     });
 
+    describe('custom decorators', function () {
+        it('should  call  with custom decorators', async () => {
+
+            let res = await request(app.handle)
+                .post('/test/custom/params').send({test:"aaaa"});
+
+
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+            should.exist(res.body);
+
+            res.body.working.should.be.eq("aaaa");
+            res.body.userAgent.should.be.include("node-superagent");
+        });
+    });
+
     describe('middleware', function () {
         beforeEach(() => {
             app.route<MiddlewareController>(MiddlewareController)

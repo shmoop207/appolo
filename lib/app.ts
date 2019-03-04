@@ -110,7 +110,13 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
             }
         }
 
-        this._launcher.agent.use(...middleware as MiddlewareHandlerErrorOrAny[]);
+        if (error) {
+            this._launcher.agent.error(...middleware as MiddlewareHandlerErrorOrAny[]);
+
+        } else {
+            this._launcher.agent.use(...middleware as MiddlewareHandlerErrorOrAny[]);
+
+        }
 
         return this;
     }

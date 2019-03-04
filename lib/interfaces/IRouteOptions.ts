@@ -26,7 +26,8 @@ export interface IRouteOptions {
     definition: IDefinition
     $initialized?: boolean
     headers: { key: string, value: string }[]
-    customRouteFn:((req:IRequest,res:IResponse,route:IRouteOptions)=>void)[]
+    customRouteFn: ((req: IRequest, res: IResponse, route: IRouteOptions) => void)[]
+    customRouteParam: ({ index: number, fn: (req: IRequest,res: IResponse, route: IRouteOptions) => any })[]
     statusCode: number
     gzip: boolean
 

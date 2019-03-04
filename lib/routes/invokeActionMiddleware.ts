@@ -33,7 +33,20 @@ export function invokeActionMiddleware(req: IRequest, res: IResponse, next: Next
     try {
 
 
-        let result = controller[fnName](req, res, req.model, route);
+        let result;
+
+        if (route.customRouteParam.length) {
+            let args = [req, res, req.model, route];
+            for (let i = 0, len = route.customRouteParam.length; i < len; i++) {
+                let data = route.customRouteParam[i];
+                args.splice(data.index, 0, data.fn(req, res, req.route));
+            }
+
+            result = controller[fnName].apply(controller, args);
+        } else {
+            result = controller[fnName](req, res, req.model, route);
+        }
+
 
         if (res.headersSent || res.sending) {
             return;
@@ -81,14 +94,14 @@ export function invokeMiddleWare(middlewareId: string) {
 
         let result = middleware.run(req, res, next, req.route);
 
-        if (next.run || res.headersSent || res.sending) {
+        if (res.headersSent || res.sending || middleware.run.length >2) {
             return;
         }
 
         if (result && result.then && result.catch) {
 
             result
-                .then(data => (!next.run && !res.headersSent && !res.sending) && next())
+                .then(() => (!res.headersSent && !res.sending) && next())
                 .catch(e => next(_handleError(e)));
 
             return;
@@ -109,15 +122,16 @@ export function invokeMiddleWareError(middlewareId: string) {
 
         let result = middleware.catch(err, req, res, next, req.route);
 
-        if (next.run || res.headersSent || res.sending) {
+        if (res.headersSent || res.sending || middleware.catch.length >3) {
             return;
         }
 
         if (result && result.then && result.catch) {
 
             result
-                .then(data => (!next.run && !res.headersSent && !res.sending) && next(err))
+                .then(() => (!res.headersSent && !res.sending) && next(err))
                 .catch(e => next(_handleError(e)));
+
             return;
         }
 
@@ -144,7 +158,7 @@ export function invokeCustomRouteMiddleWare(req: IRequest, res: IResponse, next:
     if (route.customRouteFn.length) {
         for (let i = 0, len = route.customRouteFn.length; i < len; i++) {
             let fn = route.customRouteFn[i];
-            fn(req,res,req.route)
+            fn(req, res, req.route)
         }
     }
 
