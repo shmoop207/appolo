@@ -2,25 +2,31 @@
 import    _ = require('lodash');
 import {Controller} from '../controller/controller';
 import {IEnv, Injector} from "appolo-engine";
-import {Agent, Methods, MiddlewareHandlerParams} from "appolo-agent";
-import {IMiddlewareCtr} from "../interfaces/IMiddleware";
+import {Agent, Methods, MiddlewareHandlerParams, Hooks} from "appolo-agent";
+import {IMiddlewareCtr, MiddlewareType} from "../interfaces/IMiddleware";
 import {Route} from "./route";
 import {IController} from "../controller/IController";
 import {IOptions} from "../interfaces/IOptions";
 import {
     invokeActionMiddleware,
     invokeCustomRouteMiddleWare,
-    invokeMiddleWare,
-    invokeMiddleWareError
+    invokeMiddleWare, invokeMiddleWareData, invokeMiddleWareError,
 } from "./invokeActionMiddleware";
 import {checkValidationMiddleware} from "./checkValidationMiddleware";
 import {Util} from "../util/util";
+import {
+    RouterControllerSymbol,
+    RouterDefinitionsClassSymbol,
+    RouterDefinitionsCompiledSymbol,
+    RouterDefinitionsSymbol
+} from "../decorators/decorators";
 
 
 export class Router {
 
     protected readonly controllerSuffix: string = 'Controller';
     protected readonly actionSuffix: string = 'Action';
+
 
     private _isInitialize = false;
 
@@ -38,6 +44,11 @@ export class Router {
         _.forEach(this._routes, route => this._initRoute(route))
     }
 
+    public getRoute(path: string, method: string): Route<any> {
+        return _.find(this._routes, route => _.includes(route.definition.path, path) && _.includes(route.definition.method, method))
+
+    }
+    
     public addRoute(route: Route<IController>) {
 
         this._routes.push(route);
@@ -66,9 +77,9 @@ export class Router {
 
         def.definition = this._injector.getDefinition(def.controller);
 
-        let middewares = this._convertStrMiddleware(def.middleware).concat(this._convertStrMiddleware(def.middlewareError, true));
+        let middewares = Util.convertMiddleware(def.middleware, MiddlewareType.MiddleWare).concat(Util.convertMiddleware(def.middlewareError, MiddlewareType.Error));
 
-        if(def.gzip || def.statusCode || def.headers.length || def.customRouteFn.length){
+        if (def.gzip || def.statusCode || def.headers.length || def.customRouteFn.length) {
             middewares.unshift(invokeCustomRouteMiddleWare);
         }
 
@@ -78,29 +89,14 @@ export class Router {
 
         middewares.push(invokeActionMiddleware);
 
+        let hooks = {};
+        _.forEach(def.hooks, (hook, key) =>
+            hooks[key] = Util.convertMiddlewareHooks(key as Hooks, hook));
+
+
         for (let i = 0, len = def.path.length; i < len; i++) {
-            this._agent.add(def.method[i] || Methods.GET, def.path[i], middewares, def);
+            this._agent.add(def.method[i] || Methods.GET, def.path[i], middewares, def, hooks);
         }
-    }
-
-    private _convertStrMiddleware(middleware: (string | MiddlewareHandlerParams | IMiddlewareCtr)[], error: boolean = false): MiddlewareHandlerParams[] {
-
-        let output:MiddlewareHandlerParams[] = [];
-
-        for (let i = 0, len = middleware.length; i < len; i++) {
-
-            let dto = middleware[i] as MiddlewareHandlerParams;
-
-            let id =  Util.getClassId(middleware[i]);
-
-            if(id){
-                dto = error  ? invokeMiddleWareError(id) :invokeMiddleWare(id)
-            }
-
-            output.push(dto);
-        }
-
-        return output
     }
 
 

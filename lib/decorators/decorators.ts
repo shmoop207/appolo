@@ -12,6 +12,7 @@ import {IRequest} from "../interfaces/IRequest";
 import {IResponse} from "../interfaces/IResponse";
 
 export const RouterDefinitionsSymbol = "__RouterDefinitions__";
+export const RouterDefinitionsCompiledSymbol = "__RouterDefinitionsCompiled__";
 export const RouterDefinitionsClassSymbol = "__RouterDefinitionsClass__";
 export const RouterModelSymbol = "__RouterModelDefinitions__";
 export const RouterControllerSymbol = "__RouterControllerDefinitions__";

@@ -1,8 +1,9 @@
 import    http = require('http');
 import    https = require('https');
+import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
 import {
-    Events as AgentEvents,
+    Events as AgentEvents, Hooks, Methods,
     IApp as IAgentApp,
     MiddlewareHandlerErrorOrAny,
     MiddlewareHandlerOrAny
@@ -28,11 +29,12 @@ import {IResponse} from "./interfaces/IResponse";
 import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
 import {IRequest} from "./interfaces/IRequest";
 import {NextFn} from "appolo-agent/index";
-import {IMiddlewareCtr, RequestContextSymbol} from "./interfaces/IMiddleware";
+import {IMiddlewareCtr, MiddlewareType, RequestContextSymbol} from "./interfaces/IMiddleware";
 import {Events} from "./interfaces/events";
 import {Plugin} from "./interfaces/IDefinition";
 import {Util} from "./util/util";
 import {invokeMiddleWare, invokeMiddleWareError} from "./routes/invokeActionMiddleware";
+import {RouterDefinitionsSymbol} from "./decorators/decorators";
 
 export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
@@ -61,6 +63,9 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return this._launcher.engine.exportedClasses;
     }
 
+    public getRoute<T extends IController>(path: string, method: Methods): Route<T> {
+        return this._launcher.router.getRoute(path, method)
+    }
 
     public async launch(): Promise<App> {
 
@@ -119,6 +124,18 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         }
 
         return this;
+    }
+
+    public addHook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
+    public addHook(name: Hooks.OnResponse | Hooks.PreMiddleware | Hooks.PreHandler | Hooks.OnRequest, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
+    public addHook(name: Hooks.OnSend, ...hook: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this
+    public addHook(name: Hooks, ...hooks: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]): this {
+
+        hooks = Util.convertMiddlewareHooks(name, hooks);
+
+        this._launcher.agent.addHook(name as any, ...(hooks as any));
+
+        return this
     }
 
     public module(...moduleFn: ModuleFn[]): Promise<any> {

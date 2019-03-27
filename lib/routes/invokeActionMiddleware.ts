@@ -89,25 +89,23 @@ export function invokeMiddleWare(middlewareId: string) {
         let middleware: IMiddleware = req.app.injector.getObject<IMiddleware>(middlewareId, [req, res, next, req.route]);
 
         if (!middleware) {
-            next(new HttpError(500, `failed to find middleware ${middlewareId}`));
+            return next(new HttpError(500, `failed to find middleware ${middlewareId}`));
         }
 
         let result = middleware.run(req, res, next, req.route);
 
-        if (res.headersSent || res.sending || middleware.run.length >2) {
+        if (res.headersSent || res.sending || middleware.run.length > 2) {
             return;
         }
 
-        if (result && result.then && result.catch) {
-
-            result
-                .then(() => (!res.headersSent && !res.sending) && next())
-                .catch(e => next(_handleError(e)));
-
-            return;
+        if (!result || !result.then || !result.catch) {
+            return next();
         }
 
-        next();
+        result.then(() => (!res.headersSent && !res.sending) && next())
+            .catch(e => next(_handleError(e)));
+
+
     }
 
 }
@@ -117,25 +115,49 @@ export function invokeMiddleWareError(middlewareId: string) {
         let middleware: IMiddleware = req.app.injector.getObject<IMiddleware>(middlewareId, [req, res, next, req.route]);
 
         if (!middleware) {
-            next(new HttpError(500, `failed to find middleware ${middlewareId}`));
+            return next(new HttpError(500, `failed to find middleware ${middlewareId}`));
         }
 
         let result = middleware.catch(err, req, res, next, req.route);
 
-        if (res.headersSent || res.sending || middleware.catch.length >3) {
+        if (res.headersSent || res.sending || middleware.catch.length > 3) {
             return;
         }
 
-        if (result && result.then && result.catch) {
+        if (!result || !result.then || !result.catch) {
+            return next(err);
+        }
 
-            result
-                .then(() => (!res.headersSent && !res.sending) && next(err))
-                .catch(e => next(_handleError(e)));
+        result.then(() => (!res.headersSent && !res.sending) && next(err))
+            .catch(e => next(_handleError(e)));
 
+
+    }
+
+}
+
+export function invokeMiddleWareData(middlewareId: string) {
+    return function (data: any, req: IRequest, res: IResponse, next: NextFn) {
+        let middleware: IMiddleware = req.app.injector.getObject<IMiddleware>(middlewareId, [req, res, next, req.route]);
+
+        if (!middleware) {
+            return next(new HttpError(500, `failed to find middleware ${middlewareId}`));
+        }
+
+        let result = middleware.catch(data, req, res, next, req.route);
+
+        if (res.headersSent || res.sending || middleware.catch.length > 3) {
             return;
         }
 
-        next(err)
+        if (!result || !result.then || !result.catch) {
+            return next(null,data);
+        }
+
+        result.then((data) => (!res.headersSent && !res.sending) && next(null,data))
+            .catch(e => next(_handleError(e)));
+
+
     }
 
 }

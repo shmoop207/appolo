@@ -2,7 +2,7 @@
 import    _ = require('lodash');
 import    joi = require('joi');
 import {IRouteOptions} from "../interfaces/IRouteOptions";
-import {Methods} from "appolo-agent";
+import {Methods, Hooks} from "appolo-agent";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IController} from "../controller/IController";
 import {Util} from "../util/util";
@@ -38,7 +38,15 @@ export class Route<T extends IController> {
             statusCode: 0,
             gzip: false,
             customRouteFn: [],
-            customRouteParam: []
+            customRouteParam: [],
+            hooks: {
+                preHandler: [],
+                preMiddleware: [],
+                onResponse: [],
+                onRequest: [],
+                onError: [],
+                onSend: []
+            }
 
         };
     }
@@ -138,8 +146,7 @@ export class Route<T extends IController> {
         if (_.isArray(environment)) {
 
             this._route.environments.push.apply(this._route.environments, environment);
-        }
-        else {
+        } else {
 
             this._route.environments.push(environment)
         }
@@ -192,6 +199,16 @@ export class Route<T extends IController> {
         return this;
     }
 
+    public addHook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
+    public addHook(name: Hooks.OnResponse | Hooks.PreMiddleware | Hooks.PreHandler | Hooks.OnRequest, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
+    public addHook(name: Hooks.OnSend, ...hook: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this
+    public addHook(name: Hooks, ...hook: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]): this {
+
+        this._route.hooks[name].push(...hook);
+
+        return this
+    }
+
 
     public role(role: string | string[]): this {
         return this.roles(role)
@@ -230,11 +247,11 @@ export class Route<T extends IController> {
         return this
     }
 
-    public customRouteParam(index: number, fn: (req: IRequest,res: IResponse, route: IRouteOptions) => void): this {
+    public customRouteParam(index: number, fn: (req: IRequest, res: IResponse, route: IRouteOptions) => void): this {
 
         this._route.customRouteParam.push({index, fn});
 
-        this._route.customRouteParam = _.orderBy(this._route.customRouteParam,data=>data.index);
+        this._route.customRouteParam = _.orderBy(this._route.customRouteParam, data => data.index);
 
         return this
     }

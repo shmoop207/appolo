@@ -15,7 +15,8 @@ import {
     NotFoundError,
     Request,
     Response,
-    UnauthorizedError
+    UnauthorizedError,
+    Hooks,
 } from "appolo-agent";
 import {
     alias,
@@ -85,7 +86,7 @@ export {
     IBootstrap,
     IFactory,
     Injector, bootstrap, override,
-    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions, injectLazy,
+    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions, injectLazy,Hooks,
 }
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';

@@ -38,9 +38,9 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-agent": "^6.0.24",
+    "appolo-agent": "github:shmoop207/appolo-agent",
     "appolo-context": "^6.0.9",
-    "appolo-engine": "^6.0.58",
+    "appolo-engine": "^6.0.59",
     "bluebird": "^3.5.3",
     "joi": "^14.3.1",
     "lodash": "^4.17.11",

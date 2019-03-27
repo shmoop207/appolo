@@ -3,7 +3,12 @@ import _ = require('lodash');
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {Controller} from "../controller/controller";
 import {StaticController} from "../controller/staticController";
-import {Request, Response} from "appolo-agent";
+import {Hooks, MiddlewareHandlerParams, Request, Response} from "appolo-agent";
+import {IMiddlewareCtr, MiddlewareType} from "../interfaces/IMiddleware";
+import {invokeMiddleWare, invokeMiddleWareData, invokeMiddleWareError} from "../routes/invokeActionMiddleware";
+import {Route} from "../routes/route";
+import {RouterDefinitionsCompiledSymbol, RouterDefinitionsSymbol} from "../decorators/decorators";
+import {IController} from "../controller/IController";
 
 export class Util extends appolo.Util {
 
@@ -57,6 +62,40 @@ export class Util extends appolo.Util {
         Response.prototype[name] = function () {
             return fn.apply(this, arguments)
         }
+    }
+
+    public static getRouteDefinition<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
+
+        action = _.isString(action) ? action : action(fn.prototype).name;
+
+        let route = Reflect.getMetadata(RouterDefinitionsCompiledSymbol, fn,action);
+
+        return route
+    }
+
+    public static convertMiddleware(middleware: (string | MiddlewareHandlerParams | IMiddlewareCtr)[], type: MiddlewareType): MiddlewareHandlerParams[] {
+
+        let output: MiddlewareHandlerParams[] = [];
+
+        for (let i = 0, len = middleware.length; i < len; i++) {
+
+            let dto = middleware[i] as MiddlewareHandlerParams;
+
+            let id = Util.getClassId(middleware[i]);
+
+            if (id) {
+                dto = type == MiddlewareType.MiddleWare ? invokeMiddleWare(id) : type == MiddlewareType.Error ? invokeMiddleWareError(id) : invokeMiddleWareData(id)
+            }
+
+            output.push(dto);
+        }
+
+        return output
+    }
+
+    public static convertMiddlewareHooks(name: Hooks, hooks: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]): MiddlewareHandlerParams[] {
+        return Util.convertMiddleware(hooks, name == Hooks.OnSend ? MiddlewareType.Data : name == Hooks.OnError ? MiddlewareType.Error : MiddlewareType.MiddleWare);
+
     }
 
 

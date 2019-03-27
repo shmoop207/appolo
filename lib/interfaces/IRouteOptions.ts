@@ -29,7 +29,15 @@ export interface IRouteOptions {
     customRouteFn: ((req: IRequest, res: IResponse, route: IRouteOptions) => void)[]
     customRouteParam: ({ index: number, fn: (req: IRequest,res: IResponse, route: IRouteOptions) => any })[]
     statusCode: number
-    gzip: boolean
+    gzip: boolean,
+    hooks:  {
+        preHandler: (string | MiddlewareHandlerParams | IMiddlewareCtr)[],
+        preMiddleware: (string | MiddlewareHandlerParams | IMiddlewareCtr)[],
+        onResponse: (string | MiddlewareHandlerParams | IMiddlewareCtr)[],
+        onRequest: (string | MiddlewareHandlerParams | IMiddlewareCtr)[],
+        onError: (string | MiddlewareHandlerParams | IMiddlewareCtr)[],
+        onSend: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]
+    }
 
 
 }

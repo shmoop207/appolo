@@ -21,6 +21,10 @@ export abstract class StaticMiddleware implements IMiddleware {
         next(err);
     }
 
+    public  runWithData(data,req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions): void{
+        next(null,data);
+    }
+
     public sendError(next: NextFn, error?: Error | string, code?: number): void {
 
         this._callNext(next, new InternalServerError(error, {}, code));

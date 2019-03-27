@@ -29,6 +29,10 @@ export abstract class Middleware implements IMiddleware{
         next(err);
     }
 
+    public  runWithData(data:any,req: IRequest, res: IResponse, next: NextFn, route: IRouteOptions): void{
+        next(null,data);
+    }
+
     public sendError(error?: Error | string, code?: number): void {
 
         this._callNext(new InternalServerError(error, {}, code));

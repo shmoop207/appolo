@@ -1,16 +1,19 @@
 import * as chai from 'chai';
 import * as request from 'supertest';
 import * as Q from 'bluebird';
-import {App, createApp, Methods, validator} from '../../index';
+import {App, createApp, Hooks, Methods, validator} from '../../index';
 import {DefineController} from "../mock/src/controllers/defineController";
 import {EnvController} from "../mock/src/controllers/envController";
 import {MiddlewareController} from "../mock/src/controllers/middlewareController";
 import {AuthMiddleware} from "../mock/src/middleware/authMiddleware";
 import {TestMiddleware} from "../mock/src/middleware/middleware";
 import {ErrorMiddleware} from "../mock/src/middleware/errorMiddleware";
+import sinon = require("sinon");
+import sinonChai = require("sinon-chai");
 
 let should = chai.should();
-chai.use(require("chai-http"))
+chai.use(require("chai-http"));
+chai.use(sinonChai);
 
 
 describe('Appolo e2e', () => {
@@ -169,7 +172,7 @@ describe('Appolo e2e', () => {
         it('should  call  custom error', async () => {
 
             let res = await request(app.handle)
-                .get('/test/error/')
+                .get('/test/error/');
 
 
             res.should.to.have.status(503);
@@ -196,19 +199,106 @@ describe('Appolo e2e', () => {
 
 
             let res = await request(app.handle)
-                .get('/test/error2/')
+                .get('/test/error2/');
 
 
             res.should.to.have.status(503);
             res.should.to.be.json;
 
-            should.exist(res.body)
+            should.exist(res.body);
 
             res.body.data.should.be.eq("erroraaaa");
         });
 
 
+    });
+
+
+    describe('hooks', function () {
+
+        it('should  call onResponse global hook', async () => {
+
+            await app.reset();
+
+            app = createApp({
+                port: 8183,
+                environment: "testing",
+                root: process.cwd() + '/test/mock/',
+            });
+
+            app.error(ErrorMiddleware);
+
+            let spy = sinon.spy();
+            app.addHook(Hooks.OnResponse, spy);
+
+            await app.launch();
+
+
+            let res = await request(app.handle)
+                .get('/test/error2/');
+
+
+            res.should.to.have.status(503);
+            res.should.to.be.json;
+
+            should.exist(res.body);
+
+            res.body.data.should.be.eq("erroraaaa");
+
+            spy.should.have.been.calledOnce;
+        });
+
+        it('should  call pre middleware hook global', async () => {
+
+            await app.reset();
+
+            app = createApp({
+                port: 8183,
+                environment: "testing",
+                root: process.cwd() + '/test/mock/',
+            });
+
+
+            app.addHook(Hooks.PreMiddleware, function (req,res,next) {
+                req.model = {c:112};
+
+                next();
+            });
+
+            await app.launch();
+
+
+            let res = await request(app.handle)
+                .get('/test/hooks/');
+
+
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+
+            should.exist(res.body)
+
+            res.body.query.c.should.be.eq(112);
+
+        });
+
+        it('should  call pre middleware hook on route', async () => {
+
+            let res = await request(app.handle)
+                .get('/test/hooks/');
+
+
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+
+            should.exist(res.body)
+
+            res.body.query.a.should.be.eq(11);
+
+        });
+
+
     })
+
 
     describe('gzip', function () {
         it('should  call  controller with gzip', async () => {
@@ -220,7 +310,7 @@ describe('Appolo e2e', () => {
             res.should.to.have.status(200);
             res.should.to.be.json;
 
-            should.exist(res.body)
+            should.exist(res.body);
             res.header["content-encoding"].should.be.eq("gzip")
 
             res.body.working.should.be.ok;
@@ -229,7 +319,7 @@ describe('Appolo e2e', () => {
         it('should  call  controller with gzip decorator', async () => {
 
             let res = await request(app.handle)
-                .get('/test/gzip/decorator')
+                .get('/test/gzip/decorator');
 
 
             res.should.to.have.status(201);
@@ -281,7 +371,7 @@ describe('Appolo e2e', () => {
         it('should  call  with custom decorators', async () => {
 
             let res = await request(app.handle)
-                .post('/test/custom/params').send({test:"aaaa"});
+                .post('/test/custom/params').send({test: "aaaa"});
 
 
             res.should.to.have.status(200);

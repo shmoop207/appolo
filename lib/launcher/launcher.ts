@@ -7,7 +7,12 @@ import {Router} from '../routes/router';
 import * as path from 'path';
 import * as _ from 'lodash';
 import {IOptions} from "../interfaces/IOptions";
-import {RouterControllerSymbol, RouterDefinitionsClassSymbol, RouterDefinitionsSymbol} from "../decorators/decorators";
+import {
+    RouterControllerSymbol,
+    RouterDefinitionsClassSymbol,
+    RouterDefinitionsCompiledSymbol,
+    RouterDefinitionsSymbol
+} from "../decorators/decorators";
 import {Route} from "../routes/route";
 import {IController} from "../controller/IController";
 import {Util} from "../util/util";
@@ -42,6 +47,7 @@ export class Launcher {
     private readonly _port: number;
     private readonly _router: Router;
     private _plugins: { plugin: Plugin, options: any }[] = [];
+
 
 
     constructor(options: IOptions, private _app: App) {
@@ -126,7 +132,9 @@ export class Launcher {
             //override the controller in case we inherit it
             route.definition.controller = Util.getControllerName(fn as any);
 
-            this._router.addRoute(route)
+            Reflect.defineMetadata(RouterDefinitionsCompiledSymbol, route,fn,key);
+
+            this._router.addRoute(route);
         })
 
 
@@ -167,6 +175,10 @@ export class Launcher {
         this._app = null;
 
         this._plugins.length = 0;
+        this._router.reset();
+
+
+
 
         process.removeAllListeners();
     }

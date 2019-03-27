@@ -15,6 +15,7 @@ exports.InternalServerError = appolo_agent_1.InternalServerError;
 exports.Methods = appolo_agent_1.Methods;
 exports.NotFoundError = appolo_agent_1.NotFoundError;
 exports.UnauthorizedError = appolo_agent_1.UnauthorizedError;
+exports.Hooks = appolo_agent_1.Hooks;
 const appolo_engine_1 = require("appolo-engine");
 exports.alias = appolo_engine_1.alias;
 exports.aliasFactory = appolo_engine_1.aliasFactory;
