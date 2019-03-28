@@ -1,7 +1,13 @@
 import * as _ from 'lodash';
 import * as joi from "joi";
 import {Route} from "../routes/route";
-import {Methods, MiddlewareHandlerErrorOrAny, MiddlewareHandlerOrAny} from "appolo-agent";
+import {
+    Hooks,
+    Methods,
+    MiddlewareHandlerErrorOrAny,
+    MiddlewareHandlerOrAny,
+    MiddlewareHandlerParams
+} from "appolo-agent";
 import {define} from "appolo-engine";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
@@ -96,6 +102,13 @@ export function purge(path?: string): (target: any, propertyKey: string, descrip
 export function method(method: 'get' | 'post' | 'delete' | 'patch' | 'head' | 'put' | Methods) {
     return defineRouteProperty([{name: "method", args: [method]}])
 }
+export function hook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[])
+export function hook(name: Hooks.OnResponse | Hooks.PreMiddleware | Hooks.PreHandler | Hooks.OnRequest, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[])
+export function hook(name: Hooks.OnSend, ...hook: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[])
+export function hook(name: Hooks, ...hook: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]) {
+    return defineRouteProperty([{name: "addHook", args: [name, ...hook]}])
+}
+
 
 export function middleware(middleware: string | string[] | MiddlewareHandlerOrAny | MiddlewareHandlerOrAny[] | IMiddlewareCtr | IMiddlewareCtr[]): any {
 
