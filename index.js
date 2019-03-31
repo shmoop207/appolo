@@ -50,6 +50,7 @@ exports.once = appolo_engine_1.once;
 exports.override = appolo_engine_1.override;
 exports.singleton = appolo_engine_1.singleton;
 exports.throttle = appolo_engine_1.throttle;
+exports.dynamicFactory = appolo_engine_1.dynamicFactory;
 var route_1 = require("./lib/routes/route");
 exports.Route = route_1.Route;
 var controller_1 = require("./lib/controller/controller");

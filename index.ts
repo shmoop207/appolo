@@ -58,7 +58,7 @@ import {
     override,
     singleton,
     throttle,
-    IClass
+    IClass, dynamicFactory
 } from 'appolo-engine';
 
 export {
@@ -79,16 +79,33 @@ export {
     injectAlias,
     injectAliasFactory,
     IParamInject,
-    define, singleton,
+    define,
+    singleton,
     EventDispatcher,
     Util,
     lazy,
-    module, Module,
+    module,
+    Module,
     IEnv,
     IBootstrap,
     IFactory,
-    Injector, bootstrap, override,
-    IApp, mixins, bind, delay, debounce, interval, throttle, once, cache, IModuleOptions, injectLazy, Hooks, IClass
+    Injector,
+    bootstrap,
+    override,
+    IApp,
+    mixins,
+    bind,
+    delay,
+    debounce,
+    interval,
+    throttle,
+    once,
+    cache,
+    IModuleOptions,
+    injectLazy,
+    Hooks,
+    IClass,
+    dynamicFactory
 }
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';

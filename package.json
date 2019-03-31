@@ -29,7 +29,7 @@
     "test-cov": "nyc --reporter=text mocha test/spec/**/*.js"
   },
   "main": "./index.js",
-  "version": "6.0.64",
+  "version": "6.0.65",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -38,9 +38,9 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-agent": "^6.0.25",
+    "appolo-agent": "^6.0.27",
     "appolo-context": "^6.0.9",
-    "appolo-engine": "^6.0.60",
+    "appolo-engine": "^6.0.61",
     "bluebird": "^3.5.3",
     "joi": "^14.3.1",
     "lodash": "^4.17.11",
