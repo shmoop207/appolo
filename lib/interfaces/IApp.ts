@@ -1,7 +1,13 @@
 import {IApp as IEngineApp} from "appolo-engine";
 import {IOptions} from "./IOptions";
 import {Context} from "appolo-context/index";
-import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent/index";
+import {
+    Hooks,
+    MiddlewareHandler,
+    MiddlewareHandlerAny,
+    MiddlewareHandlerErrorOrAny,
+    MiddlewareHandlerOrAny
+} from "appolo-agent/index";
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Define, IClass, IEnv, Injector} from "appolo-engine/index";
 import {IController} from "../controller/IController";
@@ -12,12 +18,13 @@ import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
 import {Events} from "./events";
 import    http = require('http');
 import    https = require('https');
+import {IMiddlewareCtr} from "./IMiddleware";
 
 export interface IApp extends IEngineApp {
     options: IOptions
 
     enableContext(contextCtr?: typeof Context)
-
+    parent: IApp
     getContext(): any
 
     use(fn: MiddlewareHandler | MiddlewareHandlerAny): this
@@ -56,4 +63,12 @@ export interface IApp extends IEngineApp {
     once(event: Events | string, fn?: (...args: any[]) => any, scope?: any): Promise<any> | void
 
     exportedClasses: { fn: Function, path: string }[]
+
+    addHook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
+
+    addHook(name: Hooks.OnResponse | Hooks.PreMiddleware | Hooks.PreHandler | Hooks.OnRequest, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
+
+    addHook(name: Hooks.OnSend, ...hook: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this
+
+    addHook(name: Hooks, ...hooks: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]): this
 }

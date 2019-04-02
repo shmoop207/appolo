@@ -1,6 +1,7 @@
 import {IOptions} from "./lib/interfaces/IOptions";
 import * as validator from 'joi';
 import {App} from "./lib/app";
+import {IApp} from "./lib/interfaces/IApp";
 import {Util} from "./lib/util/util";
 import {Context} from "appolo-context";
 import {IRequest} from "./lib/interfaces/IRequest";
@@ -30,7 +31,6 @@ import {
     delay,
     EventDispatcher,
     factory,
-    IApp,
     IBootstrap,
     IEnv,
     IFactory,
