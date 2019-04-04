@@ -25,6 +25,7 @@ export interface IApp extends IEngineApp {
 
     enableContext(contextCtr?: typeof Context)
     parent: IApp
+    root: IApp
     getContext(): any
 
     use(fn: MiddlewareHandler | MiddlewareHandlerAny): this

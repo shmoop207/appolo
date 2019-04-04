@@ -101,6 +101,10 @@ export class Launcher {
 
     private _addRoute(fn: Function) {
 
+        if(!Util.isClass(fn)){
+            return
+        }
+
         let routeData = Reflect.getMetadata(RouterDefinitionsSymbol, fn);
 
         let routeAbstract: Route<IController> = Reflect.getMetadata(RouterDefinitionsClassSymbol, fn);

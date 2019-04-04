@@ -22,6 +22,7 @@ declare module "appolo-engine" {
         reset()
 
         parent: IApp
+        root: IApp
         children: IApp[]
 
         launch(): Promise<IApp>

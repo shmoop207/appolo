@@ -189,6 +189,10 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return this._launcher.engine.parent as App;
     }
 
+    public get root(): App {
+        return this._launcher.engine.root as App;
+    }
+
     public get children(): App[] {
         return this._launcher.engine.children as App[];
     }
