@@ -60,7 +60,11 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     }
 
     public get exported(): { fn: Function, path: string, define: Define }[] {
-        return this._launcher.engine.exportedClasses;
+        return this._launcher.engine.exported;
+    }
+
+    public get exportedRoot(): { fn: Function, path: string, define: Define }[] {
+        return this._launcher.engine.exportedRoot;
     }
 
     public getRoute<T extends IController>(path: string, method: Methods): Route<T> {
@@ -192,6 +196,8 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     public get root(): App {
         return this._launcher.engine.root as App;
     }
+
+
 
     public get children(): App[] {
         return this._launcher.engine.children as App[];

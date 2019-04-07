@@ -27,7 +27,7 @@ declare module "appolo-engine" {
 
         launch(): Promise<IApp>
 
-        exportedClasses: { fn: Function, path: string }[]
+        //exportedClasses: { fn: Function, path: string }[]
 
         enableContext(contextCtr?: typeof Context)
 

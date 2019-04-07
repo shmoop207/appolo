@@ -63,7 +63,7 @@ export interface IApp extends IEngineApp {
 
     once(event: Events | string, fn?: (...args: any[]) => any, scope?: any): Promise<any> | void
 
-    exportedClasses: { fn: Function, path: string }[]
+    //exportedClasses: { fn: Function, path: string }[]
 
     addHook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
 
