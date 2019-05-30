@@ -139,6 +139,24 @@ describe('Appolo e2e', () => {
             res.body.data.should.be.eq("erroraaaa");
         });
     });
+    describe('custom app use', function () {
+        it('should  call  use with path', async () => {
+            await app.reset();
+            app = index_1.createApp({
+                port: 8183,
+                environment: "testing",
+                root: process.cwd() + '/test/mock/',
+            });
+            app.use("/test/path", function (req, res, next) {
+                res.send("aaa");
+            });
+            await app.launch();
+            let res = await request(app.handle)
+                .get('/test/path');
+            res.should.to.have.status(200);
+            res.text.should.be.eq("aaa");
+        });
+    });
     describe('hooks', function () {
         it('should  call onResponse global hook', async () => {
             await app.reset();

@@ -213,6 +213,38 @@ describe('Appolo e2e', () => {
 
     });
 
+    describe('custom app use', function () {
+
+        it('should  call  use with path', async () => {
+
+            await app.reset();
+
+            app = createApp({
+                port: 8183,
+                environment: "testing",
+                root: process.cwd() + '/test/mock/',
+            });
+
+            app.use("/test/path",function (req,res,next) {
+                res.send("aaa");
+            });
+
+            await app.launch();
+
+
+            let res = await request(app.handle)
+                .get('/test/path');
+
+
+            res.should.to.have.status(200);
+
+
+            res.text.should.be.eq("aaa");
+        });
+
+
+    });
+
 
     describe('hooks', function () {
 

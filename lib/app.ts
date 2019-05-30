@@ -99,24 +99,30 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     }
 
 
-    public use(...middleware: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
+    public use(path?: (string | MiddlewareHandlerOrAny | IMiddlewareCtr), ...middleware: (MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
 
-        return this._addMiddleware(middleware, false)
+        return this._addMiddleware(path,middleware, false)
     }
 
-    public error(...middleware: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this {
+    public error(path?: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr), ...middleware: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this {
 
-        return this._addMiddleware(middleware, true)
+        return this._addMiddleware(path,middleware, true)
     }
 
-    private _addMiddleware(middleware: (string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr)[], error: boolean): this {
+    private _addMiddleware(path: string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr, middleware: (string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr)[], error: boolean): this {
+
+        if (typeof path !== "string") {
+            middleware.unshift(path)
+        }
 
         for (let i = 0; i < middleware.length; i++) {
+
             let id = Util.getClassId(middleware[i]);
 
             if (id) {
                 middleware[i] = error ? invokeMiddleWareError(id) : invokeMiddleWare(id)
             }
+
         }
 
         if (error) {
@@ -144,6 +150,10 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
     public module(...moduleFn: ModuleFn[]): Promise<any> {
         return this._launcher.engine.module(...moduleFn)
+    }
+
+    public getModuleAt(index: number): App {
+        return this.children[index]
     }
 
     public viewEngine(fn: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>, ext: string = "html", cache: boolean = true): void {
@@ -196,7 +206,6 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     public get root(): App {
         return this._launcher.engine.root as App;
     }
-
 
 
     public get children(): App[] {
