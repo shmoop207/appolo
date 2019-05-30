@@ -236,10 +236,17 @@ describe('Appolo e2e', () => {
                 .get('/test/path');
 
 
+
+
             res.should.to.have.status(200);
 
 
             res.text.should.be.eq("aaa");
+
+            let res2 = await request(app.handle)
+                .get('/test/path2');
+
+            res2.should.to.have.status(404);
         });
 
 
