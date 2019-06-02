@@ -157,7 +157,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return this._launcher.engine.module(...moduleFn)
     }
 
-    public getModuleAt(index: number): App {
+    public moduleAt(index: number): App {
         return this.children[index]
     }
 
