@@ -102,6 +102,7 @@ export function purge(path?: string): (target: any, propertyKey: string, descrip
 export function method(method: 'get' | 'post' | 'delete' | 'patch' | 'head' | 'put' | Methods) {
     return defineRouteProperty([{name: "method", args: [method]}])
 }
+
 export function hook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[])
 export function hook(name: Hooks.OnResponse | Hooks.PreMiddleware | Hooks.PreHandler | Hooks.OnRequest, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[])
 export function hook(name: Hooks.OnSend, ...hook: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[])
@@ -204,6 +205,11 @@ export let query = function (param?: string) {
 
 export let model = function (param?: string) {
     return customRouteParam(function (req: IRequest) {
+
+        if (!req.model) {
+            req.model = Object.assign({}, req.body || {}, req.query || {}, req.params || {});
+        }
+
         return param != undefined ? req.model[param] : req.model
     })
 }

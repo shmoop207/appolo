@@ -101,12 +101,12 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
     public use(path?: (string | MiddlewareHandlerOrAny | IMiddlewareCtr), ...middleware: (MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
 
-        return this._addMiddleware(path,middleware, false)
+        return this._addMiddleware(path, middleware, false)
     }
 
     public error(path?: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr), ...middleware: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this {
 
-        return this._addMiddleware(path,middleware, true)
+        return this._addMiddleware(path, middleware, true)
     }
 
     private _addMiddleware(path: string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr, middleware: (string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr)[], error: boolean): this {
@@ -130,7 +130,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
         } else {
 
-            if (typeof path === "string"){
+            if (typeof path === "string") {
                 middleware.unshift(path)
             }
 
@@ -202,6 +202,10 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         this._launcher.router.addRoute(route);
 
         return route
+    }
+
+    public addRouteFromClass(klass: typeof Controller) {
+        this._launcher.addRoute(klass)
     }
 
     public get parent(): App {

@@ -68,9 +68,13 @@ export class Util extends appolo.Util {
 
         action = _.isString(action) ? action : action(fn.prototype).name;
 
-        let route = Reflect.getMetadata(RouterDefinitionsCompiledSymbol, fn,action);
+        let route = Reflect.getMetadata(RouterDefinitionsCompiledSymbol, fn, action);
 
         return route
+    }
+
+    public static isController(fn: any): boolean {
+        return Reflect.hasMetadata(RouterDefinitionsCompiledSymbol, fn);
     }
 
     public static convertMiddleware(middleware: (string | MiddlewareHandlerParams | IMiddlewareCtr)[], type: MiddlewareType): MiddlewareHandlerParams[] {

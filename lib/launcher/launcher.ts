@@ -84,9 +84,9 @@ export class Launcher {
 
     public async launch(): Promise<void> {
 
-        this._engine.on(EngineEvents.InjectRegister, this._addRoute, this);
+        this._engine.on(EngineEvents.InjectRegister, this.addRoute, this);
 
-        this._app.on(EngineEvents.ModuleExport, this._addRoute, this);
+        this._app.on(EngineEvents.ModuleExport, this.addRoute, this);
 
         await this._engine.launch();
 
@@ -99,7 +99,7 @@ export class Launcher {
         this._logServerMessage();
     }
 
-    private _addRoute(fn: Function) {
+    public addRoute(fn: Function) {
 
         if(!Util.isClass(fn)){
             return
