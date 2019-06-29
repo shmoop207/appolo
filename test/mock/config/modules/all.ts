@@ -11,14 +11,6 @@ export = async function (env, app: App) {
     app.enableContext();
 
 
-    let route = Util.getRouteDefinition<HooksController>(HooksController,c=>c.hooks);
-
-    route.addHook(Hooks.PreMiddleware, function (req,res,next) {
-        req.model = {...req.model, a:11};
-
-        next();
-    });
-
     await app.module(logger)
 
     await app.module(logger2({test: 'test'}));

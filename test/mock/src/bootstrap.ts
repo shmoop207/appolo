@@ -1,7 +1,9 @@
 "use strict";
-import {inject, define, bootstrap, singleton, IBootstrap,override} from "../../../index";
+import {inject, define, bootstrap, singleton, IBootstrap, override, Util} from "../../../index";
 import {Manager} from "./manager/manager";
 import * as Q from 'bluebird';
+import {HooksController} from "./controllers/hooksController";
+import {Hooks} from "appolo-agent/lib/types";
 
 @define()
 @bootstrap()
