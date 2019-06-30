@@ -84,7 +84,7 @@ export class Launcher {
 
     public async launch(): Promise<void> {
 
-        //this._engine.on(EngineEvents.InjectRegister, this.addRoute, this);
+        this._engine.on(EngineEvents.InjectRegister, this.addRoute, this);
 
         this._app.on(EngineEvents.ModuleExport, this.addRoute, this);
 
@@ -92,7 +92,7 @@ export class Launcher {
 
         await this.loadCustomConfigurations();
 
-        _.forEach(this._app.exported,exported=>this.addRoute(exported.fn));
+        //_.forEach(this._app.exported,exported=>this.addRoute(exported.fn));
 
         this._router.initialize();
 
