@@ -10,9 +10,10 @@ import {TestMiddleware} from "../mock/src/middleware/middleware";
 import {ErrorMiddleware} from "../mock/src/middleware/errorMiddleware";
 import sinon = require("sinon");
 import sinonChai = require("sinon-chai");
+import httpChai = require("chai-http");
 
 let should = chai.should();
-chai.use(require("chai-http"));
+chai.use(httpChai);
 chai.use(sinonChai);
 
 
@@ -225,7 +226,7 @@ describe('Appolo e2e', () => {
                 root: process.cwd() + '/test/mock/',
             });
 
-            app.use("/test/path",function (req,res,next) {
+            app.use("/test/path", function (req, res, next) {
                 res.send("aaa");
             });
 
@@ -234,8 +235,6 @@ describe('Appolo e2e', () => {
 
             let res = await request(app.handle)
                 .get('/test/path');
-
-
 
 
             res.should.to.have.status(200);
@@ -298,8 +297,8 @@ describe('Appolo e2e', () => {
             });
 
 
-            app.addHook(Hooks.PreMiddleware, function (req,res,next) {
-                req.model = {c:112};
+            app.addHook(Hooks.PreMiddleware, function (req, res, next) {
+                req.model = {c: 112};
 
                 next();
             });

@@ -58,7 +58,7 @@ import {
     override,
     singleton,
     throttle,
-    IClass, dynamicFactory, pipeline, IPipelineContext, IPipeline, ReflectUtils as Reflector
+    IClass, dynamicFactory, pipeline, PipelineContext, IPipeline, ReflectUtils as Reflector
 } from 'appolo-engine';
 
 export {
@@ -105,7 +105,7 @@ export {
     injectLazy,
     Hooks,
     IClass,
-    dynamicFactory, pipeline, IPipelineContext, IPipeline, Reflector
+    dynamicFactory, pipeline, PipelineContext, IPipeline, Reflector
 }
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';

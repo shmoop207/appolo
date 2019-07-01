@@ -12,8 +12,9 @@ const middleware_1 = require("../mock/src/middleware/middleware");
 const errorMiddleware_1 = require("../mock/src/middleware/errorMiddleware");
 const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
+const httpChai = require("chai-http");
 let should = chai.should();
-chai.use(require("chai-http"));
+chai.use(httpChai);
 chai.use(sinonChai);
 describe('Appolo e2e', () => {
     let app;

@@ -52,6 +52,7 @@ exports.singleton = appolo_engine_1.singleton;
 exports.throttle = appolo_engine_1.throttle;
 exports.dynamicFactory = appolo_engine_1.dynamicFactory;
 exports.pipeline = appolo_engine_1.pipeline;
+exports.PipelineContext = appolo_engine_1.PipelineContext;
 exports.Reflector = appolo_engine_1.ReflectUtils;
 var route_1 = require("./lib/routes/route");
 exports.Route = route_1.Route;

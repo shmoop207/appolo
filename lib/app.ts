@@ -168,7 +168,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     }
 
     public set(name: keyof IOptions, value: any) {
-        this._launcher.options[name] = value;
+        this._launcher.options[name as any] = value;
     }
 
     public async reset() {
