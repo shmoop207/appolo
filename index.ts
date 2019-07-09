@@ -58,7 +58,7 @@ import {
     override,
     singleton,
     throttle,
-    IClass, dynamicFactory, pipeline, PipelineContext, IPipeline, ReflectUtils as Reflector
+    IClass, dynamicFactory, pipeline, PipelineContext, IPipeline, Reflector
 } from 'appolo-engine';
 
 export {
