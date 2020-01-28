@@ -38,7 +38,7 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "appolo-agent": "^6.0.31",
+    "appolo-agent": "^6.0.36",
     "appolo-context": "^6.0.9",
     "appolo-engine": "^6.0.79",
     "bluebird": "^3.5.5",
@@ -76,7 +76,7 @@
     "fastify": "^2.6.0",
     "mocha": "^6.1.4",
     "nunjucks": "^3.2.0",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "serve-static": "^1.14.1",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0",
