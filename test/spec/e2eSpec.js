@@ -588,32 +588,7 @@ describe('Appolo e2e', () => {
             res.body.model.testPost.should.be.eq(true);
         });
     });
-    xdescribe('validations', function () {
-        it('should should call with validation error', async () => {
-            let res = await request(app.handle)
-                .get('/test/validations/?user2_name=11');
-            res.should.to.have.status(400);
-            res.should.to.be.json;
-            should.exist(res.body);
-            res.body.error.should.contain("ValidationError: child \"userName\"");
-            res.body.message.should.contain("Bad Request");
-        });
-        it('should call validations error', async () => {
-            let res = await request(app.handle)
-                .get('/test/validations/');
-            res.should.to.have.status(400);
-            res.should.to.be.json;
-            should.exist(res.body);
-            res.body.error.should.be.ok;
-        });
-        it('should call validations with camelCase', async () => {
-            let res = await request(app.handle)
-                .get('/test/validations/?userName=test');
-            res.should.to.have.status(200);
-            res.should.to.be.json;
-            should.exist(res.body);
-            res.body.model.userName.should.be.ok;
-        });
+    describe('validations', function () {
         it('should call validations ', async () => {
             let res = await request(app.handle)
                 .get('/test/validations/auth/?username=aaa&password=1111');
@@ -622,35 +597,13 @@ describe('Appolo e2e', () => {
             should.exist(res.body);
             res.body.username.should.be.ok;
         });
-        it('should call validations param', async () => {
+        it('should call validations nested ', async () => {
             let res = await request(app.handle)
-                .get('/test/validations/param?test=aaa&test2=2');
+                .get('/test/nested/?username=aaa&password=1111');
             res.should.to.have.status(200);
             res.should.to.be.json;
             should.exist(res.body);
-            res.body.test.should.be.eq("aaa");
-            res.body.name.should.be.eq("ValidationParamController");
-        });
-        it('should call validations param inherit', async () => {
-            let res = await request(app.handle)
-                .get('/test/validations/param2?test=aaa&test2=2&id=www');
-            res.should.to.have.status(200);
-            res.should.to.be.json;
-            should.exist(res.body);
-            res.body.test.should.be.eq("aaa");
-            res.body.id.should.be.eq("www");
-            res.body.name.should.be.eq("ValidationParamController");
-        });
-        it('should call validations param inherit with post', async () => {
-            let res = await request(app.handle)
-                .post('/test/validations/param2').send("test=aaa&test2=2&id=www");
-            res.should.to.have.status(200);
-            res.should.to.be.json;
-            should.exist(res.body);
-            res.body.test.should.be.eq("aaa");
-            res.body.id.should.be.eq("www");
-            res.body.working.should.be.ok;
-            res.body.name.should.be.eq("ValidationParamController");
+            res.body.model.username.should.be.ok;
         });
     });
     describe('json', function () {

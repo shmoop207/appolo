@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let ValidationController = class ValidationController extends index_1.Controller {
     test(req, res) {
-        res.json({ working: true, controllerName: this.route.controller, model: req.model });
+        res.json({ working: true, controllerName: this.route.controller, model: req.query });
     }
     validaion(req, res) {
         res.json(req.query);

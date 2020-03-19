@@ -7,13 +7,13 @@ import {
     MiddlewareHandlerParams
 } from "appolo-agent";
 import {define} from "appolo-engine";
-import {Arrays} from "appolo-utils";
+import {Arrays, Reflector} from "appolo-utils";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
-import {Util} from "../util/util";
 import {IController} from "../controller/IController";
 import {IRequest} from "../interfaces/IRequest";
 import {IResponse} from "../interfaces/IResponse";
+import {Util} from "../util/util";
 
 export const RouterDefinitionsSymbol = "__RouterDefinitions__";
 export const RouterDefinitionsCompiledSymbol = "__RouterDefinitionsCompiled__";
@@ -23,7 +23,9 @@ export const RouterControllerSymbol = "__RouterControllerDefinitions__";
 
 function defineRouteClass(params: { name: string, args: any[] }[], target: any): void {
 
-    let route = Util.getReflectData<Route<IController>>(RouterDefinitionsClassSymbol, target, new Route<IController>(target));
+    let route = Reflector.getFnMetadata<Route<IController>>(RouterDefinitionsClassSymbol, target, new Route<IController>(target));
+
+    //Reflector.setMetadata(RouterDefinitionsClassSymbol, route.clone(), target);
 
     (params || []).forEach(param => {
         route[param.name].apply(route, param.args)
@@ -51,13 +53,15 @@ function defineRouteProperty(params: { name: string, args: any[] }[]): (target: 
             defineRouteClass(params, target)
         }
 
-        let data = Util.getReflectData<{ [index: string]: Route<IController> }>(RouterDefinitionsSymbol, target.constructor, {});
+        let data = Reflector.getFnMetadata<{ [index: string]: Route<IController> }>(RouterDefinitionsSymbol, target.constructor, {});
 
         let route = data[propertyKey];
 
         if (!route) {
             data[propertyKey] = route = new Route<IController>(target.constructor);
             route.action(propertyKey);
+        } else {
+            route =  data[propertyKey] = route.clone();
         }
 
         (params || []).forEach(param => {
@@ -121,7 +125,7 @@ export function middleware(middleware: string | string[] | MiddlewareHandlerOrAn
 export function error(middleware: string | string[] | MiddlewareHandlerErrorOrAny | MiddlewareHandlerErrorOrAny[] | IMiddlewareCtr | IMiddlewareCtr[]): any {
 
     if (Array.isArray(middleware)) {
-        middleware =  Arrays.clone(middleware as string[]).reverse()
+        middleware = Arrays.clone(middleware as string[]).reverse()
     }
 
     return defineRouteProperty([{name: "error", args: [middleware, "head"]}])
@@ -170,19 +174,19 @@ export let body = function (param?: string) {
     return customRouteParam(function (req: IRequest) {
         return param != undefined ? req.body[param] : req.body
     })
-}
+};
 
 export let headers = function (param?: string) {
     return customRouteParam(function (req: IRequest) {
         return param != undefined ? req.headers[param] : req.headers
     })
-}
+};
 
 export let query = function (param?: string) {
     return customRouteParam(function (req: IRequest) {
         return param != undefined ? req.query[param] : req.query
     })
-}
+};
 
 export let model = function (param?: string) {
     return customRouteParam(function (req: IRequest) {
@@ -193,23 +197,23 @@ export let model = function (param?: string) {
 
         return param != undefined ? req.model[param] : req.model
     })
-}
+};
 
 export let params = function (param?: string) {
     return customRouteParam(function (req: IRequest) {
         return param != undefined ? req.params[param] : req.params
     })
-}
+};
 
 export let req = function () {
     return customRouteParam(function (req: IRequest) {
         return req
     })
-}
+};
 
 export let res = function () {
     return customRouteParam(function (req: IRequest, res: IResponse) {
         return res
     })
-}
+};
 
