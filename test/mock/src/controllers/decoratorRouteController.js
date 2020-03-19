@@ -14,16 +14,10 @@ tslib_1.__decorate([
     index_1.inject()
 ], DecoratorRouteController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.get("/test/decorator/route/:name/:name2"),
-    index_1.validation("name2", index_1.validator.string()),
-    index_1.validation("name", index_1.validator.string()),
-    index_1.validation("test", index_1.validator.string())
+    index_1.get("/test/decorator/route/:name/:name2")
 ], DecoratorRouteController.prototype, "test", null);
 tslib_1.__decorate([
-    index_1.get("/test/decorator2/route/:name/:name2"),
-    index_1.validation("name2", index_1.validator.string()),
-    index_1.validation("name", index_1.validator.string()),
-    index_1.validation("test", index_1.validator.string())
+    index_1.get("/test/decorator2/route/:name/:name2")
 ], DecoratorRouteController.prototype, "test2", null);
 DecoratorRouteController = tslib_1.__decorate([
     index_1.controller(),

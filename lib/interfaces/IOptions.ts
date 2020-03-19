@@ -1,6 +1,5 @@
 import {IOptions as IEngineOptions} from 'appolo-engine';
 import {IOptions as IAgentOptions} from 'appolo-agent';
-import { ValidationOptions } from 'joi';
 
 export interface IOptions extends IEngineOptions,IAgentOptions {
 
@@ -23,5 +22,4 @@ export interface IOptions extends IEngineOptions,IAgentOptions {
         key: string
         cert: string
     }
-    validatorOptions?: ValidationOptions
 }

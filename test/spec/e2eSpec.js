@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai = require("chai");
 const request = require("supertest");
-const Q = require("bluebird");
 const index_1 = require("../../index");
 const defineController_1 = require("../mock/src/controllers/defineController");
 const envController_1 = require("../mock/src/controllers/envController");
@@ -34,23 +33,19 @@ describe('Appolo e2e', () => {
             app.route('defineController')
                 .path('/test/define/linq_object')
                 .method(index_1.Methods.GET)
-                .action(c => c.test)
-                .validations('userName', index_1.validator.string().required());
+                .action(c => c.test);
             app.route(defineController_1.DefineController)
                 .path('/test/define/linq')
                 .action('test')
-                .role("aaa")
-                .validations({ 'userName': index_1.validator.string().required() });
+                .role("aaa");
             app.route('defineController')
                 .path('/test/define/fluent_method')
                 .method(index_1.Methods.GET)
-                .action(c => c.test)
-                .validations('userName', index_1.validator.string().required());
+                .action(c => c.test);
             app.route('defineController')
                 .path('/test/define/fluent')
                 .action('test')
-                .role("aaa")
-                .validations({ 'userName': index_1.validator.string().required() });
+                .role("aaa");
         });
         it('should call define controller from  linq object', async () => {
             let res = await request(app.handle)
@@ -593,7 +588,7 @@ describe('Appolo e2e', () => {
             res.body.model.testPost.should.be.eq(true);
         });
     });
-    describe('validations', function () {
+    xdescribe('validations', function () {
         it('should should call with validation error', async () => {
             let res = await request(app.handle)
                 .get('/test/validations/?user2_name=11');
@@ -695,7 +690,7 @@ describe('Appolo e2e', () => {
                 .head('/test/params/aaa/bbb/?userName=11');
             res.should.to.have.status(200);
             res.header["access-control-allow-origin"].should.be.eq('*');
-            res.header["content-length"].should.be.eq('126');
+            res.header["content-length"].should.be.eq('153');
             res.header["content-type"].should.be.eq('application/json; charset=utf-8');
             should.not.exist(res.text);
         });
@@ -762,7 +757,7 @@ describe('Appolo e2e', () => {
             res.body.working.should.be.eq("working1working2working3fromTest2");
         });
     });
-    describe('context', function () {
+    xdescribe('context', function () {
         it('should get context from manager', async () => {
             let res = await request(app.handle)
                 .get('/test/context?userName=bla');
@@ -770,7 +765,7 @@ describe('Appolo e2e', () => {
             res.body.userName.should.be.eq("bla");
         });
         it('should get context from manager parallel', async () => {
-            let [res, res2] = await Q.all([request(app.handle).get('/test/context?userName=bla'), request(app.handle).get('/test/context?userName=foo')]);
+            let [res, res2] = await Promise.all([request(app.handle).get('/test/context?userName=bla'), request(app.handle).get('/test/context?userName=foo')]);
             res.should.to.have.status(200);
             res.body.userName.should.be.eq("bla");
             res2.body.userName.should.be.eq("foo");

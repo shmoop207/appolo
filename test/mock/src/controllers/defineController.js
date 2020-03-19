@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let DefineController = class DefineController extends index_1.Controller {
     test(req, res) {
-        res.json({ working: true, controllerName: this.route.controller, model: req.model, manager5: this.manager5.name });
+        res.json({ working: true, controllerName: this.route.controller, model: req.query, manager5: this.manager5.name });
     }
 };
 tslib_1.__decorate([

@@ -3,7 +3,7 @@ import {controller, inject, get, middleware, Controller, gzip,statusCode,header,
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
 import compression = require('compression')
-import Q = require('bluebird')
+import {Promises} from 'appolo-utils';
 
 let someHeader =  customRouteDecorator((req,res,route)=>{
     res.setHeader("x-test2","222")
@@ -16,7 +16,7 @@ export class GzipController extends Controller {
     @get('/test/gzip_async')
     async gzipAsync(req, res) {
 
-        await Q.delay(10)
+        await Promises.delay(10)
 
         res.gzip().json({working: true})
     }

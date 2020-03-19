@@ -15,8 +15,6 @@ let DecoratorParamsController = class DecoratorParamsController extends index_1.
 };
 tslib_1.__decorate([
     index_1.get("/test/decorator/param/:name/:name2"),
-    index_1.validation("name2", index_1.validator.string()),
-    index_1.validation("name", index_1.validator.string()),
     index_1.abstract({ middleware: [userMiddleware_1.UserMiddleware] }),
     tslib_1.__param(4, index_1.injectParam())
 ], DecoratorParamsController.prototype, "test", null);

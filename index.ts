@@ -1,9 +1,7 @@
 import {IOptions} from "./lib/interfaces/IOptions";
-import * as validator from 'joi';
 import {App} from "./lib/app";
 import {IApp} from "./lib/interfaces/IApp";
 import {Util} from "./lib/util/util";
-import {Context} from "appolo-context";
 import {IRequest} from "./lib/interfaces/IRequest";
 import {IResponse} from "./lib/interfaces/IResponse";
 import {
@@ -58,7 +56,7 @@ import {
     override,
     singleton,
     throttle,
-    IClass, dynamicFactory, pipeline, PipelineContext, IPipeline, Reflector,initMethodAsync,customInjectFn,
+    IClass, dynamicFactory, pipeline, PipelineContext, IPipeline,initMethodAsync,customInjectFn,
 } from 'appolo-engine';
 
 export {
@@ -105,21 +103,17 @@ export {
     injectLazy,
     Hooks,
     IClass,
-    dynamicFactory, pipeline, PipelineContext, IPipeline, Reflector,initMethodAsync,customInjectFn
+    dynamicFactory, pipeline, PipelineContext, IPipeline,initMethodAsync,customInjectFn
 }
 export {Route} from './lib/routes/route';
 export {Controller} from './lib/controller/controller';
 export {StaticController} from './lib/controller/staticController';
 export * from './lib/decorators/decorators'
 
-export {Context}
 export {Middleware} from './lib/middleware/middleware';
 export {StaticMiddleware} from './lib/middleware/staticMiddleware';
 export {App} from './lib/app';
 export {Events} from './lib/interfaces/events';
-
-
-export {validator}
 
 
 export {IOptions} from "./lib/interfaces/IOptions";

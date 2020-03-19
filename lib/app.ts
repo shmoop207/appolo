@@ -1,6 +1,5 @@
 import    http = require('http');
 import    https = require('https');
-import    _ = require('lodash');
 import {IOptions} from "./interfaces/IOptions";
 import {
     Events as AgentEvents, Hooks, Methods,
@@ -17,7 +16,6 @@ import {
     IEnv,
     Injector
 } from "appolo-engine";
-import {Context, namespace} from "appolo-context";
 
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Launcher} from "./launcher/launcher";
@@ -83,20 +81,20 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return this._launcher.options
     }
 
-    public enableContext(contextCtr?: typeof Context) {
+    // public enableContext(contextCtr?: typeof Context) {
+    //
+    //     let context = namespace.create(RequestContextSymbol, contextCtr);
+    //
+    //     this.injector.addObject("context", context);
+    //
+    //     context.initialize();
+    //
+    //     this.use((req: IRequest, res: IResponse, next: NextFn) => context.scope(next))
+    // }
 
-        let context = namespace.create(RequestContextSymbol, contextCtr);
-
-        this.injector.addObject("context", context);
-
-        context.initialize();
-
-        this.use((req: IRequest, res: IResponse, next: NextFn) => context.scope(next))
-    }
-
-    public getContext() {
-        return namespace.get(RequestContextSymbol);
-    }
+    // public getContext() {
+    //     return namespace.get(RequestContextSymbol);
+    // }
 
 
     public use(path?: (string | MiddlewareHandlerOrAny | IMiddlewareCtr), ...middleware: (MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
@@ -172,7 +170,6 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     }
 
     public async reset() {
-        namespace.delete(RequestContextSymbol);
         await this._launcher.reset();
     }
 

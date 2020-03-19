@@ -1,6 +1,5 @@
 import {MiddlewareHandler, MiddlewareHandlerAny} from "appolo-agent/index";
 import {IOptions} from "./lib/interfaces/IOptions";
-import {Context} from "appolo-context/index";
 import {ModuleFn} from "appolo-engine/lib/modules/modules";
 import {Define, IClass, IEnv, Injector} from "appolo-engine/index";
 import {IController} from "./lib/controller/IController";
@@ -29,9 +28,7 @@ declare module "appolo-engine" {
 
         //exportedClasses: { fn: Function, path: string }[]
 
-        enableContext(contextCtr?: typeof Context)
-
-        getContext(): any
+        //getContext(): any
 
         use(fn: MiddlewareHandler | MiddlewareHandlerAny): this
 

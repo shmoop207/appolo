@@ -1,12 +1,10 @@
 "use strict";
-import    _ = require('lodash');
-import    joi = require('joi');
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {Methods, Hooks} from "appolo-agent";
+import {Objects, Arrays} from "appolo-utils";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IController} from "../controller/IController";
 import {Util} from "../util/util";
-import {RouteModel} from "./routeModel";
 import {MiddlewareHandlerErrorOrAny, MiddlewareHandlerOrAny, MiddlewareHandlerParams} from "appolo-agent/index";
 import {Controller} from "../controller/controller";
 import {StaticController} from "../controller/staticController";
@@ -18,16 +16,16 @@ let orderIndex = 0;
 
 export class Route<T extends IController> {
     protected _route: IRouteOptions;
+    protected _controller: string | typeof Controller | typeof StaticController;
 
     constructor(controller: string | typeof Controller | typeof StaticController) {
-
+        this._controller = controller;
         this._route = {
             method: [],
             roles: [],
             environments: [],
             middleware: [],
             middlewareError: [],
-            validations: {},
             controller: Util.getControllerName(controller),
             path: [],
             order: orderIndex++,
@@ -82,17 +80,17 @@ export class Route<T extends IController> {
 
     public abstract(abstract: Partial<IRouteOptions>): this {
 
-        let items = _.pick(abstract, ["environments", "roles", "middleware", "validations", "convertToCamelCase", "params"]);
+        let items = Objects.pick(abstract, "environments", "roles", "middleware", "convertToCamelCase", "params");
 
-        _.forEach(items, (item: any, key: string) => {
-            this[key](item);
+        Object.keys(items).forEach(key => {
+            this[key](items[key]);
         });
 
         return this;
     }
 
     public extend(opts: { [index: string]: any }): this {
-        _.extend(this._route, opts);
+        Object.assign(this._route, opts);
 
         return this;
     }
@@ -104,32 +102,32 @@ export class Route<T extends IController> {
 
     public params(params: { [index: string]: any }): this {
 
-        _.defaults(this._route.params, params);
+        Objects.defaults(this._route.params, params || {});
 
         return this
     }
 
-    public validation(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): this {
-        return this.validations(key, validation);
-    }
+    // public validation(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): this {
+    //     return this.validations(key, validation);
+    // }
 
-    public validations(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): this {
-
-        if (key.constructor && key.constructor.prototype === RouteModel.constructor.prototype && (key as any).prototype && (key as any).prototype.__validations__) {
-            key = (key as any).prototype.__validations__
-        }
-
-        if (_.isObject(key)) {
-
-            _.extend(this._route.validations, key)
-
-        } else {
-
-            this._route.validations[key as string] = validation
-        }
-
-        return this;
-    }
+    // public validations(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): this {
+    //
+    //     if (key.constructor && key.constructor.prototype === RouteModel.constructor.prototype && (key as any).prototype && (key as any).prototype.__validations__) {
+    //         key = (key as any).prototype.__validations__
+    //     }
+    //
+    //     if (_.isObject(key)) {
+    //
+    //         _.extend(this._route.validations, key)
+    //
+    //     } else {
+    //
+    //         this._route.validations[key as string] = validation
+    //     }
+    //
+    //     return this;
+    // }
 
     public method(method: Methods): this {
 
@@ -143,7 +141,7 @@ export class Route<T extends IController> {
     }
 
     public environments(environment: string | string[]): this {
-        if (_.isArray(environment)) {
+        if (Array.isArray(environment)) {
 
             this._route.environments.push.apply(this._route.environments, environment);
         } else {
@@ -171,13 +169,13 @@ export class Route<T extends IController> {
     private _addMiddleware(middleware: (string | MiddlewareHandlerParams | IMiddlewareCtr), order: "head" | "tail" = "tail", error = false): this {
         let arrMethod = order == "head" ? "unshift" : "push";
         //
-        if (_.isArray(middleware)) {
+        if (Array.isArray(middleware)) {
             return this.middlewares(middleware, order)
         }
 
         let middle: any = middleware;
 
-        if (_.isPlainObject(middle) && (middle.order && middle.middleware)) {
+        if (Objects.isPlain(middle) && (middle.order && middle.middleware)) {
             return this.middleware(middle.middleware, middle.order)
         }
 
@@ -194,7 +192,7 @@ export class Route<T extends IController> {
 
     public middlewares(middlewares: string[] | MiddlewareHandlerOrAny[] | IMiddlewareCtr[], order: "head" | "tail" = "tail"): this {
 
-        _.forEach(_.isArray(middlewares) ? middlewares : [middlewares], fn => this.middleware(fn as any, order));
+        Arrays.arrayify(middlewares).forEach(fn => this.middleware(fn as any, order));
 
         return this;
     }
@@ -216,7 +214,7 @@ export class Route<T extends IController> {
 
     public roles(role: string | string[]): this {
 
-        if (_.isArray(role)) {
+        if (Array.isArray(role)) {
 
             this._route.roles.push.apply(this._route.roles, role);
 
@@ -251,7 +249,7 @@ export class Route<T extends IController> {
 
         this._route.customRouteParam.push({index, fn});
 
-        this._route.customRouteParam = _.orderBy(this._route.customRouteParam, data => data.index);
+        this._route.customRouteParam = Arrays.sortBy(this._route.customRouteParam, data => data.index);
 
         return this
     }
@@ -260,6 +258,14 @@ export class Route<T extends IController> {
         this._route.statusCode = code;
 
         return this;
+    }
+
+    public clone(): Route<T> {
+        let route = new Route<T>(this._controller);
+
+        route._route = Objects.cloneDeep(this._route);
+
+        return route;
     }
 
     // route<T extends IController>(controller: string | IControllerCtr): Route<T> {

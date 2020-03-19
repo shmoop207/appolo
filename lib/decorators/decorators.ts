@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-import * as joi from "joi";
 import {Route} from "../routes/route";
 import {
     Hooks,
@@ -9,9 +7,9 @@ import {
     MiddlewareHandlerParams
 } from "appolo-agent";
 import {define} from "appolo-engine";
+import {Arrays} from "appolo-utils";
 import {IMiddlewareCtr} from "../interfaces/IMiddleware";
 import {IRouteOptions} from "../interfaces/IRouteOptions";
-import {RouteModel} from "../routes/routeModel";
 import {Util} from "../util/util";
 import {IController} from "../controller/IController";
 import {IRequest} from "../interfaces/IRequest";
@@ -27,7 +25,7 @@ function defineRouteClass(params: { name: string, args: any[] }[], target: any):
 
     let route = Util.getReflectData<Route<IController>>(RouterDefinitionsClassSymbol, target, new Route<IController>(target));
 
-    _.forEach(params, param => {
+    (params || []).forEach(param => {
         route[param.name].apply(route, param.args)
     });
 }
@@ -62,7 +60,7 @@ function defineRouteProperty(params: { name: string, args: any[] }[]): (target: 
             route.action(propertyKey);
         }
 
-        _.forEach(params, param => {
+        (params || []).forEach(param => {
             route[param.name].apply(route, param.args)
         })
 
@@ -113,8 +111,8 @@ export function hook(name: Hooks, ...hook: (string | MiddlewareHandlerParams | I
 
 export function middleware(middleware: string | string[] | MiddlewareHandlerOrAny | MiddlewareHandlerOrAny[] | IMiddlewareCtr | IMiddlewareCtr[]): any {
 
-    if (_.isArray(middleware)) {
-        middleware = _(middleware).clone().reverse()
+    if (Array.isArray(middleware)) {
+        middleware = Arrays.clone(middleware as string[]).reverse()
     }
 
     return defineRouteProperty([{name: "middleware", args: [middleware, "head"]}])
@@ -122,30 +120,13 @@ export function middleware(middleware: string | string[] | MiddlewareHandlerOrAn
 
 export function error(middleware: string | string[] | MiddlewareHandlerErrorOrAny | MiddlewareHandlerErrorOrAny[] | IMiddlewareCtr | IMiddlewareCtr[]): any {
 
-    if (_.isArray(middleware)) {
-        middleware = _(middleware).clone().reverse()
+    if (Array.isArray(middleware)) {
+        middleware =  Arrays.clone(middleware as string[]).reverse()
     }
 
     return defineRouteProperty([{name: "error", args: [middleware, "head"]}])
 }
 
-
-export function validation(key: string | { [index: string]: joi.Schema } | RouteModel, validation?: joi.Schema): any {
-    if (key.constructor && key.constructor.prototype === RouteModel.constructor.prototype && (key as any).prototype && Reflect.hasMetadata(RouterModelSymbol, key)) {
-        key = Reflect.getMetadata(RouterModelSymbol, key)
-    }
-
-    return defineRouteProperty([{name: "validation", args: [key, validation]}])
-}
-
-export function validationParam(validation: joi.Schema): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => any {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-
-        let validations = Util.getReflectData<{ [index: string]: joi.Schema }>(RouterModelSymbol, target.constructor, {});
-
-        validations[propertyKey] = validation;
-    }
-}
 
 export function abstract(route: Partial<IRouteOptions>): (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => void {
 

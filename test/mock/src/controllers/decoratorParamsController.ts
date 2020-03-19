@@ -10,8 +10,7 @@ import {
     get,
     singleton,
     StaticController,
-    validation,
-    validator,controller
+    controller
 } from '../../../../index';
 import {Manager} from "../manager/manager";
 import {UserMiddleware} from "../middleware/userMiddleware";
@@ -32,8 +31,6 @@ export class DecoratorParamsController extends StaticController {
     //@inject() manager: any;
 
     @get("/test/decorator/param/:name/:name2")
-    @validation("name2", validator.string())
-    @validation("name", validator.string())
     @abstract({middleware: [UserMiddleware]})
     public test(req: IRequest, res: IResponse, route, aaa, @injectParam() env: any) {
 

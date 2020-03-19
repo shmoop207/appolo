@@ -1,6 +1,5 @@
 import {IApp as IEngineApp} from "appolo-engine";
 import {IOptions} from "./IOptions";
-import {Context} from "appolo-context/index";
 import {
     Hooks,
     MiddlewareHandler,
@@ -23,10 +22,8 @@ import {IMiddlewareCtr} from "./IMiddleware";
 export interface IApp extends IEngineApp {
     options: IOptions
 
-    enableContext(contextCtr?: typeof Context)
     parent: IApp
     root: IApp
-    getContext(): any
 
     use(fn: MiddlewareHandler | MiddlewareHandlerAny): this
 

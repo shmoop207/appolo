@@ -7,19 +7,14 @@ let ValidationController = class ValidationController extends index_1.Controller
         res.json({ working: true, controllerName: this.route.controller, model: req.model });
     }
     validaion(req, res) {
-        res.json(req.model);
+        res.json(req.query);
     }
 };
 tslib_1.__decorate([
-    index_1.get("/test/validations/"),
-    index_1.validation("userName", index_1.validator.string().required())
+    index_1.get("/test/validations/")
 ], ValidationController.prototype, "test", null);
 tslib_1.__decorate([
-    index_1.get("/test/validations/auth"),
-    index_1.validation({
-        username: index_1.validator.string().alphanum().min(3).max(30).required(),
-        password: index_1.validator.string().alphanum().min(3).max(30).required()
-    })
+    index_1.get("/test/validations/auth")
 ], ValidationController.prototype, "validaion", null);
 ValidationController = tslib_1.__decorate([
     index_1.controller()

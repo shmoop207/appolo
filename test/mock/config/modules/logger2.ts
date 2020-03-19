@@ -1,5 +1,5 @@
 import appolo = require('../../../../index');
-import Q = require('bluebird');
+import {Promises} from 'appolo-utils';
 
 
 
@@ -14,7 +14,7 @@ export function logger2(options?) {
 
         inject.addObject('logger2', logger2);
 
-       return Q.delay(100);
+       return Promises.delay(100);
     }
 }
 

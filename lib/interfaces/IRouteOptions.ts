@@ -1,4 +1,3 @@
-import    joi = require('joi');
 import {IController} from "../controller/IController";
 import {IMiddlewareCtr} from "./IMiddleware";
 import {Methods, MiddlewareHandlerParams} from "appolo-agent";
@@ -14,7 +13,6 @@ export interface IRouteOptions {
     roles?: string[]
     middleware?: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]
     middlewareError?: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]
-    validations?: { [index: string]: joi.Schema }
     path?: string[]
     abstract?: boolean,
     convertToCamelCase?: boolean

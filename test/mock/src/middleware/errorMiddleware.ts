@@ -1,5 +1,5 @@
 "use strict";
-import {define, inject, singleton, lazy, Middleware, Context} from '../../../../index';
+import {define, inject, singleton, lazy, Middleware} from '../../../../index';
 import {Manager} from "../manager/manager";
 
 

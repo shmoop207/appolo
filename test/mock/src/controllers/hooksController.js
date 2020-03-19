@@ -14,7 +14,7 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     index_1.get("/test/hooks"),
     index_1.hook(types_1.Hooks.PreMiddleware, function (req, res, next) {
-        req.model = Object.assign({}, req.model, { a: 11 });
+        req.model = Object.assign(Object.assign({}, req.model), { a: 11 });
         next();
     })
 ], HooksController.prototype, "hooks", null);

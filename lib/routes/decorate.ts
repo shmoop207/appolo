@@ -1,6 +1,6 @@
 import {IResponse} from "../interfaces/IResponse";
 import {IRequest} from "../interfaces/IRequest";
-import    _ = require('lodash');
+import {Strings} from 'appolo-utils';
 import    _path = require('path');
 
 export function decorate(req: IRequest, res: IResponse, app: any) {
@@ -18,10 +18,10 @@ export function decorate(req: IRequest, res: IResponse, app: any) {
             path = _path.resolve(this.req.app.options.root, "src/controllers", this.req.route.controllerName, this.req.route.actionName);
         }
 
-        let paths = _.isArray(path) ? path : [path];
+        let paths = Array.isArray(path) ? path : [path];
 
-        if (_.isString(path) && this.req.route) {
-            paths.push(_path.resolve(this.req.app.options.root, "src/controllers", this.req.route.controllerName, path))
+        if (Strings.isString(path) && this.req.route) {
+            paths.push(_path.resolve(this.req.app.options.root, "src/controllers", this.req.route.controllerName, path as string))
         }
         return old.call(this, paths, params)
     }

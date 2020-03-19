@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let ParamsController = class ParamsController extends index_1.Controller {
-    test(req, res) {
+    test(req, res, model) {
         res.json({
             working: true,
             controllerName: this.route.controller,
-            model: req.model,
+            model: model,
             manager: this.manager4.name,
             name: req.params.name,
             name2: req.params.name2
@@ -25,12 +25,11 @@ tslib_1.__decorate([
     index_1.patch('/test/params/:name/:name2'),
     index_1.put('/test/params/:name/:name2'),
     index_1.get('/test/params/:name/test/:name2'),
-    index_1.validation("userName", index_1.validator.string().required())
+    tslib_1.__param(2, index_1.model())
 ], ParamsController.prototype, "test", null);
 tslib_1.__decorate([
     index_1.get('/test/params/empty/:name/:name2'),
-    index_1.del('/test/params/empty/:name/:name2'),
-    index_1.validation("userName", index_1.validator.string().required())
+    index_1.del('/test/params/empty/:name/:name2')
 ], ParamsController.prototype, "empty", null);
 ParamsController = tslib_1.__decorate([
     index_1.controller()

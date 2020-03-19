@@ -1,7 +1,7 @@
 import appolo = require('appolo-engine');
-import _ = require('lodash');
 import {IRouteOptions} from "../interfaces/IRouteOptions";
 import {Controller} from "../controller/controller";
+import {Functions, Strings} from "appolo-utils";
 import {StaticController} from "../controller/staticController";
 import {Hooks, MiddlewareHandlerParams, Request, Response} from "appolo-agent";
 import {IMiddlewareCtr, MiddlewareType} from "../interfaces/IMiddleware";
@@ -37,11 +37,12 @@ export class Util extends appolo.Util {
     }
 
     public static reverseMiddleware(route: Partial<IRouteOptions>) {
-        _.forEach(route, (value, key) => {
+        Object.keys(route || {}).forEach(key => {
+            let value = route[key];
             //we need to insert middlewares in reverse order
             if (key == "middleware") {
                 route[key] = {
-                    middleware: _.isArray(value) ? value.reverse() : value,
+                    middleware: Array.isArray(value) ? value.reverse() : value,
                     order: "head"
                 } as any
             }
@@ -49,7 +50,7 @@ export class Util extends appolo.Util {
     }
 
     public static getControllerName(controller: string | typeof Controller | typeof StaticController): string {
-        return _.isFunction(controller) && controller.name ? _.camelCase(controller.name) : controller as string
+        return Functions.isFunction(controller) && controller.name ? Util.getClassName(controller) : controller as string
     }
 
     public static decorateRequest(name: string, fn: Function) {
@@ -66,9 +67,9 @@ export class Util extends appolo.Util {
 
     public static getRouteDefinition<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
 
-        action = _.isString(action) ? action : action(fn.prototype).name;
+        action = Strings.isString(action) ? action : (action as Function)(fn.prototype).name;
 
-        let route = Reflect.getMetadata(RouterDefinitionsCompiledSymbol, fn, action);
+        let route = Reflect.getMetadata(RouterDefinitionsCompiledSymbol, fn, action as string);
 
         return route
     }

@@ -45,6 +45,6 @@ export abstract class StaticController implements IController {
     }
 
     public getModel<T>(req: IRequest): T {
-        return (req as any).model;
+        return Object.assign({}, req.body || {}, req.query || {}, req.params || {}) as T
     }
 }

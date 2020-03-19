@@ -5,7 +5,8 @@ import {Agent} from 'appolo-agent';
 
 import {Router} from '../routes/router';
 import * as path from 'path';
-import * as _ from 'lodash';
+
+import {Objects, Strings} from 'appolo-utils';
 import {IOptions} from "../interfaces/IOptions";
 import {
     RouterControllerSymbol,
@@ -31,12 +32,7 @@ let Defaults: IOptions = {
     urlParser: "fast",
     viewExt: "html",
     viewEngine: null,
-    viewFolder: "src/views",
-    validatorOptions: {
-        abortEarly: false,
-        allowUnknown: true,
-        stripUnknown: true
-    }
+    viewFolder: "src/views"
 };
 
 export class Launcher {
@@ -49,10 +45,9 @@ export class Launcher {
     private _plugins: { plugin: Plugin, options: any }[] = [];
 
 
-
     constructor(options: IOptions, private _app: App) {
 
-        this._options = _.defaults({}, options, Defaults);
+        this._options = Objects.defaults({}, options || {}, Defaults);
 
         this._engine = new Engine(this._options);
         this._agent = new Agent(this._options);
@@ -92,8 +87,6 @@ export class Launcher {
 
         await this.loadCustomConfigurations();
 
-        //_.forEach(this._app.exported,exported=>this.addRoute(exported.fn));
-
         this._router.initialize();
 
         await this._agent.listen(this._port);
@@ -103,7 +96,7 @@ export class Launcher {
 
     public addRoute(fn: Function) {
 
-        if(!Util.isClass(fn)){
+        if (!Util.isClass(fn)) {
             return
         }
 
@@ -115,13 +108,15 @@ export class Launcher {
             return
         }
 
-        routeData = _.cloneDeep(routeData);
-        routeAbstract = _.cloneDeep(routeAbstract);
+        routeData = Objects.cloneDeep(routeData);
 
-        _.forEach(routeData, (route: Route<IController>, key: string) => {
+        Object.keys(routeData).forEach((key: string) => {
+            let route: Route<IController> = routeData[key];
+            route = route.clone();
 
             //add abstract route
             if (routeAbstract) {
+                routeAbstract = routeAbstract.clone();
 
                 Util.reverseMiddleware(routeAbstract.definition);
 
@@ -131,14 +126,14 @@ export class Launcher {
             let prefix = Reflect.getOwnMetadata(RouterControllerSymbol, fn);
             //add prefix to routes
             if (prefix) {
-                _.forEach(route.definition.path, (_path, index) => {
+                (route.definition.path || []).forEach((_path, index) => {
                     route.definition.path[index] = path.join("/", prefix, _path);
                 })
             }
             //override the controller in case we inherit it
             route.definition.controller = Util.getControllerName(fn as any);
 
-            Reflect.defineMetadata(RouterDefinitionsCompiledSymbol, route,fn,key);
+            Reflect.defineMetadata(RouterDefinitionsCompiledSymbol, route, fn, key);
 
             this._router.addRoute(route);
         })
@@ -162,7 +157,7 @@ export class Launcher {
 
     private _logServerMessage() {
 
-        let msg = _.template(this._options.startMessage, {interpolate: /\${([\s\S]+?)}/g})({
+        let msg = Strings.replaceFormat(this._options.startMessage, {
             port: this._port,
             version: this._engine.env.version,
             environment: this._engine.env.type
@@ -182,8 +177,6 @@ export class Launcher {
 
         this._plugins.length = 0;
         this._router.reset();
-
-
 
 
         process.removeAllListeners();

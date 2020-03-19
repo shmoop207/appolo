@@ -1,25 +1,16 @@
 "use strict";
-import    _ = require('lodash');
 import {Controller} from '../controller/controller';
 import {IEnv, Injector} from "appolo-engine";
-import {Agent, Methods, MiddlewareHandlerParams, Hooks} from "appolo-agent";
-import {IMiddlewareCtr, MiddlewareType} from "../interfaces/IMiddleware";
+import {Agent, Methods, Hooks} from "appolo-agent";
+import { MiddlewareType} from "../interfaces/IMiddleware";
 import {Route} from "./route";
 import {IController} from "../controller/IController";
 import {IOptions} from "../interfaces/IOptions";
 import {
     invokeActionMiddleware,
     invokeCustomRouteMiddleWare,
-    invokeMiddleWare, invokeMiddleWareData, invokeMiddleWareError,
 } from "./invokeActionMiddleware";
-import {checkValidationMiddleware} from "./checkValidationMiddleware";
 import {Util} from "../util/util";
-import {
-    RouterControllerSymbol,
-    RouterDefinitionsClassSymbol,
-    RouterDefinitionsCompiledSymbol,
-    RouterDefinitionsSymbol
-} from "../decorators/decorators";
 
 
 export class Router {
@@ -41,14 +32,14 @@ export class Router {
 
         this._isInitialize = true;
 
-        _.forEach(this._routes, route => this._initRoute(route))
+        this._routes.forEach( route => this._initRoute(route))
     }
 
     public getRoute(path: string, method: string): Route<any> {
-        return _.find(this._routes, route => _.includes(route.definition.path, path) && _.includes(route.definition.method, method))
+        return this._routes.find(route => route.definition.path.includes(path) && route.definition.method.includes(method as Methods))
 
     }
-    
+
     public addRoute(route: Route<IController>) {
 
         this._routes.push(route);
@@ -69,7 +60,7 @@ export class Router {
         def.$initialized = true;
 
         //check if we have valid path
-        if (!def.path.length || !def.action || (def.environments.length && !_.includes(def.environments, (this._env.name || this._env.type)))) {
+        if (!def.path.length || !def.action || (def.environments.length && def.environments.indexOf(this._env.name || this._env.type) == -1)) {
             return;
         }
 
@@ -83,15 +74,17 @@ export class Router {
             middewares.unshift(invokeCustomRouteMiddleWare);
         }
 
-        if (!_.isEmpty(def.validations)) {
-            middewares.unshift(checkValidationMiddleware);
-        }
+        // if (!_.isEmpty(def.validations)) {
+        //     middewares.unshift(checkValidationMiddleware);
+        // }
 
         middewares.push(invokeActionMiddleware);
 
         let hooks = {};
-        _.forEach(def.hooks, (hook, key) =>
-            hooks[key] = Util.convertMiddlewareHooks(key as Hooks, hook));
+        Object.keys(def.hooks || {}).forEach(key => {
+            let hook = def.hooks[key];
+            hooks[key] = Util.convertMiddlewareHooks(key as Hooks, hook)
+        });
 
 
         for (let i = 0, len = def.path.length; i < len; i++) {

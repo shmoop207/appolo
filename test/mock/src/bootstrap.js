@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const index_1 = require("../../../index");
-const Q = require("bluebird");
+const appolo_utils_1 = require("appolo-utils");
 let Bootstrap = class Bootstrap {
     async run() {
         this.working = true;
-        await Q.delay(10);
+        await appolo_utils_1.Promises.delay(10);
     }
 };
 tslib_1.__decorate([

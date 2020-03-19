@@ -3,7 +3,7 @@ import {IResponse} from "../interfaces/IResponse";
 import {HttpError, InternalServerError, NextFn} from "appolo-agent/index";
 import {StaticController} from "../controller/staticController";
 import {IMiddleware} from "../interfaces/IMiddleware";
-import    _ = require('lodash');
+import {Strings} from 'appolo-utils';
 
 export function invokeActionMiddleware(req: IRequest, res: IResponse, next: NextFn) {
 
@@ -19,7 +19,7 @@ export function invokeActionMiddleware(req: IRequest, res: IResponse, next: Next
     let fnName: string = route.actionName;
 
     if (!fnName) {
-        fnName = _.isString(route.action) ? route.action : route.action(controller).name;
+        fnName = Strings.isString(route.action) ? route.action : (route.action as Function)(controller).name;
 
         if (!controller[fnName]) {
             next(new HttpError(500, `failed to invoke ${this.constructor.name} fnName ${fnName}`));
@@ -151,10 +151,10 @@ export function invokeMiddleWareData(middlewareId: string) {
         }
 
         if (!result || !result.then || !result.catch) {
-            return next(null,data);
+            return next(null, data);
         }
 
-        result.then((data) => (!res.headersSent && !res.sending) && next(null,data))
+        result.then((data) => (!res.headersSent && !res.sending) && next(null, data))
             .catch(e => next(_handleError(e)));
 
 

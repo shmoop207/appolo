@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
-const _ = require("lodash");
+const appolo_utils_1 = require("appolo-utils");
 let Manager5 = class Manager5 {
     get name() {
-        return this.constructor.name + _.sumBy(this.handlers, h => h.handle()).toString();
+        return this.constructor.name + appolo_utils_1.Arrays.sumBy(this.handlers, h => h.handle()).toString();
     }
 };
 tslib_1.__decorate([
