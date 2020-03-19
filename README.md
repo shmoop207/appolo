@@ -25,7 +25,6 @@ Appolo architecture follows common patten of MVC and dependency injection which 
  * Full support for [express][4] middleware
  * Dependency injection  
  * Simple routing   
- * Routes validation
  * Modules system
  * Manage easily configurations and environments   
  * Simple folder structures  
@@ -180,7 +179,6 @@ Each route class has the following methods:
  - `method` - one of `get`,`post`,`patch`,`delete`,`put`. default `get`.  
  - `action` - the action function the will be invoked to handle the route.  
  - `middleware` - middleware function the will be invoked before the controller. If the `next` function is not called or called with an error, the controller won`t be created.  
- - `validation` - validations object as defined in [joi](https://github.com/hapijs/joi  ).  
   
 ```javascript  
 import {define,inject,Controller,IRequest,IResponse,get,post} from 'appolo';  
@@ -202,7 +200,6 @@ export class Test2Controller extends Controller{
 	@inject() dataManager:DataManager  
     
     @post("/test2/:userId")  
-	@validations("userId",validator.string().required())  
 	public test (req:IRequest, res:IResponse) {
 		res.send(this.dataManager.getData(req.params.userId));  
 	}
@@ -227,32 +224,7 @@ app.route<TestController>(TestController)
  .action(c=>c.test)  
 ```  
   
-### Routes Validation 
-You can add validations to your routes. The action controller will be called only if the route params are valid.<br>  
-Validations are done using [joi module](https://github.com/hapijs/joi  ) .<br>  
-The validator takes request params from `req.param` , `req.query` and `req.body`. After validation, all request params will be available on `req.model`.  
-  
-```javascript  
-import {controller,inject,Controller,IRequest,IResponse,validator,get} from 'appolo';  
-@controller()  
-export class TestController extends Controller{
-    @inject() dataManager:DataManager
-    
-    @get("/search/")
-    @validations({
-        search:validator.string().required(),
-        pageSize:validator.number().default(20),
-        page:validator.number().default(1)
-    })
-    public async search (req:IRequest, res:IResponse,model:any) {
-        return await this.dataManager.getSearchResults(model.search,model.page,model.pageSize)
-    }      
-}  
-```  
-If the request params are not valid, appolo will return a `400 Bad Request` response with detailed validation errors.  
-```javascript  
-{  status: 400, message: "Bad Request",  error: "userId is required"  }  
-```  
+ 
   
 ## Controllers  
 Controllers are classes that handle routes request.  
@@ -260,23 +232,21 @@ In order for the router to be able to handle the request, a controller class mus
 Each controller action will be called with [request][12] and [response][13] objects.  
   
 ```javascript  
-import {controller,inject,validation,Controller,IRequest,IResponse,validator} from 'appolo';  
+import {controller,model,inject,Controller,IRequest,IResponse} from 'appolo';  
   
 @controller()  
 export class LoginController extends Controller{
     @inject() authManager:AuthManager;
     
     @post("/login/")
-    @validation("username", validator.string())
-    @validation("password", validator.string())
-    public async loginUser(req:IRequest,res:IResponse,model:any){
+    public async loginUser(req:IRequest,res:IResponse,@model() model:any){
         return  await this.authManager.validateUser(model.username,model.password)
     } 
 }  
 ```  
 By default, appolo creates a new controller instance for every request. If you do not need a new controller instance for every request, you can inherit from StaticController which is singleton.  
 ```javascript  
-import {controller,singleton,inject,lazy,mehtod,path,validation,StaticController,Methods,validator,IRequest,IResponse,IRouteOptions} from 'appolo';  
+import {controller,singleton,inject,lazy,mehtod,path,StaticController,Methods,IRequest,IResponse,IRouteOptions} from 'appolo';  
 @controller()  
 @singleton()  
 @lazy()  
@@ -284,9 +254,7 @@ export class LoginController extends StaticController{
     @inject() authManager:AuthManager;  
     
     @post("/login/")
-    @validation("username", validator.string().required())
-    @validation("password", validator.string().required())
-    public aynsc loginUser(req:IRequest,res:IResponse,model:any){
+    public aynsc loginUser(req:IRequest,res:IResponse,@moel() model:any){
         return await this.authManager.validateUser(req.model.username,req.model.password)  
 	}
 }  
@@ -299,15 +267,13 @@ by default the response will be wrapped with try catch and `InternalServerError`
 ```
 or you can throw custom error
 ```javascript  
-import {controller,inject,validation,Controller,IRequest,IResponse,validator} from 'appolo';  
+import {controller,inject,Controller,IRequest,IResponse} from 'appolo';  
   
 @controller()  
 export class LoginController extends Controller{
     @inject() authManager:AuthManager;
     @post("/login/")
-    @validation("username", validator.string())
-    @validation("password", validator.string())
-    public async loginUser(req:IRequest,res:IResponse,model:any){
+    public async loginUser(req:IRequest,res:IResponse,@model() model:any){
         try{
             return  await this.authManager.validateUser(model.username,model.password)
         }catch(e){
