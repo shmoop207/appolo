@@ -8,8 +8,10 @@ import {
     inject,
     get,
     IRequest,
-    IResponse
+    IResponse, pipelineType, IPipeline, PipelineContext, App, injectParam, Util, Controller
 } from '../../../../index';
+
+
 
 @controller()
 @singleton()

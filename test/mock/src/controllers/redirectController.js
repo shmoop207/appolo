@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RedirectController = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let RedirectController = class RedirectController extends index_1.StaticController {

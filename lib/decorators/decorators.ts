@@ -25,11 +25,15 @@ function defineRouteClass(params: { name: string, args: any[] }[], target: any):
 
     let route = Reflector.getFnMetadata<Route<IController>>(RouterDefinitionsClassSymbol, target, new Route<IController>(target));
 
-    //Reflector.setMetadata(RouterDefinitionsClassSymbol, route.clone(), target);
+    route = route.clone();
+
 
     (params || []).forEach(param => {
         route[param.name].apply(route, param.args)
     });
+
+    Reflector.setMetadata(RouterDefinitionsClassSymbol,route , target);
+
 }
 
 export function controller(name?: string): (target: any) => void {

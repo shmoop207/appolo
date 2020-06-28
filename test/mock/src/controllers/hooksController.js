@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HooksController = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 const types_1 = require("appolo-agent/lib/types");

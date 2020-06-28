@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthMiddleware = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 const appolo_agent_1 = require("appolo-agent");

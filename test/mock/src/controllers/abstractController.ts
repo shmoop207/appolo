@@ -47,5 +47,38 @@ export class Abstract3Controller extends AbstractController {
     }
 }
 
+@middleware(function (req, res, a) {
+    (req as any).working += "working1";
+    a()
+})
+export class BaseController extends Controller {
+    @get("/child_controller")
+    @middleware(function (req, res, d) {
+        (req as any).working+= "working4";
+        d()
+    })
+    test(req,res) {
+        res.json({working: req.working})
+    }
+}
+@controller()
+@singleton()
+@middleware(function (req, res, b) {
+    (req as any).working+= "working2";
+    b()
+})
+@middleware(function (req, res, c) {
+    (req as any).working+= "working3";
+    c()
+})
+export class ChildController extends BaseController {
 
+    @middleware(function (req, res, e) {
+        (req as any).working+= "working5";
+        e()
+    })
+    test(req,res) {
+        super.test(req,res)
+    }
+}
 

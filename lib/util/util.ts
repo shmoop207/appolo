@@ -9,6 +9,7 @@ import {invokeMiddleWare, invokeMiddleWareData, invokeMiddleWareError} from "../
 import {Route} from "../routes/route";
 import {RouterDefinitionsCompiledSymbol, RouterDefinitionsSymbol} from "../decorators/decorators";
 import {IController} from "../controller/IController";
+import {Reflector} from "appolo-utils/index";
 
 export class Util extends appolo.Util {
 
@@ -72,6 +73,23 @@ export class Util extends appolo.Util {
         let route = Reflect.getMetadata(RouterDefinitionsCompiledSymbol, fn, action as string);
 
         return route
+    }
+
+    public static createRouteDefinition<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
+        let data = Reflector.getFnMetadata<{ [index: string]: Route<IController> }>(RouterDefinitionsSymbol, fn, {});
+
+        let propertyKey = Strings.isString(action) ? action : (action as Function)(fn.prototype).name;
+
+        let route = data[propertyKey];
+
+        if (!route) {
+            data[propertyKey] = route = new Route<IController>(fn);
+            route.action(propertyKey);
+        } else {
+            route = data[propertyKey] = route.clone();
+        }
+
+        return route;
     }
 
     public static isController(fn: any): boolean {

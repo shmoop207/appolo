@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CustomParamsController = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let someHeader = index_1.customRouteDecorator((req, res, route) => {

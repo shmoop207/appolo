@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ChildController = exports.BaseController = exports.Abstract3Controller = exports.Abstract2Controller = exports.AbstractController = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let AbstractController = class AbstractController extends index_1.Controller {
@@ -54,4 +55,47 @@ Abstract3Controller = tslib_1.__decorate([
     index_1.singleton()
 ], Abstract3Controller);
 exports.Abstract3Controller = Abstract3Controller;
+let BaseController = class BaseController extends index_1.Controller {
+    test(req, res) {
+        res.json({ working: req.working });
+    }
+};
+tslib_1.__decorate([
+    index_1.get("/child_controller"),
+    index_1.middleware(function (req, res, d) {
+        req.working += "working4";
+        d();
+    })
+], BaseController.prototype, "test", null);
+BaseController = tslib_1.__decorate([
+    index_1.middleware(function (req, res, a) {
+        req.working += "working1";
+        a();
+    })
+], BaseController);
+exports.BaseController = BaseController;
+let ChildController = class ChildController extends BaseController {
+    test(req, res) {
+        super.test(req, res);
+    }
+};
+tslib_1.__decorate([
+    index_1.middleware(function (req, res, e) {
+        req.working += "working5";
+        e();
+    })
+], ChildController.prototype, "test", null);
+ChildController = tslib_1.__decorate([
+    index_1.controller(),
+    index_1.singleton(),
+    index_1.middleware(function (req, res, b) {
+        req.working += "working2";
+        b();
+    }),
+    index_1.middleware(function (req, res, c) {
+        req.working += "working3";
+        c();
+    })
+], ChildController);
+exports.ChildController = ChildController;
 //# sourceMappingURL=abstractController.js.map

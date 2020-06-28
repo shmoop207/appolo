@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ModuleController = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let ModuleController = class ModuleController extends index_1.Controller {

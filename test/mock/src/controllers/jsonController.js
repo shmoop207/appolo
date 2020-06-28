@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JsonController = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let JsonController = class JsonController extends index_1.Controller {

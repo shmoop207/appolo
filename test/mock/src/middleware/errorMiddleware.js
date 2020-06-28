@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ErrorMiddleware = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../../index");
 let ErrorMiddleware = class ErrorMiddleware extends index_1.Middleware {

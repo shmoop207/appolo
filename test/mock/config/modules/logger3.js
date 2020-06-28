@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.logger3 = void 0;
 const appolo_utils_1 = require("appolo-utils");
 function logger3(options) {
     return async function (env, inject) {

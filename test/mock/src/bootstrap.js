@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Bootstrap = void 0;
 const tslib_1 = require("tslib");
 const index_1 = require("../../../index");
 const appolo_utils_1 = require("appolo-utils");

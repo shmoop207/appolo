@@ -696,6 +696,13 @@ describe('Appolo e2e', () => {
             res.text.should.be.eq("hello2 11");
         });
     });
+    describe('pipeline', () => {
+        it('should have add route with pipeline', async () => {
+            let res = await request(app.handle)
+                .get('/pipeline/aaa?bbb=1');
+            res.should.to.have.status(200);
+        });
+    });
     describe('abstract', function () {
         it('should have abstract route with middleware', async () => {
             let res = await request(app.handle)
@@ -708,6 +715,12 @@ describe('Appolo e2e', () => {
                 .get('/test2/abstract?test=11');
             res.should.to.have.status(200);
             res.body.working.should.be.eq("working1working2working3fromTest2");
+        });
+        it('should have run child controller with parent middlware on class', async () => {
+            let res = await request(app.handle)
+                .get('/child_controller');
+            res.should.to.have.status(200);
+            res.body.working.should.be.eq("undefinedworking2working3working1working5working4");
         });
     });
     xdescribe('context', function () {
