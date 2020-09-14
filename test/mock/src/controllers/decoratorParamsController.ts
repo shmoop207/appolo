@@ -1,19 +1,15 @@
 "use strict";
 import {
     abstract,
-    define,
-    inject,
-    injectParam,
     IRequest,
     IResponse,
-    lazy,
     get,
-    singleton,
     StaticController,
     controller
-} from '../../../../index';
+} from '@appolo/route';
 import {Manager} from "../manager/manager";
 import {UserMiddleware} from "../middleware/userMiddleware";
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 @singleton()

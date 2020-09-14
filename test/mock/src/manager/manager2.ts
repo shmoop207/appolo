@@ -1,5 +1,5 @@
 "use strict";
-import {define, singleton} from '../../../../index';
+import { inject,define,singleton} from '@appolo/inject';
 
 
 @define()

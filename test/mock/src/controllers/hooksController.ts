@@ -1,6 +1,7 @@
 "use strict";
-import {controller, inject, Controller, get, hook} from '../../../../index';
-import {Hooks} from "appolo-agent/lib/types";
+import {controller, Controller, get, hook,Hooks} from '@appolo/route';
+import { inject} from '@appolo/inject';
+
 
 @controller()
 export class HooksController extends Controller {

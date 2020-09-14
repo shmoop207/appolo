@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai = require("chai");
 const sinonChai = require("sinon-chai");
 const index_1 = require("../../index");
-const util_1 = require("../../lib/util/util");
 let should = chai.should();
 chai.use(sinonChai);
 describe('Appolo Express Unit', () => {
@@ -81,36 +80,16 @@ describe('Appolo Express Unit', () => {
             (env === app.environment).should.be.ok;
             env.type.should.be.eq("testing");
         });
-        it("convert model case", function () {
-            let output = util_1.Util.convertModelToCamelCase({ aa_bb: 1, cc_dd_ff: 2, ffGg: 3 });
-            output.aaBb.should.be.eq(1);
-            output.ccDdFf.should.be.eq(2);
-            output.ffGg.should.be.eq(3);
-        });
+        // it("convert model case", function () {
+        //
+        //     let  output = Util.convertModelToCamelCase({aa_bb:1,cc_dd_ff:2,ffGg:3})
+        //
+        //     output.aaBb.should.be.eq(1);
+        //     output.ccDdFf.should.be.eq(2);
+        //     output.ffGg.should.be.eq(3);
+        //
+        //
+        // })
     });
 });
-// import Benchmark = require('benchmark');
-// import qs = require('qs');
-//
-// let suite = new Benchmark.Suite;
-// suite.
-// add('vanilla', function() {
-//     Util.parseQsFast("aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb")
-// }).add('qs', function() {
-//    qs.parse("aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb",{allowDots:false,depth:0})
-// }).add('node', function() {
-//     let a = Util.parseQsFast2("aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb")
-// })
-// .add('url', function() {
-//     let {query, pathName} = Util.parseUrlFast("/fdfdf/dfdfdfdgfgf/gfgdgf?aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb");
-//     querystring.parse(query);
-// })
-// .add('url node', function() {
-//     let a = Url.parse("/fdfdf/dfdfdfdgfgf/gfgdgf?aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb",true)
-// })
-//
-//
-//     .on('cycle', function(event) {
-//     console.log(String(event.target));
-// }).run();
 //# sourceMappingURL=unitSpec.js.map

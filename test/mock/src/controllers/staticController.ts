@@ -1,13 +1,14 @@
 "use strict";
 import {
     controller,
-    inject,
-    lazy,
+
+
     get,
     post,
-    singleton,
+
     StaticController,
-} from '../../../../index';
+} from '@appolo/route';
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 @singleton()

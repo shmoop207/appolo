@@ -1,16 +1,13 @@
 "use strict";
 import {
     controller,
-    define,
-    singleton,
-    lazy,
     StaticController,
-    inject,
     get,
     IRequest,
-    IResponse, pipelineType, IPipeline, PipelineContext, App, injectParam, Util, Controller
-} from '../../../../index';
+    IResponse,
+} from '@appolo/route';
 
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 
 @controller()

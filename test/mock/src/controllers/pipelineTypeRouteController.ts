@@ -1,16 +1,15 @@
 "use strict";
 import {
     controller,
-    define,
-    singleton,
-    lazy,
     StaticController,
-    inject,
     get, model,
     IRequest,
-    IResponse, pipelineType, IPipeline, PipelineContext, App, injectParam, Util, Controller
-} from '../../../../index';
+    IResponse, Util, Controller
+} from '@appolo/route';
 import {IEnv} from "../../config/env/IEnv";
+import {inject, define, singleton, override, lazy, injectParam} from '@appolo/inject';
+import {pipelineType, IPipeline, PipelineContext} from '@appolo/engine';
+import {App} from '../../../../index';
 
 
 @define()
@@ -22,7 +21,7 @@ export class TestPipeline implements IPipeline {
 
     run(context: PipelineContext, next: () => Promise<any>) {
 
-        let route = Util.createRouteDefinition(context.type, "testPipeline")
+        let route = this.app.discovery.createRouteDefinition(context.type, "testPipeline")
 
         route.path("/aaa")
 

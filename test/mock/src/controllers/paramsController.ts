@@ -1,6 +1,7 @@
 "use strict";
-import {controller, Controller, del, get, inject, patch, put,IRequest,model} from '../../../../index';
+import {controller, Controller, del, get, patch, put,IRequest,model} from '@appolo/route';
 import {Manager4} from "../manager/manager4";
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 export class ParamsController extends Controller {

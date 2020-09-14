@@ -1,7 +1,8 @@
 import appolo = require('../../../../index');
+import {Injector} from '@appolo/inject';
 
 
-export  function logger(env,inject:appolo.Injector,callback) {
+export  function logger(env,inject:Injector,callback) {
 
     let logger =  {
         getName:function(){

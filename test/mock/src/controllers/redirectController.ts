@@ -1,5 +1,6 @@
 "use strict";
-import {controller, inject,get,StaticController,IRequest,IResponse} from '../../../../index';
+import {controller,get,StaticController,IRequest,IResponse} from '@appolo/route';
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 export class RedirectController extends StaticController {

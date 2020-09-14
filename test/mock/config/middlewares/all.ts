@@ -1,4 +1,5 @@
-import appolo = require('../../../../index');
+import {App} from '../../../../index';
+import {IRequest,IResponse,NextFn} from '@appolo/route';
 import    bodyParser = require('body-parser');
 import    serve = require('serve-static');
 import    path = require('path');
@@ -7,7 +8,7 @@ import consolidate = require('consolidate');
 import {IEnv} from "../env/IEnv";
 
 
-export = function (app: appolo.App,env:IEnv) {
+export = function (app: App,env:IEnv) {
 
 
     app.use(bodyParser.urlencoded({
@@ -21,14 +22,13 @@ export = function (app: appolo.App,env:IEnv) {
         limit: 1024 * 1024 * 10
     }));
 
-    app.viewEngine(consolidate.nunjucks);
 
     app.use(cookieParser());
 
 
     app.use(serve(path.join(__dirname, "../../uploads")))
 
-    app.use(function (req: appolo.IRequest, res: appolo.IResponse, next: appolo.NextFn) {
+    app.use(function (req: IRequest, res: IResponse, next: NextFn) {
         res.setHeader("Access-Control-Allow-Origin", req.headers.origin || '*');
         res.setHeader("Access-Control-Allow-Credentials", "true");
         res.setHeader("Cache-Control", "max-age=0, no-cache, must-revalidate, proxy-revalidate");

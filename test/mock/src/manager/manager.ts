@@ -1,8 +1,8 @@
 "use strict";
 import {Manager3} from "./manager3";
 import {Manager2} from "./manager2";
-import {Promises} from 'appolo-utils';
-import {define, singleton, inject} from '../../../../index';
+import {Promises} from '@appolo/utils';
+import { inject,define,singleton} from '@appolo/inject';
 
 @define()
 @singleton()

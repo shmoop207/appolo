@@ -1,6 +1,6 @@
 "use strict";
 import {Manager2} from "./manager2";
-import {define, inject, singleton} from '../../../../index';
+import { inject,define,singleton} from '@appolo/inject';
 
 @define()
 @singleton()

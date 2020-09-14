@@ -1,9 +1,9 @@
 "use strict";
-import {define, singleton, inject, initMethod, injectFactoryMethod} from '../../../../index' ;
 import {Manager3} from "./manager3";
 import {BaseManager} from "./baseManager";
 import {Manager4} from "./manager4";
 import {Manager5} from "./manager5";
+import { inject,define,singleton,override,lazy,injectParam,initMethod} from '@appolo/inject';
 
 
 @define()

@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DecoratorRouteController = void 0;
 const tslib_1 = require("tslib");
-const index_1 = require("../../../../index");
-let DecoratorRouteController = class DecoratorRouteController extends index_1.StaticController {
+const route_1 = require("@appolo/route");
+const inject_1 = require("@appolo/inject");
+let DecoratorRouteController = class DecoratorRouteController extends route_1.StaticController {
     test(req, res) {
         res.json({ model: this.getModel(req) });
     }
@@ -12,18 +13,18 @@ let DecoratorRouteController = class DecoratorRouteController extends index_1.St
     }
 };
 tslib_1.__decorate([
-    index_1.inject()
+    inject_1.inject()
 ], DecoratorRouteController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.get("/test/decorator/route/:name/:name2")
+    route_1.get("/test/decorator/route/:name/:name2")
 ], DecoratorRouteController.prototype, "test", null);
 tslib_1.__decorate([
-    index_1.get("/test/decorator2/route/:name/:name2")
+    route_1.get("/test/decorator2/route/:name/:name2")
 ], DecoratorRouteController.prototype, "test2", null);
 DecoratorRouteController = tslib_1.__decorate([
-    index_1.controller(),
-    index_1.singleton(),
-    index_1.lazy()
+    route_1.controller(),
+    inject_1.singleton(),
+    inject_1.lazy()
 ], DecoratorRouteController);
 exports.DecoratorRouteController = DecoratorRouteController;
 //# sourceMappingURL=decoratorRouteController.js.map

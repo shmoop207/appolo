@@ -1,5 +1,5 @@
 "use strict";
-import {controller,Controller} from '../../../../index';
+import {controller,Controller} from '@appolo/route';
 
 
 @controller()

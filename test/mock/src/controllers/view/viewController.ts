@@ -1,5 +1,6 @@
 "use strict";
-import {controller, inject, IResponse, get, StaticController} from '../../../../../index';
+import {controller, IResponse, get, StaticController} from '@appolo/route';
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 export class ViewController extends StaticController {

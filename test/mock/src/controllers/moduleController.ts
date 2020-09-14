@@ -1,5 +1,6 @@
 "use strict";
-import {controller,Controller,inject,get} from "../../../../index";
+import {controller,Controller,get} from "@appolo/route";
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 
 @controller()

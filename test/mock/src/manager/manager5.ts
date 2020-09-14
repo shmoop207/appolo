@@ -1,8 +1,9 @@
 "use strict";
-import {define, singleton, inject, lazy,injectAlias} from '../../../../index' ;
+import {} from '../../../../index' ;
 import {Manager3} from "./manager3";
 import {IHandler} from "../handlers/IHandler";
-import {Arrays} from "appolo-utils";
+import {Arrays} from "@appolo/utils";
+import { inject,define,singleton,override,lazy,injectParam,injectAlias} from '@appolo/inject';
 
 
 @define()

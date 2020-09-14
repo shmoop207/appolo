@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DecoratorParamsController = void 0;
 const tslib_1 = require("tslib");
-const index_1 = require("../../../../index");
+const route_1 = require("@appolo/route");
 const userMiddleware_1 = require("../middleware/userMiddleware");
-let DecoratorParamsController = class DecoratorParamsController extends index_1.StaticController {
+const inject_1 = require("@appolo/inject");
+let DecoratorParamsController = class DecoratorParamsController extends route_1.StaticController {
     constructor(manager) {
         super();
         this.name = manager.name;
@@ -15,15 +16,15 @@ let DecoratorParamsController = class DecoratorParamsController extends index_1.
     }
 };
 tslib_1.__decorate([
-    index_1.get("/test/decorator/param/:name/:name2"),
-    index_1.abstract({ middleware: [userMiddleware_1.UserMiddleware] }),
-    tslib_1.__param(4, index_1.injectParam())
+    route_1.get("/test/decorator/param/:name/:name2"),
+    route_1.abstract({ middleware: [userMiddleware_1.UserMiddleware] }),
+    tslib_1.__param(4, inject_1.injectParam())
 ], DecoratorParamsController.prototype, "test", null);
 DecoratorParamsController = tslib_1.__decorate([
-    index_1.controller(),
-    index_1.singleton(),
-    index_1.lazy(),
-    tslib_1.__param(0, index_1.injectParam())
+    route_1.controller(),
+    inject_1.singleton(),
+    inject_1.lazy(),
+    tslib_1.__param(0, inject_1.injectParam())
 ], DecoratorParamsController);
 exports.DecoratorParamsController = DecoratorParamsController;
 //# sourceMappingURL=decoratorParamsController.js.map

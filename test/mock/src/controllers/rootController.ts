@@ -1,6 +1,6 @@
 "use strict";
-import {controller, inject,get,StaticController} from '../../../../index'
-import {} from '../../../../decorators';
+import {controller,get,StaticController} from '@appolo/route'
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 export class RootController extends StaticController {

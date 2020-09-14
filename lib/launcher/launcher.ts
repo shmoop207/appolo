@@ -1,39 +1,16 @@
 "use strict";
 
-import {App as Engine, Events as EngineEvents} from 'appolo-engine';
-import {Agent} from 'appolo-agent';
+import {App as Engine, Events as EngineEvents, Util as EngineUtils} from '@appolo/engine';
+import {Agent} from '@appolo/agent';
+import {Router, Route, IController, Util} from '@appolo/route';
 
-import {Router} from '../routes/router';
 import * as path from 'path';
 
-import {Objects, Strings} from 'appolo-utils';
+import {Objects, Strings} from '@appolo/utils';
 import {IOptions} from "../interfaces/IOptions";
-import {
-    RouterControllerSymbol,
-    RouterDefinitionsClassSymbol,
-    RouterDefinitionsCompiledSymbol,
-    RouterDefinitionsSymbol
-} from "../decorators/decorators";
-import {Route} from "../routes/route";
-import {IController} from "../controller/IController";
-import {Util} from "../util/util";
-import {decorate} from "../routes/decorate";
+
 import {App} from "../app";
-import {Plugin} from "../interfaces/IDefinition";
-
-
-let Defaults: IOptions = {
-    startMessage: "Appolo Server listening on port: ${port} version:${version} environment: ${environment}",
-    startServer: true,
-    errorStack: false,
-    errorMessage: true,
-    maxRouteCache: 10000,
-    qsParser: "qs",
-    urlParser: "fast",
-    viewExt: "html",
-    viewEngine: null,
-    viewFolder: "src/views"
-};
+import {Defaults} from "./defaults";
 
 export class Launcher {
 
@@ -42,7 +19,6 @@ export class Launcher {
     private readonly _options: IOptions;
     private readonly _port: number;
     private readonly _router: Router;
-    private _plugins: { plugin: Plugin, options: any }[] = [];
 
 
     constructor(options: IOptions, private _app: App) {
@@ -54,9 +30,7 @@ export class Launcher {
         this._port = this._getPort();
         this._engine.injector.addObject("httpServer", this._agent.server);
 
-        this._agent.decorate(decorate);
-
-        this._router = new Router(this._engine.env, this._engine.injector, this._options, this._agent);
+        this._router = new Router(this._engine.env, this._engine.injector, this._agent);
 
     }
 
@@ -79,9 +53,9 @@ export class Launcher {
 
     public async launch(): Promise<void> {
 
-        this._engine.on(EngineEvents.InjectRegister, this.addRoute, this);
+        this._engine.on(EngineEvents.InjectRegister, this.router.addRouteFromClass, this.router);
 
-        this._app.on(EngineEvents.ModuleExport, this.addRoute, this);
+        this._app.on(EngineEvents.ModuleExport, this.router.addRouteFromClass, this.router);
 
         await this._engine.launch();
 
@@ -94,52 +68,6 @@ export class Launcher {
         this._logServerMessage();
     }
 
-    public addRoute(fn: Function) {
-
-        if (!Util.isClass(fn)) {
-            return
-        }
-
-        let routeData = Reflect.getMetadata(RouterDefinitionsSymbol, fn);
-
-        let routeAbstract: Route<IController> = Reflect.getMetadata(RouterDefinitionsClassSymbol, fn);
-
-        if (!routeData || !Reflect.hasOwnMetadata(RouterControllerSymbol, fn)) {
-            return
-        }
-
-        routeData = Objects.cloneDeep(routeData);
-
-        Object.keys(routeData).forEach((key: string) => {
-            let route: Route<IController> = routeData[key];
-            route = route.clone();
-
-            //add abstract route
-            if (routeAbstract) {
-                routeAbstract = routeAbstract.clone();
-
-                Util.reverseMiddleware(routeAbstract.definition);
-
-                route.abstract(routeAbstract.definition);
-            }
-
-            let prefix = Reflect.getOwnMetadata(RouterControllerSymbol, fn);
-            //add prefix to routes
-            if (prefix) {
-                (route.definition.path || []).forEach((_path, index) => {
-                    route.definition.path[index] = path.join("/", prefix, _path);
-                })
-            }
-            //override the controller in case we inherit it
-            route.definition.controller = Util.getControllerName(fn as any);
-
-            Reflect.defineMetadata(RouterDefinitionsCompiledSymbol, route, fn, key);
-
-            this._router.addRoute(route);
-        })
-
-
-    }
 
     protected _getPort(): number {
 
@@ -151,7 +79,7 @@ export class Launcher {
         let allPath = path.join(this._options.root, 'config/middlewares/all.js'),
             environmentPath = path.join(this._options.root, 'config/middlewares/', this._options.environment + '.js');
 
-        await Util.loadPathWithArgs([allPath, environmentPath], this._engine.injector);
+        await EngineUtils.loadPathWithArgs([allPath, environmentPath], this._engine.injector);
 
     }
 
@@ -163,28 +91,27 @@ export class Launcher {
             environment: this._engine.env.type
         });
 
-        Util.logger(this._engine.injector).info(msg)
+        EngineUtils.logger(this._engine.injector).info(msg)
     }
 
 
     public async reset() {
 
-        this._engine.reset();
+        await this._engine.reset();
 
         await this._agent.close();
 
         this._app = null;
 
-        this._plugins.length = 0;
         this._router.reset();
 
 
         process.removeAllListeners();
     }
 
-    public plugin(plugin: Plugin, options: any) {
-        this._plugins.push({plugin, options});
-    }
+    // public plugin(plugin: Plugin, options: any) {
+    //     this._plugins.push({plugin, options});
+    // }
 
 
 }

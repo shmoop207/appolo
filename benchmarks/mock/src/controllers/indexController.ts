@@ -1,6 +1,6 @@
 "use strict";
-import {controller, get, IRequest, IResponse, singleton, StaticController} from '../../../../index';
-
+import {controller, get, IRequest, IResponse,  StaticController} from '@appolo/route';
+import {singleton} from "@appolo/inject"
 
 @controller()
 @singleton()

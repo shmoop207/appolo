@@ -1,5 +1,5 @@
-import {define,singleton,alias}  from '../../../../index';
 import {IHandler} from "./IHandler";
+import { inject,define,singleton,override,lazy,injectParam,initMethod,alias} from '@appolo/inject';
 
 @define()
 @singleton()

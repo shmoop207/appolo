@@ -8,8 +8,6 @@ import {Manager6} from "../mock/src/manager/manager6";
 import {Manager7} from "../mock/src/manager/manager7";
 import {Manager8} from "../mock/src/manager/manager8";
 import {App, createApp} from "../../index";
-import {Util} from "../../lib/util/util";
-import {Events} from "appolo-engine/lib/interfaces/events";
 
 let should = chai.should()
 chai.use(sinonChai);
@@ -133,42 +131,18 @@ describe('Appolo Express Unit', () => {
 
         })
 
-        it("convert model case", function () {
-
-            let  output = Util.convertModelToCamelCase({aa_bb:1,cc_dd_ff:2,ffGg:3})
-
-            output.aaBb.should.be.eq(1);
-            output.ccDdFf.should.be.eq(2);
-            output.ffGg.should.be.eq(3);
-
-
-        })
+        // it("convert model case", function () {
+        //
+        //     let  output = Util.convertModelToCamelCase({aa_bb:1,cc_dd_ff:2,ffGg:3})
+        //
+        //     output.aaBb.should.be.eq(1);
+        //     output.ccDdFf.should.be.eq(2);
+        //     output.ffGg.should.be.eq(3);
+        //
+        //
+        // })
 
 
     });
 });
 
-// import Benchmark = require('benchmark');
-// import qs = require('qs');
-//
-// let suite = new Benchmark.Suite;
-// suite.
-// add('vanilla', function() {
-//     Util.parseQsFast("aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb")
-// }).add('qs', function() {
-//    qs.parse("aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb",{allowDots:false,depth:0})
-// }).add('node', function() {
-//     let a = Util.parseQsFast2("aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb")
-// })
-// .add('url', function() {
-//     let {query, pathName} = Util.parseUrlFast("/fdfdf/dfdfdfdgfgf/gfgdgf?aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb");
-//     querystring.parse(query);
-// })
-// .add('url node', function() {
-//     let a = Url.parse("/fdfdf/dfdfdfdgfgf/gfgdgf?aa[]=bb&aa[]=cc&a=1&b=2&c=3&c=3&ss=45&ss=46&dg=gfdgfd&dfdfdfds=2222&test[ggg]=bbb",true)
-// })
-//
-//
-//     .on('cycle', function(event) {
-//     console.log(String(event.target));
-// }).run();

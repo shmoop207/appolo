@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai = require("chai");
 const request = require("supertest");
+const route_1 = require("@appolo/route");
 const index_1 = require("../../index");
 const defineController_1 = require("../mock/src/controllers/defineController");
 const envController_1 = require("../mock/src/controllers/envController");
@@ -32,7 +33,7 @@ describe('Appolo e2e', () => {
         beforeEach(() => {
             app.route('defineController')
                 .path('/test/define/linq_object')
-                .method(index_1.Methods.GET)
+                .method(route_1.Methods.GET)
                 .action(c => c.test);
             app.route(defineController_1.DefineController)
                 .path('/test/define/linq')
@@ -40,7 +41,7 @@ describe('Appolo e2e', () => {
                 .role("aaa");
             app.route('defineController')
                 .path('/test/define/fluent_method')
-                .method(index_1.Methods.GET)
+                .method(route_1.Methods.GET)
                 .action(c => c.test);
             app.route('defineController')
                 .path('/test/define/fluent')
@@ -166,7 +167,7 @@ describe('Appolo e2e', () => {
             });
             app.error(errorMiddleware_1.ErrorMiddleware);
             let spy = sinon.spy();
-            app.addHook(index_1.Hooks.OnResponse, spy);
+            app.addHook(route_1.Hooks.OnResponse, spy);
             await app.launch();
             let res = await request(app.handle)
                 .get('/test/error2/');
@@ -183,7 +184,7 @@ describe('Appolo e2e', () => {
                 environment: "testing",
                 root: process.cwd() + '/test/mock/',
             });
-            app.addHook(index_1.Hooks.PreMiddleware, function (req, res, next) {
+            app.addHook(route_1.Hooks.PreMiddleware, function (req, res, next) {
                 req.model = { c: 112 };
                 next();
             });
@@ -259,7 +260,7 @@ describe('Appolo e2e', () => {
         beforeEach(() => {
             app.route(middlewareController_1.MiddlewareController)
                 .path('/test/middleware/function')
-                .method(index_1.Methods.GET)
+                .method(route_1.Methods.GET)
                 .action('fn')
                 .middleware(function (req, res, next) {
                 req.working = true;
@@ -267,17 +268,17 @@ describe('Appolo e2e', () => {
             });
             app.route(middlewareController_1.MiddlewareController)
                 .path('/test/middleware/objectId')
-                .method(index_1.Methods.GET)
+                .method(route_1.Methods.GET)
                 .action('test')
                 .middleware('testMiddleware');
             app.route(middlewareController_1.MiddlewareController)
                 .path('/test/middleware/class')
-                .method(index_1.Methods.GET)
+                .method(route_1.Methods.GET)
                 .action('test')
                 .middleware(middleware_1.TestMiddleware);
             app.route(middlewareController_1.MiddlewareController)
                 .path('/test/middleware/auth')
-                .method(index_1.Methods.GET)
+                .method(route_1.Methods.GET)
                 .action('test')
                 .middleware(authMiddleware_1.AuthMiddleware);
         });
@@ -678,7 +679,7 @@ describe('Appolo e2e', () => {
             res.body.working.should.be.eq(true);
         });
     });
-    describe('render', function () {
+    xdescribe('render', function () {
         it('should render view', async () => {
             let res = await request(app.handle)
                 .get('/test/view?test=11');

@@ -1,5 +1,5 @@
-import {IOptions as IEngineOptions} from 'appolo-engine';
-import {IOptions as IAgentOptions} from 'appolo-agent';
+import {IOptions as IEngineOptions} from '@appolo/engine';
+import {IOptions as IAgentOptions} from '@appolo/agent';
 
 export interface IOptions extends IEngineOptions,IAgentOptions {
 
@@ -13,11 +13,7 @@ export interface IOptions extends IEngineOptions,IAgentOptions {
     maxRouteCache?: number
     qsParser?: "qs" | "querystring"
     urlParser?: "url" | "fast"
-    viewFolder?: string
-    viewCache?: boolean
     trustProxy?:boolean
-    viewEngine?: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>;
-    viewExt?: string
     ssl?: {
         key: string
         cert: string

@@ -1,5 +1,6 @@
-import {Controller, controller, get, inject} from '../../../../../../index';
+import {Controller, controller, get} from '@appolo/route';
 import {IEnv} from "../../../../config/env/IEnv";
+import {inject} from "@appolo/inject";
 
 @controller("test/monitor")
 export class MonitorController extends Controller {

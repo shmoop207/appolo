@@ -1,6 +1,5 @@
 "use strict";
 import appolo  = require('../../index');
-import {IRequest, IResponse} from "../../index";
 
 
 (async function () {

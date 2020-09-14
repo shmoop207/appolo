@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RedirectController = void 0;
 const tslib_1 = require("tslib");
-const index_1 = require("../../../../index");
-let RedirectController = class RedirectController extends index_1.StaticController {
+const route_1 = require("@appolo/route");
+let RedirectController = class RedirectController extends route_1.StaticController {
     redirect(req, res) {
         res.redirect("/test/redirectTo");
     }
@@ -12,13 +12,13 @@ let RedirectController = class RedirectController extends index_1.StaticControll
     }
 };
 tslib_1.__decorate([
-    index_1.get("/test/redirect")
+    route_1.get("/test/redirect")
 ], RedirectController.prototype, "redirect", null);
 tslib_1.__decorate([
-    index_1.get("/test/redirectTo")
+    route_1.get("/test/redirectTo")
 ], RedirectController.prototype, "redirectTo", null);
 RedirectController = tslib_1.__decorate([
-    index_1.controller()
+    route_1.controller()
 ], RedirectController);
 exports.RedirectController = RedirectController;
 //# sourceMappingURL=redirectController.js.map

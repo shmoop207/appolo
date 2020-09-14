@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const serve = require("serve-static");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const consolidate = require("consolidate");
 module.exports = function (app, env) {
     app.use(bodyParser.urlencoded({
         extended: true,
@@ -14,7 +13,6 @@ module.exports = function (app, env) {
         //parameterLimit: 10000,
         limit: 1024 * 1024 * 10
     }));
-    app.viewEngine(consolidate.nunjucks);
     app.use(cookieParser());
     app.use(serve(path.join(__dirname, "../../uploads")));
     app.use(function (req, res, next) {

@@ -2,44 +2,34 @@ import    http = require('http');
 import    https = require('https');
 import {IOptions} from "./interfaces/IOptions";
 import {
-    Events as AgentEvents, Hooks, Methods,
+    Events as AgentEvents,
+    Hooks,
+    Methods,
     IApp as IAgentApp,
     MiddlewareHandlerErrorOrAny,
-    MiddlewareHandlerOrAny
-} from "appolo-agent";
-import {
-    Define,
-    EventDispatcher,
-    Events as EngineEvents,
-    IApp as IEngineApp,
-    IClass,
-    IEnv,
-    Injector
-} from "appolo-engine";
+    MiddlewareHandlerOrAny, MiddlewareHandlerParams
+} from "@appolo/agent";
+import {Events as EngineEvents, IApp as IEngineApp, IClass, IEnv} from "@appolo/engine";
+import {Route, IController, Controller, StaticController, IMiddlewareCtr} from "@appolo/route";
 
-import {ModuleFn} from "appolo-engine/lib/modules/modules";
+import {Injector, Define} from "@appolo/inject";
+
 import {Launcher} from "./launcher/launcher";
-import {Route} from "./routes/route";
-import {IController} from "./controller/IController";
-import {Controller} from "./controller/controller";
-import {StaticController} from "./controller/staticController";
-import {IResponse} from "./interfaces/IResponse";
-import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
-import {IRequest} from "./interfaces/IRequest";
-import {NextFn} from "appolo-agent/index";
-import {IMiddlewareCtr, MiddlewareType, RequestContextSymbol} from "./interfaces/IMiddleware";
 import {Events} from "./interfaces/events";
-import {Plugin} from "./interfaces/IDefinition";
-import {Util} from "./util/util";
-import {invokeMiddleWare, invokeMiddleWareError} from "./routes/invokeActionMiddleware";
-import {RouterDefinitionsSymbol} from "./decorators/decorators";
+import {EventDispatcher} from "@appolo/events";
+import {ModuleArg} from "@appolo/engine";
+import {Discovery} from "./launcher/discovery";
 
 export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
     private _launcher: Launcher;
+    private _discovery: Discovery;
+
 
     constructor(options: IOptions) {
         super();
+
+        this._discovery = new Discovery(this)
 
         this._launcher = new Launcher(options, this);
 
@@ -53,17 +43,10 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return new App(options);
     };
 
-    public get exportedClasses(): { fn: Function, path: string, define: Define }[] {
-        return this.exported
+    public get discovery(): Discovery {
+        return this._discovery;
     }
 
-    public get exported(): { fn: Function, path: string, define: Define }[] {
-        return this._launcher.engine.exported;
-    }
-
-    public get exportedRoot(): { fn: Function, path: string, define: Define }[] {
-        return this._launcher.engine.exportedRoot;
-    }
 
     public getRoute<T extends IController>(path: string, method: Methods): Route<T> {
         return this._launcher.router.getRoute(path, method)
@@ -81,89 +64,38 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return this._launcher.options
     }
 
-    // public enableContext(contextCtr?: typeof Context) {
-    //
-    //     let context = namespace.create(RequestContextSymbol, contextCtr);
-    //
-    //     this.injector.addObject("context", context);
-    //
-    //     context.initialize();
-    //
-    //     this.use((req: IRequest, res: IResponse, next: NextFn) => context.scope(next))
-    // }
-
-    // public getContext() {
-    //     return namespace.get(RequestContextSymbol);
-    // }
-
 
     public use(path?: (string | MiddlewareHandlerOrAny | IMiddlewareCtr), ...middleware: (MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
 
-        return this._addMiddleware(path, middleware, false)
+        this._launcher.router.addMiddleware(path, middleware, false);
+        return this;
     }
 
     public error(path?: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr), ...middleware: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this {
 
-        return this._addMiddleware(path, middleware, true)
-    }
-
-    private _addMiddleware(path: string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr, middleware: (string | MiddlewareHandlerErrorOrAny | MiddlewareHandlerOrAny | IMiddlewareCtr)[], error: boolean): this {
-
-        if (typeof path !== "string") {
-            middleware.unshift(path)
-        }
-
-        for (let i = 0; i < middleware.length; i++) {
-
-            let id = Util.getClassId(middleware[i]);
-
-            if (id) {
-                middleware[i] = error ? invokeMiddleWareError(id) : invokeMiddleWare(id)
-            }
-
-        }
-
-        if (error) {
-            this._launcher.agent.error(...middleware as MiddlewareHandlerErrorOrAny[]);
-
-        } else {
-
-            if (typeof path === "string") {
-                middleware.unshift(path)
-            }
-
-            this._launcher.agent.use(...middleware as MiddlewareHandlerErrorOrAny[]);
-
-        }
-
+        this._launcher.router.addMiddleware(path, middleware, true);
         return this;
     }
+
 
     public addHook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
     public addHook(name: Hooks.OnResponse | Hooks.PreMiddleware | Hooks.PreHandler | Hooks.OnRequest, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
     public addHook(name: Hooks.OnSend, ...hook: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this
     public addHook(name: Hooks, ...hooks: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]): this {
 
-        hooks = Util.convertMiddlewareHooks(name, hooks);
-
-        this._launcher.agent.addHook(name as any, ...(hooks as any));
+        this._launcher.router.addHook(name as any, ...(hooks as any));
 
         return this
     }
 
-    public module(...moduleFn: ModuleFn[]): Promise<any> {
-        return this._launcher.engine.module(...moduleFn)
+    public async module(...modules: ModuleArg[]): Promise<void> {
+        return this._launcher.engine.module(...modules)
     }
 
     public moduleAt(index: number): App {
         return this.children[index]
     }
 
-    public viewEngine(fn: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>, ext: string = "html", cache: boolean = true): void {
-        this._launcher.options.viewEngine = fn;
-        this._launcher.options.viewExt = ext;
-        this._launcher.options.viewCache = cache;
-    }
 
     public set(name: keyof IOptions, value: any) {
         this._launcher.options[name as any] = value;
@@ -202,7 +134,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     }
 
     public addRouteFromClass(klass: typeof Controller) {
-        this._launcher.addRoute(klass)
+        this._launcher.router.addRouteFromClass(klass)
     }
 
     public get parent(): App {
@@ -268,7 +200,4 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         }
     }
 
-    public plugin(plugin: Plugin, options: any) {
-        this._launcher.plugin(plugin, options);
-    }
 }

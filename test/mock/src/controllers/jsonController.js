@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JsonController = void 0;
 const tslib_1 = require("tslib");
-const index_1 = require("../../../../index");
-let JsonController = class JsonController extends index_1.Controller {
+const route_1 = require("@appolo/route");
+const inject_1 = require("@appolo/inject");
+let JsonController = class JsonController extends route_1.Controller {
     json(req, res) {
         res.gzip().json({ query: req.query });
     }
@@ -12,16 +13,16 @@ let JsonController = class JsonController extends index_1.Controller {
     }
 };
 tslib_1.__decorate([
-    index_1.inject()
+    inject_1.inject()
 ], JsonController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.get("/test/json")
+    route_1.get("/test/json")
 ], JsonController.prototype, "json", null);
 tslib_1.__decorate([
-    index_1.post("/test/json")
+    route_1.post("/test/json")
 ], JsonController.prototype, "jsonPost", null);
 JsonController = tslib_1.__decorate([
-    index_1.controller()
+    route_1.controller()
 ], JsonController);
 exports.JsonController = JsonController;
 //# sourceMappingURL=jsonController.js.map

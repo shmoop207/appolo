@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MiddlewareController = void 0;
 const tslib_1 = require("tslib");
-const index_1 = require("../../../../index");
-let MiddlewareController = class MiddlewareController extends index_1.Controller {
+const route_1 = require("@appolo/route");
+const inject_1 = require("@appolo/inject");
+let MiddlewareController = class MiddlewareController extends route_1.Controller {
     test(req, res) {
         res.json({ working: true });
     }
@@ -15,21 +16,21 @@ let MiddlewareController = class MiddlewareController extends index_1.Controller
     }
 };
 tslib_1.__decorate([
-    index_1.inject()
+    inject_1.inject()
 ], MiddlewareController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    index_1.get("/test/middleware/order"),
-    index_1.middleware(function (req, res, next) {
+    route_1.get("/test/middleware/order"),
+    route_1.middleware(function (req, res, next) {
         req.working = "working1";
         next();
     }),
-    index_1.middleware(function (req, res, next) {
+    route_1.middleware(function (req, res, next) {
         (req).working2 = req.working + "working2";
         next();
     })
 ], MiddlewareController.prototype, "testOrderMiddleware", null);
 MiddlewareController = tslib_1.__decorate([
-    index_1.controller()
+    route_1.controller()
 ], MiddlewareController);
 exports.MiddlewareController = MiddlewareController;
 //# sourceMappingURL=middlewareController.js.map

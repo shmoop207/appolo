@@ -1,7 +1,8 @@
 "use strict";
-import {Controller, controller, inject, middleware, get} from '../../../../index';
+import {Controller, controller, middleware, get} from '@appolo/route';
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 export class MiddlewareController extends Controller {

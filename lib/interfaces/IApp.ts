@@ -1,23 +1,18 @@
-import {IApp as IEngineApp} from "appolo-engine";
+import {IApp as IEngineApp,IEnv,IClass} from "@appolo/engine";
 import {IOptions} from "./IOptions";
 import {
     Hooks,
     MiddlewareHandler,
     MiddlewareHandlerAny,
     MiddlewareHandlerErrorOrAny,
-    MiddlewareHandlerOrAny
-} from "appolo-agent/index";
-import {ModuleFn} from "appolo-engine/lib/modules/modules";
-import {Define, IClass, IEnv, Injector} from "appolo-engine/index";
-import {IController} from "../controller/IController";
-import {Controller} from "../controller/controller";
-import {StaticController} from "../controller/staticController";
-import {Route} from "../routes/route";
-import {MiddlewareHandlerParams} from "appolo-agent/lib/types";
+    MiddlewareHandlerOrAny,MiddlewareHandlerParams
+} from "@appolo/agent";
+import {Define, Injector} from "@appolo/inject";
+import {IController,Controller,StaticController,IMiddlewareCtr,Route} from "@appolo/route";
 import {Events} from "./events";
 import    http = require('http');
 import    https = require('https');
-import {IMiddlewareCtr} from "./IMiddleware";
+import {ModuleArg} from "@appolo/engine";
 
 export interface IApp extends IEngineApp {
     options: IOptions
@@ -27,9 +22,7 @@ export interface IApp extends IEngineApp {
 
     use(fn: MiddlewareHandler | MiddlewareHandlerAny): this
 
-    module(...moduleFn: ModuleFn[]): Promise<any>
-
-    viewEngine(fn: (path: string, options?: { cache?: boolean, [otherOptions: string]: any }) => Promise<string>, ext: string, cache: boolean): void
+    module(...modules: ModuleArg[]): Promise<void>
 
     set(name: keyof IOptions, value: any)
 

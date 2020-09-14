@@ -5,7 +5,7 @@ import {
     IResponse,
     IRequest,
     get,
-} from '../../../../index';
+} from '@appolo/route';
 
 
 @controller()

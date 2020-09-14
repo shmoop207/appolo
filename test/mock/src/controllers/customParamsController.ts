@@ -1,5 +1,6 @@
 "use strict";
-import {body, Controller, controller, customRouteDecorator, inject, post,headers} from '../../../../index';
+import {body, Controller, controller, customRouteDecorator, post,headers} from '@appolo/route';
+import { inject,define,singleton,override} from '@appolo/inject';
 
 let someHeader = customRouteDecorator((req, res, route) => {
     res.setHeader("x-test2", "222")

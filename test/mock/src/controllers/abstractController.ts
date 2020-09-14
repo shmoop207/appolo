@@ -1,5 +1,6 @@
 "use strict";
-import {Controller, controller, define, get, inject, middleware, singleton} from '../../../../index';
+import {Controller, controller, get, middleware} from '@appolo/route';
+import { inject,define,singleton,override} from '@appolo/inject';
 
 @middleware(function (req, res, next) {
     (req as any).working = "working1";

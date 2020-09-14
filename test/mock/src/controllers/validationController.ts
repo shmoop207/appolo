@@ -1,5 +1,5 @@
 "use strict";
-import {Controller, controller, IRequest, IResponse, get} from '../../../../index';
+import {Controller, controller, IRequest, IResponse, get} from '@appolo/route';
 
 @controller()
 export class ValidationController extends Controller {

@@ -1,5 +1,6 @@
 "use strict";
-import {controller, inject, Controller, get, post} from '../../../../index';
+import {controller, Controller, get, post} from '@appolo/route';
+import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
 
 @controller()
 export class JsonController extends Controller {

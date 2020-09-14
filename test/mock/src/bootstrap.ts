@@ -1,7 +1,8 @@
 "use strict";
-import {inject, define, bootstrap, singleton, IBootstrap, override, Util} from "../../../index";
 import {Manager} from "./manager/manager";
-import {Promises} from 'appolo-utils';
+import {Promises} from '@appolo/utils';
+import { inject,define,singleton,override} from '@appolo/inject';
+import { bootstrap,IBootstrap} from '@appolo/engine';
 
 @define()
 @bootstrap()
