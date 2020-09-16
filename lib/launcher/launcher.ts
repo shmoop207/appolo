@@ -10,7 +10,7 @@ import {Objects, Strings} from '@appolo/utils';
 import {IOptions} from "../interfaces/IOptions";
 
 import {App} from "../app";
-import {Defaults} from "./defaults";
+import {Defaults} from "../defaults/defaults";
 
 export class Launcher {
 

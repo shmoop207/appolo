@@ -24,6 +24,9 @@ describe('Appolo Express Unit', () => {
             should.exist(app2);
             should.exist(app2.handle);
         });
+        it('should have valid exported', function () {
+            app.discovery.exported.length.should.be.gt(0);
+        });
         it("should have managers", () => {
             let manager = app.injector.getObject('manager');
             should.exist(manager);

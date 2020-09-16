@@ -1,7 +1,13 @@
 import {Discovery as EngineDiscovery} from "@appolo/engine"
 import {Controller, StaticController, IController, Route, Util} from "@appolo/route";
+import {IApp} from "../interfaces/IApp";
 
 export class Discovery extends EngineDiscovery {
+    constructor(app: IApp, engineDiscovery: EngineDiscovery) {
+        super(app);
+
+        this._exported = engineDiscovery.exported;
+    }
 
     public getControllerName(controller: string | typeof Controller | typeof StaticController): string {
         return Discovery.getControllerName(controller)

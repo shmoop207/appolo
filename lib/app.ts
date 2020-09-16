@@ -18,7 +18,7 @@ import {Launcher} from "./launcher/launcher";
 import {Events} from "./interfaces/events";
 import {EventDispatcher} from "@appolo/events";
 import {ModuleArg} from "@appolo/engine";
-import {Discovery} from "./launcher/discovery";
+import {Discovery} from "./discovery/discovery";
 
 export class App extends EventDispatcher implements IAgentApp, IEngineApp {
 
@@ -29,9 +29,10 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
     constructor(options: IOptions) {
         super();
 
-        this._discovery = new Discovery(this)
 
         this._launcher = new Launcher(options, this);
+
+        this._discovery = new Discovery(this, this._launcher.engine.discovery)
 
         this.injector.addObject("app", this, true);
 

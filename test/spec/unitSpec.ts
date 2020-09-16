@@ -33,6 +33,7 @@ describe('Appolo Express Unit', () => {
             await app.reset();
         });
 
+
         it("should have app", () => {
 
             let app2 = app.injector.getObject<App>('app');
@@ -40,6 +41,10 @@ describe('Appolo Express Unit', () => {
             should.exist(app2);
             should.exist(app2.handle)
         });
+
+        it('should have valid exported', function () {
+            app.discovery.exported.length.should.be.gt(0)
+        })
 
         it("should have managers", () => {
 
