@@ -30,4 +30,10 @@ export class ErrorController extends Controller {
         throw new HttpError(500, "error")
     }
 
+    @get('/test/error3')
+    async error3(req, res) {
+
+        throw new Error("some error")
+    }
+
 }

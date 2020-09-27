@@ -6,6 +6,5 @@ export const Defaults: IOptions = {
     errorStack: false,
     errorMessage: true,
     maxRouteCache: 10000,
-    qsParser: "qs",
     urlParser: "fast",
 };

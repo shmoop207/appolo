@@ -19,8 +19,9 @@ import {Events} from "./interfaces/events";
 import {EventDispatcher} from "@appolo/events";
 import {ModuleArg} from "@appolo/engine";
 import {Discovery} from "./discovery/discovery";
+import {IApp} from "./interfaces/IApp";
 
-export class App extends EventDispatcher implements IAgentApp, IEngineApp {
+export class App extends EventDispatcher implements IAgentApp, IApp {
 
     private _launcher: Launcher;
     private _discovery: Discovery;
@@ -93,7 +94,7 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         return this._launcher.engine.module(...modules)
     }
 
-    public moduleAt(index: number): App {
+    public moduleAt(index: number): IApp {
         return this.children[index]
     }
 
@@ -138,17 +139,25 @@ export class App extends EventDispatcher implements IAgentApp, IEngineApp {
         this._launcher.router.addRouteFromClass(klass)
     }
 
-    public get parent(): App {
-        return this._launcher.engine.parent as App;
+    public getParent<T extends IEngineApp>(): T{
+        return this._launcher.engine.getParent<T>();
     }
 
-    public get root(): App {
-        return this._launcher.engine.root as App;
+    public getRoot<T extends IEngineApp>(): T{
+        return this._launcher.engine.getRoot<T>();
+    }
+
+    public get parent(): IApp {
+        return this._launcher.engine.parent as IApp;
+    }
+
+    public get root(): IApp {
+        return this._launcher.engine.root as IApp;
     }
 
 
-    public get children(): App[] {
-        return this._launcher.engine.children as App[];
+    public get children(): IApp[] {
+        return this._launcher.engine.children as IApp[];
     }
 
     public get(path: string, ...handler: MiddlewareHandlerParams[]): this {

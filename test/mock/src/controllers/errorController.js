@@ -12,6 +12,9 @@ let ErrorController = class ErrorController extends route_1.Controller {
     async error2(req, res) {
         throw new route_1.HttpError(500, "error");
     }
+    async error3(req, res) {
+        throw new Error("some error");
+    }
 };
 tslib_1.__decorate([
     inject_1.inject()
@@ -31,6 +34,9 @@ tslib_1.__decorate([
         next(err);
     })
 ], ErrorController.prototype, "error2", null);
+tslib_1.__decorate([
+    route_1.get('/test/error3')
+], ErrorController.prototype, "error3", null);
 ErrorController = tslib_1.__decorate([
     route_1.controller()
 ], ErrorController);

@@ -11,6 +11,7 @@ const authMiddleware_1 = require("../mock/src/middleware/authMiddleware");
 const middleware_1 = require("../mock/src/middleware/middleware");
 const errorMiddleware_1 = require("../mock/src/middleware/errorMiddleware");
 const sinon = require("sinon");
+const qs = require("qs");
 const sinonChai = require("sinon-chai");
 const httpChai = require("chai-http");
 let should = chai.should();
@@ -22,6 +23,7 @@ describe('Appolo e2e', () => {
         app = index_1.createApp({
             port: 8183,
             environment: "testing",
+            qsParser: (str) => qs.parse(str),
             root: process.cwd() + '/test/mock/',
         });
         await app.launch();
@@ -134,6 +136,21 @@ describe('Appolo e2e', () => {
             res.should.to.be.json;
             should.exist(res.body);
             res.body.data.should.be.eq("erroraaaa");
+        });
+        it('should  call with stack error', async () => {
+            await app.reset();
+            app = index_1.createApp({
+                port: 8183,
+                environment: "testing", errorStack: true,
+                root: process.cwd() + '/test/mock/',
+            });
+            await app.launch();
+            let res = await request(app.handle)
+                .get('/test/error3/');
+            res.should.to.have.status(500);
+            res.should.to.be.json;
+            should.exist(res.body);
+            res.body.error.should.include("Error: some error");
         });
     });
     describe('custom app use', function () {

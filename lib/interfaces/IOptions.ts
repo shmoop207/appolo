@@ -11,7 +11,6 @@ export interface IOptions extends IEngineOptions,IAgentOptions {
     errorMessage?: boolean
     decodeUrlParams?:boolean
     maxRouteCache?: number
-    qsParser?: "qs" | "querystring"
     urlParser?: "url" | "fast"
     trustProxy?:boolean
     ssl?: {

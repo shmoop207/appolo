@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import * as request from 'supertest';
 import {Promises} from '@appolo/utils';
-import {Methods,Hooks } from '@appolo/route';
+import {Methods, Hooks} from '@appolo/route';
 import {App, createApp} from '../../index';
 import {DefineController} from "../mock/src/controllers/defineController";
 import {EnvController} from "../mock/src/controllers/envController";
@@ -10,6 +10,7 @@ import {AuthMiddleware} from "../mock/src/middleware/authMiddleware";
 import {TestMiddleware} from "../mock/src/middleware/middleware";
 import {ErrorMiddleware} from "../mock/src/middleware/errorMiddleware";
 import sinon = require("sinon");
+import qs = require("qs");
 import sinonChai = require("sinon-chai");
 import httpChai = require("chai-http");
 
@@ -25,6 +26,7 @@ describe('Appolo e2e', () => {
         app = createApp({
             port: 8183,
             environment: "testing",
+            qsParser: (str) => qs.parse(str),
             root: process.cwd() + '/test/mock/',
         });
 
@@ -209,6 +211,30 @@ describe('Appolo e2e', () => {
         });
 
 
+        it('should  call with stack error', async () => {
+
+            await app.reset();
+
+            app = createApp({
+                port: 8183,
+                environment: "testing",errorStack:true,
+                root: process.cwd() + '/test/mock/',
+            });
+
+            await app.launch();
+
+
+            let res = await request(app.handle)
+                .get('/test/error3/');
+
+
+            res.should.to.have.status(500);
+            res.should.to.be.json;
+
+            should.exist(res.body);
+
+            res.body.error.should.include("Error: some error");
+        });
     });
 
     describe('custom app use', function () {
@@ -663,6 +689,7 @@ describe('Appolo e2e', () => {
 
     describe('query', function () {
         it('should should have query params', async () => {
+
             let res = await request(app.handle)
                 .get(`/test/query?test=1&test2[]=2&test2[]=3&test3[]=${encodeURIComponent("http://test.com")}`)
 
