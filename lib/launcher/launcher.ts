@@ -1,6 +1,6 @@
 "use strict";
 
-import {App as Engine, Events as EngineEvents, Util as EngineUtils} from '@appolo/engine';
+import {App as Engine , Util as EngineUtils} from '@appolo/engine';
 import {Agent} from '@appolo/agent';
 import {Router, Route, IController, Util} from '@appolo/route';
 
@@ -53,9 +53,9 @@ export class Launcher {
 
     public async launch(): Promise<void> {
 
-        this._engine.on(EngineEvents.InjectRegister, this.router.addRouteFromClass, this.router);
+        this._engine.eventsInjectRegister.on(payload=>this.router.addRouteFromClass(payload.type));
 
-        this._app.on(EngineEvents.ModuleExport, this.router.addRouteFromClass, this.router);
+        this._app.eventModuleExport.on(payload => this.router.addRouteFromClass(payload.type));
 
         await this._engine.launch();
 

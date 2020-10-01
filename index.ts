@@ -7,7 +7,6 @@ export {IApp}
 
 export {App} from './lib/app';
 export {Discovery} from './lib/discovery/discovery';
-export {Events} from './lib/interfaces/events';
 export {IEnv} from './lib/interfaces/IEnv';
 
 

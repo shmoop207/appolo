@@ -2,34 +2,27 @@ import    http = require('http');
 import    https = require('https');
 import {IOptions} from "./interfaces/IOptions";
 import {
-    Events as AgentEvents,
     Hooks,
     Methods,
     IApp as IAgentApp,
     MiddlewareHandlerErrorOrAny,
     MiddlewareHandlerOrAny, MiddlewareHandlerParams
 } from "@appolo/agent";
-import {Events as EngineEvents, IApp as IEngineApp, IClass, IEnv} from "@appolo/engine";
+import {IApp as IEngineApp, IClass, IEnv} from "@appolo/engine";
 import {Route, IController, Controller, StaticController, IMiddlewareCtr} from "@appolo/route";
-
 import {Injector, Define} from "@appolo/inject";
-
 import {Launcher} from "./launcher/launcher";
-import {Events} from "./interfaces/events";
-import {EventDispatcher} from "@appolo/events";
 import {ModuleArg} from "@appolo/engine";
 import {Discovery} from "./discovery/discovery";
 import {IApp} from "./interfaces/IApp";
 
-export class App extends EventDispatcher implements IAgentApp, IApp {
+export class App implements IAgentApp, IApp {
 
     private _launcher: Launcher;
-    private _discovery: Discovery;
+    private readonly _discovery: Discovery;
 
 
     constructor(options: IOptions) {
-        super();
-
 
         this._launcher = new Launcher(options, this);
 
@@ -139,11 +132,11 @@ export class App extends EventDispatcher implements IAgentApp, IApp {
         this._launcher.router.addRouteFromClass(klass)
     }
 
-    public getParent<T extends IEngineApp>(): T{
+    public getParent<T extends IEngineApp>(): T {
         return this._launcher.engine.getParent<T>();
     }
 
-    public getRoot<T extends IEngineApp>(): T{
+    public getRoot<T extends IEngineApp>(): T {
         return this._launcher.engine.getRoot<T>();
     }
 
@@ -189,25 +182,84 @@ export class App extends EventDispatcher implements IAgentApp, IApp {
         this._launcher.agent.handle(request, response)
     }
 
-    public on(event: Events | string, fn: (...args: any[]) => any, scope?: any): void {
-        if (event in EngineEvents) {
-            this._launcher.engine.on(event as EngineEvents, fn, scope)
-        } else if (event in AgentEvents) {
-            this._launcher.agent.on(event as AgentEvents, fn, scope)
-        } else {
-            super.on(event.toString(), fn, scope)
-        }
-
+    public get eventModuleExport() {
+        return this._launcher.engine.eventModuleExport
     }
 
-    public once(event: Events | string, fn?: (...args: any[]) => any, scope?: any): Promise<any> | void {
-        if (event in EngineEvents) {
-            this._launcher.engine.once(event as EngineEvents, fn, scope)
-        } else if (event in AgentEvents) {
-            this._launcher.agent.once(event as AgentEvents, fn, scope)
-        } else {
-            super.once(event.toString(), fn, scope)
-        }
+    public get eventBeforeModuleInit() {
+        return this._launcher.engine.eventBeforeModuleInit
+    }
+
+    public get eventModuleInit() {
+        return this._launcher.engine.eventModuleInit
+    }
+
+    public get eventBeforeModulesLoad() {
+        return this._launcher.engine.eventBeforeModulesLoad
+    }
+
+    public get eventModulesLoaded() {
+        return this._launcher.engine.eventModulesLoaded
+    }
+
+    public get eventBeforeInjectorInit() {
+        return this._launcher.engine.eventBeforeInjectorInit
+    }
+
+    public get eventInjectorInit() {
+        return this._launcher.engine.eventInjectorInit
+    }
+
+    public get eventBeforeBootstrap() {
+        return this._launcher.engine.eventBeforeBootstrap
+    }
+
+    public get eventBootstrap() {
+        return this._launcher.engine.eventBootstrap
+    }
+
+    public get eventsBeforeInjectRegister() {
+        return this._launcher.engine.eventsBeforeInjectRegister
+    }
+
+    public get eventsEventClassExport() {
+        return this._launcher.engine.eventsEventClassExport
+    }
+
+    public get eventsInjectRegister() {
+        return this._launcher.engine.eventsInjectRegister
+    }
+
+    public get eventsBeforeReset() {
+        return this._launcher.engine.eventsBeforeReset
+    }
+
+    public get eventsReset() {
+        return this._launcher.engine.eventsReset
+    }
+
+    public get eventInstanceInitialized() {
+        return this._launcher.engine.eventInstanceInitialized
+    }
+
+    public get eventInstanceOwnInitialized() {
+        return this._launcher.engine.eventInstanceOwnInitialized
+    }
+
+    public get eventInstanceCreated() {
+        return this._launcher.engine.eventInstanceCreated
+    }
+
+    public get eventInstanceOwnCreated() {
+        return this._launcher.engine.eventInstanceOwnCreated
+    }
+
+    public get eventRouteAdded() {
+        return this._launcher.agent.eventRouteAdded;
+    }
+
+    public get eventServerClosed() {
+        return this._launcher.agent.eventServerClosed;
     }
 
 }

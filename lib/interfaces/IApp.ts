@@ -9,7 +9,6 @@ import {
 } from "@appolo/agent";
 import {Define, Injector} from "@appolo/inject";
 import {IController,Controller,StaticController,IMiddlewareCtr,Route} from "@appolo/route";
-import {Events} from "./events";
 import    http = require('http');
 import    https = require('https');
 import {ModuleArg} from "@appolo/engine";
@@ -49,11 +48,6 @@ export interface IApp extends IEngineApp {
 
     handle(request: http.IncomingMessage, response: http.ServerResponse)
 
-    on(event: Events | string, fn: (...args: any[]) => any, scope?: any): void
-
-    once(event: Events | string, fn?: (...args: any[]) => any, scope?: any): Promise<any> | void
-
-    //exportedClasses: { fn: Function, path: string }[]
 
     addHook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
 
