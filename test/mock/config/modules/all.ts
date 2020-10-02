@@ -10,5 +10,5 @@ export = async function (env, app: App) {
 
     await app.module(logger2({test: 'test'}));
 
-    await app.module(logger3({test: 'test3'}), MonitorModule)
+    await app.modules(logger3({test: 'test3'}), MonitorModule)
 }

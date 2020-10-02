@@ -15,6 +15,8 @@ import {Launcher} from "./launcher/launcher";
 import {ModuleArg} from "@appolo/engine";
 import {Discovery} from "./discovery/discovery";
 import {IApp} from "./interfaces/IApp";
+import {EventDispatcher} from "@appolo/events/index";
+import {IModuleOptions} from "@appolo/engine/lib/interfaces/IModule";
 
 export class App implements IAgentApp, IApp {
 
@@ -33,6 +35,9 @@ export class App implements IAgentApp, IApp {
 
         this._launcher.agent.requestApp = this;
     }
+
+
+
 
     public static create(options: IOptions): App {
         return new App(options);
@@ -53,6 +58,10 @@ export class App implements IAgentApp, IApp {
 
 
         return this;
+    }
+
+    public get dispatcher(){
+        return this._launcher.engine.dispatcher
     }
 
     public get options(): IOptions {
@@ -83,8 +92,14 @@ export class App implements IAgentApp, IApp {
         return this
     }
 
-    public async module(...modules: ModuleArg[]): Promise<void> {
-        return this._launcher.engine.module(...modules)
+    public async module(module: ModuleArg, config: { [index: string]: any } = {}, options: IModuleOptions = {}): Promise<void> {
+
+        await this._launcher.engine.module(module,config,options);
+    }
+
+    public async modules(...modules: (ModuleArg | [ModuleArg, { [index: string]: any }?, IModuleOptions?])[]): Promise<void> {
+
+        await this._launcher.engine.modules(...modules);
     }
 
     public moduleAt(index: number): IApp {

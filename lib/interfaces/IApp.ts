@@ -1,17 +1,18 @@
-import {IApp as IEngineApp,IEnv,IClass} from "@appolo/engine";
+import {IApp as IEngineApp, IEnv, IClass} from "@appolo/engine";
 import {IOptions} from "./IOptions";
 import {
     Hooks,
     MiddlewareHandler,
     MiddlewareHandlerAny,
     MiddlewareHandlerErrorOrAny,
-    MiddlewareHandlerOrAny,MiddlewareHandlerParams
+    MiddlewareHandlerOrAny, MiddlewareHandlerParams
 } from "@appolo/agent";
 import {Define, Injector} from "@appolo/inject";
-import {IController,Controller,StaticController,IMiddlewareCtr,Route} from "@appolo/route";
+import {IController, Controller, StaticController, IMiddlewareCtr, Route} from "@appolo/route";
 import    http = require('http');
 import    https = require('https');
 import {ModuleArg} from "@appolo/engine";
+import {IModuleOptions} from "@appolo/engine/lib/interfaces/IModule";
 
 export interface IApp extends IEngineApp {
     options: IOptions
@@ -21,7 +22,10 @@ export interface IApp extends IEngineApp {
 
     use(fn: MiddlewareHandler | MiddlewareHandlerAny): this
 
-    module(...modules: ModuleArg[]): Promise<void>
+    module(module: ModuleArg, config?: { [index: string]: any }, options?: IModuleOptions): Promise<void>
+
+    modules(...modules: (ModuleArg | [ModuleArg, { [index: string]: any }?, IModuleOptions?])[]): Promise<void>
+
 
     set(name: keyof IOptions, value: any)
 
