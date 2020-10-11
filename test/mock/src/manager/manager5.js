@@ -13,7 +13,7 @@ tslib_1.__decorate([
     inject_1.inject()
 ], Manager5.prototype, "manager3", void 0);
 tslib_1.__decorate([
-    inject_1.injectAlias("IHandler")
+    inject_1.alias("IHandler")
 ], Manager5.prototype, "handlers", void 0);
 Manager5 = tslib_1.__decorate([
     inject_1.define(),

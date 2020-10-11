@@ -3,19 +3,20 @@ const bodyParser = require("body-parser");
 const serve = require("serve-static");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const qs = require("qs");
 module.exports = function (app, env) {
-    app.use(bodyParser.urlencoded({
+    app.set("qsParser", (str) => qs.parse(str));
+    app.route.use(bodyParser.urlencoded({
         extended: true,
         parameterLimit: 10000,
         limit: 1024 * 1024 * 10
     }));
-    app.use(bodyParser.json({
+    app.route.use(bodyParser.json({
         //parameterLimit: 10000,
         limit: 1024 * 1024 * 10
-    }));
-    app.use(cookieParser());
-    app.use(serve(path.join(__dirname, "../../uploads")));
-    app.use(function (req, res, next) {
+    })).use(cookieParser())
+        .use(serve(path.join(__dirname, "../../uploads")))
+        .use(function (req, res, next) {
         res.setHeader("Access-Control-Allow-Origin", req.headers.origin || '*');
         res.setHeader("Access-Control-Allow-Credentials", "true");
         res.setHeader("Cache-Control", "max-age=0, no-cache, must-revalidate, proxy-revalidate");

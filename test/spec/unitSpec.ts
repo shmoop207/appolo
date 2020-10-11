@@ -8,6 +8,7 @@ import {Manager6} from "../mock/src/manager/manager6";
 import {Manager7} from "../mock/src/manager/manager7";
 import {Manager8} from "../mock/src/manager/manager8";
 import {App, createApp} from "../../index";
+import {TestModule} from "../mock/config/modules/test/testModule";
 
 let should = chai.should()
 chai.use(sinonChai);
@@ -39,12 +40,20 @@ describe('Appolo Express Unit', () => {
             let app2 = app.injector.getObject<App>('app');
 
             should.exist(app2);
-            should.exist(app2.handle)
+            should.exist(app2.route.handle)
         });
 
         it('should have valid exported', function () {
             app.discovery.exported.length.should.be.gt(0)
         })
+
+        it('should call module functions by order', function () {
+
+            let module = app.module.modulesByType<TestModule>(TestModule);
+
+            module[0].order.should.be.deep.equals(["beforeAppInitialize","beforeModuleInitialize","beforeModuleLaunch","onInjectInitialize","onInjectBootstrap","afterModuleInitialize","afterAppInitialize","afterModuleLaunch","afterAppLaunch"])
+
+        });
 
         it("should have managers", () => {
 

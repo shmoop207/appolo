@@ -26,7 +26,7 @@ describe('Appolo e2e', () => {
         app = createApp({
             port: 8183,
             environment: "testing",
-            qsParser: (str) => qs.parse(str),
+            //qsParser: (str) => qs.parse(str),
             root: process.cwd() + '/test/mock/',
         });
 
@@ -40,22 +40,22 @@ describe('Appolo e2e', () => {
     describe('define', function () {
 
         beforeEach(() => {
-            app.route<DefineController>('defineController')
+            app.route.createRoute<DefineController>('defineController')
                 .path('/test/define/linq_object')
                 .method(Methods.GET)
                 .action(c => c.test);
 
-            app.route<DefineController>(DefineController)
+            app.route.createRoute<DefineController>(DefineController)
                 .path('/test/define/linq')
                 .action('test')
                 .role("aaa");
 
 
-            app.route<DefineController>('defineController')
+            app.route.createRoute<DefineController>('defineController')
                 .path('/test/define/fluent_method')
                 .method(Methods.GET)
                 .action(c => c.test);
-            app.route<DefineController>('defineController')
+            app.route.createRoute<DefineController>('defineController')
                 .path('/test/define/fluent')
                 .action('test')
                 .role("aaa")
@@ -63,7 +63,7 @@ describe('Appolo e2e', () => {
 
         it('should call define controller from  linq object', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/hello')
 
             res.should.to.have.status(200);
@@ -80,7 +80,7 @@ describe('Appolo e2e', () => {
 
         it('should  call define controller from linq', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/define/linq/?userName=11');
 
             res.should.to.have.status(200);
@@ -97,7 +97,7 @@ describe('Appolo e2e', () => {
 
         it('should  call define controller from  fluent method', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/define/fluent_method/?userName=11');
 
 
@@ -115,7 +115,7 @@ describe('Appolo e2e', () => {
 
         it('should  call controller from linq fluent', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/define/fluent/?userName=11')
 
 
@@ -135,13 +135,13 @@ describe('Appolo e2e', () => {
     describe('env', function () {
 
         beforeEach(() => {
-            app.route<EnvController>(EnvController)
+            app.route.createRoute<EnvController>(EnvController)
                 .path("/test/env/not_in_env/")
                 .action(c => c.test)
                 .environment("test");
 
 
-            app.route<EnvController>(EnvController)
+            app.route.createRoute<EnvController>(EnvController)
                 .path("/test/env/")
                 .action(c => c.test)
                 .environment("testing");
@@ -149,7 +149,7 @@ describe('Appolo e2e', () => {
 
         it('should not call route with env if not in environments', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/env/not_in_env/');
 
 
@@ -159,7 +159,7 @@ describe('Appolo e2e', () => {
 
         it('should call route with env', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/env/');
 
 
@@ -171,7 +171,7 @@ describe('Appolo e2e', () => {
     describe('error', function () {
         it('should  call  custom error', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/error/');
 
 
@@ -193,12 +193,12 @@ describe('Appolo e2e', () => {
                 root: process.cwd() + '/test/mock/',
             });
 
-            app.error(ErrorMiddleware);
+            app.route.error(ErrorMiddleware);
 
             await app.launch();
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/error2/');
 
 
@@ -217,14 +217,14 @@ describe('Appolo e2e', () => {
 
             app = createApp({
                 port: 8183,
-                environment: "testing",errorStack:true,
+                environment: "testing", errorStack: true,
                 root: process.cwd() + '/test/mock/',
             });
 
             await app.launch();
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/error3/');
 
 
@@ -249,14 +249,14 @@ describe('Appolo e2e', () => {
                 root: process.cwd() + '/test/mock/',
             });
 
-            app.use("/test/path", function (req, res, next) {
+            app.route.use("/test/path", function (req, res, next) {
                 res.send("aaa");
             });
 
             await app.launch();
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/path');
 
 
@@ -265,7 +265,7 @@ describe('Appolo e2e', () => {
 
             res.text.should.be.eq("aaa");
 
-            let res2 = await request(app.handle)
+            let res2 = await request(app.route.handle)
                 .get('/test/path2');
 
             res2.should.to.have.status(404);
@@ -287,15 +287,15 @@ describe('Appolo e2e', () => {
                 root: process.cwd() + '/test/mock/',
             });
 
-            app.error(ErrorMiddleware);
+            app.route.error(ErrorMiddleware);
 
             let spy = sinon.spy();
-            app.addHook(Hooks.OnResponse, spy);
+            app.route.hooks.onResponse(spy);
 
             await app.launch();
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/error2/');
 
 
@@ -320,7 +320,7 @@ describe('Appolo e2e', () => {
             });
 
 
-            app.addHook(Hooks.PreMiddleware, function (req, res, next) {
+            app.route.hooks.onPreMiddleware(function (req, res, next) {
                 req.model = {c: 112};
 
                 next();
@@ -329,7 +329,7 @@ describe('Appolo e2e', () => {
             await app.launch();
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/hooks/');
 
 
@@ -344,7 +344,7 @@ describe('Appolo e2e', () => {
 
         it('should  call pre middleware hook on route', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/hooks/');
 
 
@@ -364,7 +364,7 @@ describe('Appolo e2e', () => {
     describe('gzip', function () {
         it('should  call  controller with gzip', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/gzip/');
 
 
@@ -379,7 +379,7 @@ describe('Appolo e2e', () => {
 
         it('should  call  controller with gzip decorator', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/gzip/decorator');
 
 
@@ -397,7 +397,7 @@ describe('Appolo e2e', () => {
 
         it('should  call  controller with gzip async ', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/gzip_async/')
 
 
@@ -413,7 +413,7 @@ describe('Appolo e2e', () => {
 
         it('should  call call controller with compression', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/compression/')
 
 
@@ -431,7 +431,7 @@ describe('Appolo e2e', () => {
     describe('custom decorators', function () {
         it('should  call  with custom decorators', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .post('/test/custom/params').send({test: "aaaa"});
 
 
@@ -446,7 +446,7 @@ describe('Appolo e2e', () => {
 
     describe('middleware', function () {
         beforeEach(() => {
-            app.route<MiddlewareController>(MiddlewareController)
+            app.route.createRoute<MiddlewareController>(MiddlewareController)
                 .path('/test/middleware/function')
                 .method(Methods.GET)
                 .action('fn')
@@ -455,20 +455,20 @@ describe('Appolo e2e', () => {
                     next()
                 });
 
-            app.route<MiddlewareController>(MiddlewareController)
+            app.route.createRoute<MiddlewareController>(MiddlewareController)
                 .path('/test/middleware/objectId')
                 .method(Methods.GET)
                 .action('test')
                 .middleware('testMiddleware');
 
 
-            app.route<MiddlewareController>(MiddlewareController)
+            app.route.createRoute<MiddlewareController>(MiddlewareController)
                 .path('/test/middleware/class')
                 .method(Methods.GET)
                 .action('test')
                 .middleware(TestMiddleware);
 
-            app.route<MiddlewareController>(MiddlewareController)
+            app.route.createRoute<MiddlewareController>(MiddlewareController)
                 .path('/test/middleware/auth')
                 .method(Methods.GET)
                 .action('test')
@@ -478,7 +478,7 @@ describe('Appolo e2e', () => {
         it('should  call middleware with function before controller', async () => {
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/middleware/function');
 
 
@@ -493,7 +493,7 @@ describe('Appolo e2e', () => {
 
         it('should  call auth middleware before controller', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/middleware/auth/');
 
 
@@ -507,7 +507,7 @@ describe('Appolo e2e', () => {
 
         it('should  call middleware before controller with class', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/middleware/class')
 
 
@@ -524,7 +524,7 @@ describe('Appolo e2e', () => {
 
         it('should  call middleware by order', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/middleware/order')
 
 
@@ -540,7 +540,7 @@ describe('Appolo e2e', () => {
 
         it('should  call middleware before controller with objectId', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/middleware/objectId');
 
 
@@ -563,7 +563,7 @@ describe('Appolo e2e', () => {
         it('should call controller with modules ', async () => {
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/module/');
 
             res.should.to.have.status(200);
@@ -579,7 +579,7 @@ describe('Appolo e2e', () => {
         it('should call controller with external modules ', async () => {
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/monitor');
 
             res.should.to.have.status(200);
@@ -596,7 +596,7 @@ describe('Appolo e2e', () => {
     describe('params', function () {
         it('should  call controller from with params', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/params/aaa/bbb/?userName=11');
 
 
@@ -618,7 +618,7 @@ describe('Appolo e2e', () => {
 
         it('should  call controller from with params middle', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/params/aaa/test/bbb/?userName=11');
 
 
@@ -641,7 +641,7 @@ describe('Appolo e2e', () => {
 
     describe('static', function () {
         it('should should serve static', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test.html')
 
             res.should.to.have.status(200);
@@ -654,7 +654,7 @@ describe('Appolo e2e', () => {
 
     describe('promise', function () {
         it('should should call promise', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/promise')
 
             res.should.to.have.status(200);
@@ -664,7 +664,7 @@ describe('Appolo e2e', () => {
         })
 
         it('should should call promise with error', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/promise/error')
 
             res.should.to.have.status(500);
@@ -674,7 +674,7 @@ describe('Appolo e2e', () => {
         })
 
         it('should should call promise with no error', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/promise/no_error')
 
             res.should.to.have.status(400);
@@ -690,7 +690,7 @@ describe('Appolo e2e', () => {
     describe('query', function () {
         it('should should have query params', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/query?test=1&test2[]=2&test2[]=3&test3[]=${encodeURIComponent("http://test.com")}`)
 
             res.should.to.have.status(200);
@@ -701,7 +701,7 @@ describe('Appolo e2e', () => {
         });
 
         it('should should have query params with #', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/query/?test=1&test2[]=2&test2[]=3&test3[]=${encodeURIComponent("http://test.com")}#aaa`)
 
             res.should.to.have.status(200);
@@ -714,7 +714,7 @@ describe('Appolo e2e', () => {
 
     describe('protocol', function () {
         it('should should have protocol on request', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/protocol`)
 
             res.should.to.have.status(200);
@@ -725,7 +725,7 @@ describe('Appolo e2e', () => {
         });
 
         it('should should have protocol on request with proxy', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/protocol`)
                 .set('X-Forwarded-Host', 'test.com')
                 .set('X-Forwarded-Proto', 'https')
@@ -745,7 +745,7 @@ describe('Appolo e2e', () => {
 
         it('should should have cookie', async () => {
 
-            const agent = request.agent(app.handle);
+            const agent = request.agent(app.route.handle);
 
 
             let res = await agent
@@ -762,7 +762,7 @@ describe('Appolo e2e', () => {
 
         it('should should have cookie json', async () => {
 
-            const agent = request.agent(app.handle);
+            const agent = request.agent(app.route.handle);
 
 
             let res = await agent
@@ -779,7 +779,7 @@ describe('Appolo e2e', () => {
 
         it('should should clear cookie', async () => {
 
-            const agent = request.agent(app.handle);
+            const agent = request.agent(app.route.handle);
 
 
             let res = await agent
@@ -797,7 +797,7 @@ describe('Appolo e2e', () => {
 
     describe('redirect', () => {
         it("should redirect to path", async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/redirect/').redirects(2)
 
             res.should.to.have.status(200);
@@ -812,7 +812,7 @@ describe('Appolo e2e', () => {
     describe('root', function () {
         xit('should should call route *', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test222/')
 
             res.should.to.have.status(200);
@@ -826,7 +826,7 @@ describe('Appolo e2e', () => {
 
         it('should should call route /', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/');
 
             res.should.to.have.status(200);
@@ -840,7 +840,7 @@ describe('Appolo e2e', () => {
 
         it('should should call route with end', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/raw');
 
             res.should.to.have.status(200);
@@ -853,7 +853,7 @@ describe('Appolo e2e', () => {
 
         it('should should call with route not found', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/route2222/?user2_name=11');
 
             res.should.to.have.status(404);
@@ -865,7 +865,7 @@ describe('Appolo e2e', () => {
     });
     describe('decorator route controller', function () {
         it('should call decorator route controller ', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/decorator/route/aaa/bbb?test=${encodeURIComponent("http://www.cnn.com")}`);
 
 
@@ -879,7 +879,7 @@ describe('Appolo e2e', () => {
         });
 
         it('should call decorator2 route controller ', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/decorator2/route/aaa/bbb?test=${encodeURIComponent("http://www.cnn.com")}`);
 
 
@@ -895,7 +895,7 @@ describe('Appolo e2e', () => {
 
     describe('decorator param controller', function () {
         it('should call decorator param controller ', async () => {
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/decorator/param/aaa/bbb?test=${encodeURIComponent("http://www.cnn.com")}`);
 
             res.should.to.have.status(200);
@@ -912,10 +912,10 @@ describe('Appolo e2e', () => {
     describe('static controller', function () {
         it('should  call controller twice', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/static/controller/aaa/bbb/?userName=11');
 
-            let res2 = await request(app.handle)
+            let res2 = await request(app.route.handle)
                 .get('/test/static/controller/aaa/bbb/?userName=11');
 
 
@@ -940,7 +940,7 @@ describe('Appolo e2e', () => {
 
         it('should call static controller ', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get(`/test/static/controller/aaa/bbb?test=${encodeURIComponent("http://www.cnn.com")}`);
 
 
@@ -955,7 +955,7 @@ describe('Appolo e2e', () => {
 
         it('should call static post controller ', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .post(`/test/static/controller/aaa/bbb/post?test=${encodeURIComponent("http://www.cnn.com")}`)
                 .send({"testPost": true});
 
@@ -976,7 +976,7 @@ describe('Appolo e2e', () => {
 
         it('should call validations ', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/validations/auth/?username=aaa&password=1111');
 
 
@@ -990,7 +990,7 @@ describe('Appolo e2e', () => {
 
         it('should call validations nested ', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/nested/?username=aaa&password=1111');
 
 
@@ -1009,7 +1009,7 @@ describe('Appolo e2e', () => {
     describe('json', function () {
         it('should should call route and get json', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/json/?aaa=bbb&ccc=ddd');
 
             res.should.to.have.status(200);
@@ -1025,7 +1025,7 @@ describe('Appolo e2e', () => {
 
         it('should should call route and get json', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .post('/test/json/')
                 .send({aaa: "bbb", ccc: "ddd"})
 
@@ -1046,7 +1046,7 @@ describe('Appolo e2e', () => {
     describe('methods', function () {
         it('should  call controller Options', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .options('/test/params/aaa/bbb/?userName=11');
 
             res.should.to.have.status(204);
@@ -1058,7 +1058,7 @@ describe('Appolo e2e', () => {
 
         it('should call controller Head', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .head('/test/params/aaa/bbb/?userName=11');
 
             res.should.to.have.status(200);
@@ -1072,7 +1072,7 @@ describe('Appolo e2e', () => {
 
         it('should call controller empty response', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/params/empty/aaa/bbb/?userName=11');
 
             res.should.to.have.status(204);
@@ -1085,7 +1085,7 @@ describe('Appolo e2e', () => {
 
         it('should call controller delete', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .delete('/test/params/empty/aaa/bbb/?userName=11');
 
             res.should.to.have.status(204);
@@ -1098,7 +1098,7 @@ describe('Appolo e2e', () => {
 
         it('should call controller put', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .put('/test/params/aaa/bbb/?userName=11');
 
             res.should.to.have.status(200);
@@ -1109,7 +1109,7 @@ describe('Appolo e2e', () => {
 
         it('should call controller patch', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .patch('/test/params/aaa/bbb/?userName=11');
 
             res.should.to.have.status(200);
@@ -1124,7 +1124,7 @@ describe('Appolo e2e', () => {
     xdescribe('render', function () {
         it('should render view', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/view?test=11');
 
             res.should.to.have.status(200);
@@ -1136,7 +1136,7 @@ describe('Appolo e2e', () => {
 
         it('should render view with path', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/view2?test=11');
 
             res.should.to.have.status(200);
@@ -1150,7 +1150,7 @@ describe('Appolo e2e', () => {
     describe('pipeline', () => {
         it('should have add route with pipeline', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/pipeline/aaa?bbb=1');
 
             res.should.to.have.status(200);
@@ -1160,7 +1160,7 @@ describe('Appolo e2e', () => {
     describe('abstract', function () {
         it('should have abstract route with middleware', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/abstract?test=11');
 
             res.should.to.have.status(200);
@@ -1170,7 +1170,7 @@ describe('Appolo e2e', () => {
 
         it('should have abstract route with diff base', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test2/abstract?test=11');
 
             res.should.to.have.status(200);
@@ -1180,7 +1180,7 @@ describe('Appolo e2e', () => {
 
         it('should have run child controller with parent middlware on class', async () => {
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/child_controller');
 
             res.should.to.have.status(200);
@@ -1194,7 +1194,7 @@ describe('Appolo e2e', () => {
         it('should get context from manager', async () => {
 
 
-            let res = await request(app.handle)
+            let res = await request(app.route.handle)
                 .get('/test/context?userName=bla');
 
             res.should.to.have.status(200);
@@ -1206,7 +1206,7 @@ describe('Appolo e2e', () => {
         it('should get context from manager parallel', async () => {
 
 
-            let [res, res2] = await Promise.all([request(app.handle).get('/test/context?userName=bla'), request(app.handle).get('/test/context?userName=foo')]);
+            let [res, res2] = await Promise.all([request(app.route.handle).get('/test/context?userName=bla'), request(app.route.handle).get('/test/context?userName=foo')]);
 
             res.should.to.have.status(200);
 
@@ -1220,12 +1220,16 @@ describe('Appolo e2e', () => {
     describe('simple mode', function () {
         it('should handel simple mode request', async () => {
 
-            let app2 = await createApp().get("test/simple", function (req, res) {
+            let app2 = createApp();
+
+            app2.route.get("test/simple", function (req, res) {
                 res.send("ok")
-            }).launch();
+            })
+
+            await app2.launch();
 
 
-            let res = await request(app2.handle)
+            let res = await request(app2.route.handle)
                 .get('/test/simple?test=11');
 
             res.should.to.have.status(200);

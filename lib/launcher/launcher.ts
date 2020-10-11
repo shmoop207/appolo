@@ -11,6 +11,7 @@ import {IOptions} from "../interfaces/IOptions";
 
 import {App} from "../app";
 import {Defaults} from "../defaults/defaults";
+import {IEnv} from "../interfaces/IEnv";
 
 export class Launcher {
 
@@ -50,12 +51,17 @@ export class Launcher {
         return this._router;
     }
 
+    public setOptions<T extends keyof IOptions>(name: T, value: IOptions[T]){
+        this._options[name] = value;
+        this.agent.options[name as string] = value;
+        this.engine.options[name as string] = value;
+    }
 
     public async launch(): Promise<void> {
 
-        this._engine.eventsInjectRegister.on(payload=>this.router.addRouteFromClass(payload.type));
+        this._engine.event.afterInjectRegister.on(payload=>this.router.addRouteFromClass(payload.type));
 
-        this._app.eventModuleExport.on(payload => this.router.addRouteFromClass(payload.type));
+        this._app.event.onModuleExport.on(payload => this.router.addRouteFromClass(payload.type));
 
         await this._engine.launch();
 
@@ -71,7 +77,7 @@ export class Launcher {
 
     protected _getPort(): number {
 
-        return process.env.APP_PORT || process.env.PORT || this._options.port || this._engine.env.port || 8080;
+        return parseFloat(process.env.APP_PORT) || parseFloat(process.env.PORT) || this._options.port || (this._engine.env as |IEnv).port || 8080;
     }
 
     protected async loadCustomConfigurations() {

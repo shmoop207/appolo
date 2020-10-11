@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai = require("chai");
 const sinonChai = require("sinon-chai");
 const index_1 = require("../../index");
+const testModule_1 = require("../mock/config/modules/test/testModule");
 let should = chai.should();
 chai.use(sinonChai);
 describe('Appolo Express Unit', () => {
@@ -22,10 +23,14 @@ describe('Appolo Express Unit', () => {
         it("should have app", () => {
             let app2 = app.injector.getObject('app');
             should.exist(app2);
-            should.exist(app2.handle);
+            should.exist(app2.route.handle);
         });
         it('should have valid exported', function () {
             app.discovery.exported.length.should.be.gt(0);
+        });
+        it('should call module functions by order', function () {
+            let module = app.module.modulesByType(testModule_1.TestModule);
+            module[0].order.should.be.deep.equals(["beforeAppInitialize", "beforeModuleInitialize", "beforeModuleLaunch", "onInjectInitialize", "onInjectBootstrap", "afterModuleInitialize", "afterAppInitialize", "afterModuleLaunch", "afterAppLaunch"]);
         });
         it("should have managers", () => {
             let manager = app.injector.getObject('manager');

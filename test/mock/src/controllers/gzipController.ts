@@ -2,7 +2,7 @@
 import {controller, get, middleware, Controller, gzip,statusCode,header,customRouteDecorator} from '@appolo/route';
 import compression = require('compression')
 import {Promises} from '@appolo/utils';
-import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
+import { inject,define,singleton,override,lazy} from '@appolo/inject';
 
 let someHeader =  customRouteDecorator((req,res,route)=>{
     res.setHeader("x-test2","222")

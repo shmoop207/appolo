@@ -23,7 +23,7 @@ let TestPipeline = class TestPipeline {
 TestPipeline = tslib_1.__decorate([
     inject_1.define(),
     inject_1.singleton(),
-    tslib_1.__param(0, inject_1.injectParam()), tslib_1.__param(1, inject_1.injectParam())
+    tslib_1.__param(0, inject_1.inject()), tslib_1.__param(1, inject_1.inject())
 ], TestPipeline);
 exports.TestPipeline = TestPipeline;
 let PipelineTypeRouteController = class PipelineTypeRouteController extends route_1.StaticController {

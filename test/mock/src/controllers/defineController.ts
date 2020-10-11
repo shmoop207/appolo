@@ -1,7 +1,7 @@
 "use strict";
 import {controller,Controller} from '@appolo/route';
 import {Manager5} from "../manager/manager5";
-import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
+import { inject,define,singleton,override,lazy} from '@appolo/inject';
 
 @controller()
 export class DefineController extends Controller {

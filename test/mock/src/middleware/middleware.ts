@@ -2,7 +2,7 @@
 import {Middleware} from '@appolo/route';
 import {Manager} from "../manager/manager";
 
-import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
+import { inject,define,singleton,override,lazy} from '@appolo/inject';
 
 @define()
 export class TestMiddleware extends Middleware {

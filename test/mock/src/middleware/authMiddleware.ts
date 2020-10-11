@@ -1,7 +1,7 @@
 "use strict";
 import {StaticMiddleware,IRequest,IResponse,NextFn,HttpError} from '@appolo/route';
 import {Manager} from "../manager/manager";
-import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
+import { inject,define,singleton,override,lazy} from '@appolo/inject';
 
 
 @define()

@@ -18,13 +18,13 @@ let DecoratorParamsController = class DecoratorParamsController extends route_1.
 tslib_1.__decorate([
     route_1.get("/test/decorator/param/:name/:name2"),
     route_1.abstract({ middleware: [userMiddleware_1.UserMiddleware] }),
-    tslib_1.__param(4, inject_1.injectParam())
+    tslib_1.__param(4, inject_1.inject())
 ], DecoratorParamsController.prototype, "test", null);
 DecoratorParamsController = tslib_1.__decorate([
     route_1.controller(),
     inject_1.singleton(),
     inject_1.lazy(),
-    tslib_1.__param(0, inject_1.injectParam())
+    tslib_1.__param(0, inject_1.inject())
 ], DecoratorParamsController);
 exports.DecoratorParamsController = DecoratorParamsController;
 //# sourceMappingURL=decoratorParamsController.js.map

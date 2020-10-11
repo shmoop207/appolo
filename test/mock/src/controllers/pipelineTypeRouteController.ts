@@ -7,7 +7,7 @@ import {
     IResponse, Util, Controller
 } from '@appolo/route';
 import {IEnv} from "../../config/env/IEnv";
-import {inject, define, singleton, override, lazy, injectParam} from '@appolo/inject';
+import {inject, define, singleton, override, lazy} from '@appolo/inject';
 import {pipelineType, IPipeline, PipelineContext} from '@appolo/engine';
 import {App} from '../../../../index';
 
@@ -16,7 +16,7 @@ import {App} from '../../../../index';
 @singleton()
 export class TestPipeline implements IPipeline {
 
-    constructor(@injectParam() private app: App, @injectParam() private env: IEnv) {
+    constructor(@inject() private app: App, @inject() private env: IEnv) {
     }
 
     run(context: PipelineContext, next: () => Promise<any>) {

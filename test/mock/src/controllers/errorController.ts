@@ -1,7 +1,7 @@
 "use strict";
 import {controller, Controller, get, HttpError,error} from '@appolo/route';
 import {ErrorMiddleware} from "../middleware/errorMiddleware";
-import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
+import { inject,define,singleton,override,lazy} from '@appolo/inject';
 
 
 @controller()

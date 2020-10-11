@@ -1,5 +1,5 @@
-export interface IEnv{
-    version?:string,
-    type?:string
-    rootDir?:string
+import {IEnv as IEngineEnv} from "@appolo/engine"
+export interface IEnv extends IEngineEnv{
+    port?:number
+
 }

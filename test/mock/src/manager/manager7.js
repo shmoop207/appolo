@@ -23,7 +23,7 @@ tslib_1.__decorate([
     inject_1.inject()
 ], Manager7.prototype, "manager4", void 0);
 tslib_1.__decorate([
-    inject_1.initMethod()
+    inject_1.init()
 ], Manager7.prototype, "initialize", null);
 Manager7 = tslib_1.__decorate([
     inject_1.define(),

@@ -8,6 +8,7 @@ export {IApp}
 export {App} from './lib/app';
 export {Discovery} from './lib/discovery/discovery';
 export {IEnv} from './lib/interfaces/IEnv';
+export {IEnv as IAppoloEnv} from './lib/interfaces/IEnv';
 
 
 export {IOptions} from "./lib/interfaces/IOptions";

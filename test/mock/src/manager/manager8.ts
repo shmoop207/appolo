@@ -7,7 +7,7 @@ import {Manager5} from "./manager5";
 import {Manager7} from "./manager7";
 import {Manager6} from "./manager6";
 
-import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
+import { inject,define,singleton,override,lazy} from '@appolo/inject';
 
 @define()
 @singleton()

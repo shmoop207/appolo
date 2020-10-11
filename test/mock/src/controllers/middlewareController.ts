@@ -2,7 +2,7 @@
 import {Controller, controller, middleware, get} from '@appolo/route';
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
-import { inject,define,singleton,override,lazy,injectParam} from '@appolo/inject';
+import { inject,define,singleton,override,lazy} from '@appolo/inject';
 
 @controller()
 export class MiddlewareController extends Controller {

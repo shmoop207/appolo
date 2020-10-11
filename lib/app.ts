@@ -1,27 +1,25 @@
-import    http = require('http');
-import    https = require('https');
+
 import {IOptions} from "./interfaces/IOptions";
 import {
-    Hooks,
-    Methods,
+
     IApp as IAgentApp,
-    MiddlewareHandlerErrorOrAny,
-    MiddlewareHandlerOrAny, MiddlewareHandlerParams
+
 } from "@appolo/agent";
-import {IApp as IEngineApp, IClass, IEnv} from "@appolo/engine";
-import {Route, IController, Controller, StaticController, IMiddlewareCtr} from "@appolo/route";
+import {IApp as IEngineApp, IClass} from "@appolo/engine";
 import {Injector, Define} from "@appolo/inject";
 import {Launcher} from "./launcher/launcher";
-import {ModuleArg} from "@appolo/engine";
 import {Discovery} from "./discovery/discovery";
 import {IApp} from "./interfaces/IApp";
-import {EventDispatcher} from "@appolo/events/index";
-import {IModuleOptions} from "@appolo/engine/lib/interfaces/IModule";
+import {Events} from "./events/events";
+import {Route} from "./route/route";
+import {IEnv} from "./interfaces/IEnv";
 
 export class App implements IAgentApp, IApp {
 
-    private _launcher: Launcher;
+    private readonly _launcher: Launcher;
     private readonly _discovery: Discovery;
+    private readonly _events: Events;
+    private readonly _route:Route;
 
 
     constructor(options: IOptions) {
@@ -32,12 +30,12 @@ export class App implements IAgentApp, IApp {
 
         this.injector.addObject("app", this, true);
 
+        this._events = new Events(this,this._launcher);
+        this._route = new Route(this._launcher);
+
 
         this._launcher.agent.requestApp = this;
     }
-
-
-
 
     public static create(options: IOptions): App {
         return new App(options);
@@ -47,9 +45,20 @@ export class App implements IAgentApp, IApp {
         return this._discovery;
     }
 
+    public get event(): Events {
+        return this._events
+    }
 
-    public getRoute<T extends IController>(path: string, method: Methods): Route<T> {
-        return this._launcher.router.getRoute(path, method)
+    public get route(){
+        return this._route
+    }
+
+    public get module() {
+        return this._launcher.engine.module
+    }
+
+    public get tree() {
+        return this._launcher.engine.tree
     }
 
     public async launch(): Promise<App> {
@@ -60,7 +69,7 @@ export class App implements IAgentApp, IApp {
         return this;
     }
 
-    public get dispatcher(){
+    public get dispatcher() {
         return this._launcher.engine.dispatcher
     }
 
@@ -69,46 +78,8 @@ export class App implements IAgentApp, IApp {
     }
 
 
-    public use(path?: (string | MiddlewareHandlerOrAny | IMiddlewareCtr), ...middleware: (MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
-
-        this._launcher.router.addMiddleware(path, middleware, false);
-        return this;
-    }
-
-    public error(path?: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr), ...middleware: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this {
-
-        this._launcher.router.addMiddleware(path, middleware, true);
-        return this;
-    }
-
-
-    public addHook(name: Hooks.OnError, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
-    public addHook(name: Hooks.OnResponse | Hooks.PreMiddleware | Hooks.PreHandler | Hooks.OnRequest, ...hook: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this
-    public addHook(name: Hooks.OnSend, ...hook: (string | MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this
-    public addHook(name: Hooks, ...hooks: (string | MiddlewareHandlerParams | IMiddlewareCtr)[]): this {
-
-        this._launcher.router.addHook(name as any, ...(hooks as any));
-
-        return this
-    }
-
-    public async module(module: ModuleArg, config: { [index: string]: any } = {}, options: IModuleOptions = {}): Promise<void> {
-
-        await this._launcher.engine.module(module,config,options);
-    }
-
-    public async modules(...modules: (ModuleArg | [ModuleArg, { [index: string]: any }?, IModuleOptions?])[]): Promise<void> {
-
-        await this._launcher.engine.modules(...modules);
-    }
-
-    public moduleAt(index: number): IApp {
-        return this.children[index]
-    }
-
-
-    public set(name: keyof IOptions, value: any) {
-        this._launcher.options[name as any] = value;
+    public set<T extends keyof IOptions>(name: T, value: IOptions[T]) {
+        this._launcher.setOptions(name,value);
     }
 
     public async reset() {
@@ -135,146 +106,8 @@ export class App implements IAgentApp, IApp {
         return this._launcher.engine.env;
     }
 
-    public route<T extends IController>(controller: string | typeof Controller | typeof StaticController): Route<T> {
-        let route = new Route(controller);
-
-        this._launcher.router.addRoute(route);
-
-        return route
-    }
-
-    public addRouteFromClass(klass: typeof Controller) {
-        this._launcher.router.addRouteFromClass(klass)
-    }
-
-    public getParent<T extends IEngineApp>(): T {
-        return this._launcher.engine.getParent<T>();
-    }
-
-    public getRoot<T extends IEngineApp>(): T {
-        return this._launcher.engine.getRoot<T>();
-    }
-
-    public get parent(): IApp {
-        return this._launcher.engine.parent as IApp;
-    }
-
-    public get root(): IApp {
-        return this._launcher.engine.root as IApp;
-    }
 
 
-    public get children(): IApp[] {
-        return this._launcher.engine.children as IApp[];
-    }
 
-    public get(path: string, ...handler: MiddlewareHandlerParams[]): this {
-        this._launcher.agent.get(path, ...handler);
-        return this;
-    }
-
-    public post(path: string, ...handler: MiddlewareHandlerParams[]): this {
-        this._launcher.agent.post(path, ...handler);
-        return this;
-    }
-
-    public delete(path: string, ...handler: MiddlewareHandlerParams[]): this {
-        this._launcher.agent.post(path, ...handler);
-        return this;
-    }
-
-    public patch(path: string, ...handler: MiddlewareHandlerParams[]): this {
-        this._launcher.agent.patch(path, ...handler);
-        return this;
-    }
-
-    public get server(): http.Server | https.Server {
-        return this._launcher.agent.server
-    }
-
-
-    public handle = (request: http.IncomingMessage, response: http.ServerResponse) => {
-        this._launcher.agent.handle(request, response)
-    }
-
-    public get eventModuleExport() {
-        return this._launcher.engine.eventModuleExport
-    }
-
-    public get eventBeforeModuleInit() {
-        return this._launcher.engine.eventBeforeModuleInit
-    }
-
-    public get eventModuleInit() {
-        return this._launcher.engine.eventModuleInit
-    }
-
-    public get eventBeforeModulesLoad() {
-        return this._launcher.engine.eventBeforeModulesLoad
-    }
-
-    public get eventModulesLoaded() {
-        return this._launcher.engine.eventModulesLoaded
-    }
-
-    public get eventBeforeInjectorInit() {
-        return this._launcher.engine.eventBeforeInjectorInit
-    }
-
-    public get eventInjectorInit() {
-        return this._launcher.engine.eventInjectorInit
-    }
-
-    public get eventBeforeBootstrap() {
-        return this._launcher.engine.eventBeforeBootstrap
-    }
-
-    public get eventBootstrap() {
-        return this._launcher.engine.eventBootstrap
-    }
-
-    public get eventsBeforeInjectRegister() {
-        return this._launcher.engine.eventsBeforeInjectRegister
-    }
-
-    public get eventsEventClassExport() {
-        return this._launcher.engine.eventsEventClassExport
-    }
-
-    public get eventsInjectRegister() {
-        return this._launcher.engine.eventsInjectRegister
-    }
-
-    public get eventsBeforeReset() {
-        return this._launcher.engine.eventsBeforeReset
-    }
-
-    public get eventsReset() {
-        return this._launcher.engine.eventsReset
-    }
-
-    public get eventInstanceInitialized() {
-        return this._launcher.engine.eventInstanceInitialized
-    }
-
-    public get eventInstanceOwnInitialized() {
-        return this._launcher.engine.eventInstanceOwnInitialized
-    }
-
-    public get eventInstanceCreated() {
-        return this._launcher.engine.eventInstanceCreated
-    }
-
-    public get eventInstanceOwnCreated() {
-        return this._launcher.engine.eventInstanceOwnCreated
-    }
-
-    public get eventRouteAdded() {
-        return this._launcher.agent.eventRouteAdded;
-    }
-
-    public get eventServerClosed() {
-        return this._launcher.agent.eventServerClosed;
-    }
 
 }
