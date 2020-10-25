@@ -7,18 +7,24 @@ let RootController = class RootController extends route_1.StaticController {
     all(req, res, route) {
         res.json({ name: route.actionName });
     }
-    root(req, res, model, route) {
+    root(req, res, route) {
         res.json({ name: route.actionName });
     }
-    raw(req, res, model, route) {
+    raw(req, res, route) {
         res.end(route.actionName);
     }
 };
 tslib_1.__decorate([
-    route_1.get("/")
+    route_1.get("/"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], RootController.prototype, "root", null);
 tslib_1.__decorate([
-    route_1.get("/raw")
+    route_1.get("/raw"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], RootController.prototype, "raw", null);
 RootController = tslib_1.__decorate([
     route_1.controller()

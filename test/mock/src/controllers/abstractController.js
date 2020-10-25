@@ -10,14 +10,18 @@ let AbstractController = class AbstractController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], AbstractController.prototype, "manager", void 0);
 tslib_1.__decorate([
     route_1.middleware(function (req, res, next) {
         (req).working3 = req.working + req.working2 + "working3";
         next();
     }),
-    route_1.get("abstract")
+    route_1.get("abstract"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], AbstractController.prototype, "test", null);
 AbstractController = tslib_1.__decorate([
     route_1.middleware(function (req, res, next) {
@@ -36,7 +40,8 @@ let Abstract2Controller = class Abstract2Controller extends AbstractController {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], Abstract2Controller.prototype, "manager", void 0);
 Abstract2Controller = tslib_1.__decorate([
     route_1.controller("test")
@@ -49,7 +54,8 @@ let Abstract3Controller = class Abstract3Controller extends AbstractController {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], Abstract3Controller.prototype, "manager", void 0);
 Abstract3Controller = tslib_1.__decorate([
     route_1.controller("test2"),
@@ -66,7 +72,10 @@ tslib_1.__decorate([
     route_1.middleware(function (req, res, d) {
         req.working += "working4";
         d();
-    })
+    }),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], BaseController.prototype, "test", null);
 BaseController = tslib_1.__decorate([
     route_1.middleware(function (req, res, a) {
@@ -84,7 +93,10 @@ tslib_1.__decorate([
     route_1.middleware(function (req, res, e) {
         req.working += "working5";
         e();
-    })
+    }),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], ChildController.prototype, "test", null);
 ChildController = tslib_1.__decorate([
     route_1.controller(),

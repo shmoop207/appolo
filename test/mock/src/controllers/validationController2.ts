@@ -1,6 +1,7 @@
 "use strict";
-import {Controller, controller, IRequest, IResponse, get} from '@appolo/route';
+import {Controller, controller, IRequest, IResponse, get, middleware} from '@appolo/route';
 import {ValidationController} from "./validationController";
+import {AuthMiddleware} from "../middleware/authMiddleware";
 
 @controller()
 export class ValidationController2 extends ValidationController {

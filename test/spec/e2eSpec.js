@@ -264,12 +264,13 @@ describe('Appolo e2e', () => {
     describe('custom decorators', function () {
         it('should  call  with custom decorators', async () => {
             let res = await request(app.route.handle)
-                .post('/test/custom/params').send({ test: "aaaa" });
+                .post('/test/custom/params/111').send({ test: "aaaa" });
             res.should.to.have.status(200);
             res.should.to.be.json;
             should.exist(res.body);
             res.body.working.should.be.eq("aaaa");
             res.body.userAgent.should.be.include("node-superagent");
+            res.body.id.should.be.include("111");
         });
     });
     describe('middleware', function () {

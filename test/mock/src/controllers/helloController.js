@@ -9,7 +9,10 @@ let HelloController = class HelloController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    route_1.get('/test/hello')
+    route_1.get('/test/hello'),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], HelloController.prototype, "hello", null);
 HelloController = tslib_1.__decorate([
     route_1.controller()

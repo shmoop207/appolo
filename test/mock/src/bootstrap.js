@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bootstrap = void 0;
 const tslib_1 = require("tslib");
+const manager_1 = require("./manager/manager");
 const utils_1 = require("@appolo/utils");
 const inject_1 = require("@appolo/inject");
 const engine_1 = require("@appolo/engine");
@@ -12,7 +13,8 @@ let Bootstrap = class Bootstrap {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", manager_1.Manager)
 ], Bootstrap.prototype, "manager", void 0);
 Bootstrap = tslib_1.__decorate([
     inject_1.define(),

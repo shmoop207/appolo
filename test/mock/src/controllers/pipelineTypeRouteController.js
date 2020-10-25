@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const route_1 = require("@appolo/route");
 const inject_1 = require("@appolo/inject");
 const engine_1 = require("@appolo/engine");
+const index_1 = require("../../../../index");
 let TestPipeline = class TestPipeline {
     constructor(app, env) {
         this.app = app;
@@ -23,7 +24,8 @@ let TestPipeline = class TestPipeline {
 TestPipeline = tslib_1.__decorate([
     inject_1.define(),
     inject_1.singleton(),
-    tslib_1.__param(0, inject_1.inject()), tslib_1.__param(1, inject_1.inject())
+    tslib_1.__param(0, inject_1.inject()), tslib_1.__param(1, inject_1.inject()),
+    tslib_1.__metadata("design:paramtypes", [index_1.App, Object])
 ], TestPipeline);
 exports.TestPipeline = TestPipeline;
 let PipelineTypeRouteController = class PipelineTypeRouteController extends route_1.StaticController {

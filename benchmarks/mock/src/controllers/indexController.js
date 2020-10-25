@@ -10,7 +10,10 @@ let IndexController = class IndexController extends route_1.StaticController {
     }
 };
 tslib_1.__decorate([
-    route_1.get("/test/")
+    route_1.get("/test/"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], IndexController.prototype, "hello", null);
 IndexController = tslib_1.__decorate([
     route_1.controller(),

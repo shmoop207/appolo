@@ -41,12 +41,12 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "@appolo/agent": "^8.0.6",
+    "@appolo/agent": "^8.0.7",
     "@appolo/engine": "^8.0.16",
     "@appolo/events": "^8.0.1",
     "@appolo/inject": "^8.0.10",
-    "@appolo/route": "^8.0.4",
-    "@appolo/utils": "^8.0.0",
+    "@appolo/route": "^8.0.5",
+    "@appolo/utils": "^8.0.1",
     "tslib": "^2.0.1"
   },
   "devDependencies": {

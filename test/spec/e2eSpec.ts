@@ -432,7 +432,7 @@ describe('Appolo e2e', () => {
         it('should  call  with custom decorators', async () => {
 
             let res = await request(app.route.handle)
-                .post('/test/custom/params').send({test: "aaaa"});
+                .post('/test/custom/params/111').send({test: "aaaa"});
 
 
             res.should.to.have.status(200);
@@ -441,6 +441,7 @@ describe('Appolo e2e', () => {
 
             res.body.working.should.be.eq("aaaa");
             res.body.userAgent.should.be.include("node-superagent");
+            res.body.id.should.be.include("111");
         });
     });
 

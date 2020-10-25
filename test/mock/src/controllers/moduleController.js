@@ -14,13 +14,18 @@ let ModuleController = class ModuleController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], ModuleController.prototype, "logger2", void 0);
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], ModuleController.prototype, "logger3", void 0);
 tslib_1.__decorate([
-    route_1.get("/test/module/")
+    route_1.get("/test/module/"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], ModuleController.prototype, "test", null);
 ModuleController = tslib_1.__decorate([
     route_1.controller()

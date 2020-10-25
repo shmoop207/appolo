@@ -25,24 +25,37 @@ let GzipController = class GzipController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], GzipController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    route_1.get('/test/gzip_async')
+    route_1.get('/test/gzip_async'),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
 ], GzipController.prototype, "gzipAsync", null);
 tslib_1.__decorate([
-    route_1.get('/test/gzip')
+    route_1.get('/test/gzip'),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], GzipController.prototype, "gzip", null);
 tslib_1.__decorate([
     route_1.get('/test/gzip/decorator'),
     route_1.gzip(),
     route_1.header("x-test", "true"),
     someHeader,
-    route_1.statusCode(201)
+    route_1.statusCode(201),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], GzipController.prototype, "gzipDecorator", null);
 tslib_1.__decorate([
     route_1.get('/test/compression'),
-    route_1.middleware(compression({ threshold: 512 }))
+    route_1.middleware(compression({ threshold: 512 })),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], GzipController.prototype, "compression", null);
 GzipController = tslib_1.__decorate([
     route_1.controller()

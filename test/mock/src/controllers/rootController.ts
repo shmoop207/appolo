@@ -9,11 +9,11 @@ export class RootController extends StaticController {
         res.json({name: route.actionName})
     }
     @get("/")
-    root(req, res,model,route) {
+    root(req, res,route) {
         res.json({name: route.actionName})
     }
     @get("/raw")
-    raw(req, res,model,route) {
+    raw(req, res,route) {
         res.end(route.actionName)
     }
 

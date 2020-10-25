@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Manager3 = void 0;
 const tslib_1 = require("tslib");
+const manager2_1 = require("./manager2");
 const inject_1 = require("@appolo/inject");
 let Manager3 = class Manager3 {
     constructor() {
@@ -12,7 +13,8 @@ let Manager3 = class Manager3 {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", manager2_1.Manager2)
 ], Manager3.prototype, "manager2", void 0);
 Manager3 = tslib_1.__decorate([
     inject_1.define(),

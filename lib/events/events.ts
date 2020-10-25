@@ -4,11 +4,10 @@ import {Events as AgentEvents} from "@appolo/agent";
 import {IApp} from "../interfaces/IApp";
 import {IEvent} from "@appolo/events/index";
 
-export class Events implements IEvents{
+export class Events implements IEvents {
 
-    constructor( _app:IApp,private _launcher: Launcher) {
+    constructor(_app: IApp, private _launcher: Launcher) {
     }
-
 
 
     public get onModuleExport() {
@@ -87,10 +86,11 @@ export class Events implements IEvents{
         return this._launcher.engine.event.onInstanceCreated;
     }
 
-    public get beforeInjectInitMethods(){
+    public get beforeInjectInitMethods() {
         return this._launcher.engine.event.beforeInjectInitMethods;
     };
-    public get beforeInjectBootstrapMethods(){
+
+    public get beforeInjectBootstrapMethods() {
         return this._launcher.engine.event.beforeInjectBootstrapMethods;
     };
 
@@ -98,8 +98,24 @@ export class Events implements IEvents{
         return this._launcher.agent.events.routeAdded;
     }
 
-    public get onServerClosed() {
-        return this._launcher.agent.events.serverClosed;
+    public get onRouteRegister() {
+        return this._launcher.router.onRouteAddedEvent
+    }
+
+    public get beforeServerClosed() {
+        return this._launcher.agent.events.beforeServerClosed;
+    }
+
+    public get afterServerClosed() {
+        return this._launcher.agent.events.afterServerClosed;
+    }
+
+    public get beforeServerOpen() {
+        return this._launcher.agent.events.beforeServerOpen;
+    }
+
+    public get afterServerOpen() {
+        return this._launcher.agent.events.afterServerOpen;
     }
 
 

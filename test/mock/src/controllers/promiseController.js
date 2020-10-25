@@ -16,16 +16,26 @@ let PromiseController = class PromiseController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], PromiseController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    route_1.get("test/promise")
+    route_1.get("test/promise"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
 ], PromiseController.prototype, "test", null);
 tslib_1.__decorate([
-    route_1.get("test/promise/error")
+    route_1.get("test/promise/error"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
 ], PromiseController.prototype, "testError", null);
 tslib_1.__decorate([
-    route_1.get("test/promise/no_error")
+    route_1.get("test/promise/no_error"),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], PromiseController.prototype, "testErrorNoPromise", null);
 PromiseController = tslib_1.__decorate([
     route_1.controller()

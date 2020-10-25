@@ -16,7 +16,8 @@ let MiddlewareController = class MiddlewareController extends route_1.Controller
     }
 };
 tslib_1.__decorate([
-    inject_1.inject()
+    inject_1.inject(),
+    tslib_1.__metadata("design:type", Object)
 ], MiddlewareController.prototype, "manager", void 0);
 tslib_1.__decorate([
     route_1.get("/test/middleware/order"),
@@ -27,7 +28,10 @@ tslib_1.__decorate([
     route_1.middleware(function (req, res, next) {
         (req).working2 = req.working + "working2";
         next();
-    })
+    }),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", void 0)
 ], MiddlewareController.prototype, "testOrderMiddleware", null);
 MiddlewareController = tslib_1.__decorate([
     route_1.controller()

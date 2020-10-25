@@ -10,7 +10,7 @@ export class RedirectController extends StaticController {
         res.redirect("/test/redirectTo");
     }
     @get("/test/redirectTo")
-    redirectTo(req, res,model,route) {
+    redirectTo(req, res,route) {
         res.json({name: route.actionName})
     }
 }
