@@ -9,7 +9,7 @@ lib-cov
 *.pid
 *.gz
 .nyc_output
-
+benchmarks
 pids
 logs
 results

@@ -33,21 +33,21 @@ export class Discovery extends EngineDiscovery {
         Util.decorateResponse(name, fn);
     }
 
-    public getRouteDefinition<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
+    public getRoute<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
 
-        return Discovery.getRouteDefinition(fn, action);
+        return Discovery.getRoute(fn, action);
     }
 
-    public static getRouteDefinition<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
+    public static getRoute<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
 
         return Util.getRouteDefinition(fn, action);
     }
 
-    public createRouteDefinition<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
-        return Discovery.createRouteDefinition(fn, action)
+    public createRoute<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
+        return Discovery.createRoute(fn, action)
     }
 
-    public static createRouteDefinition<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
+    public static createRoute<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
         return Util.createRouteDefinition(fn, action)
     }
 

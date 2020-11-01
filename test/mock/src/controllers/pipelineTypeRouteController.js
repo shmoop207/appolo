@@ -12,7 +12,7 @@ let TestPipeline = class TestPipeline {
         this.env = env;
     }
     run(context, next) {
-        let route = this.app.discovery.createRouteDefinition(context.type, "testPipeline");
+        let route = this.app.discovery.createRoute(context.type, "testPipeline");
         route.path("/aaa");
         route_1.model()(context.type.prototype, "testPipeline", 0);
         context.type.prototype["testPipeline"] = function (model) {

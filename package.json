@@ -32,7 +32,7 @@
     "test-cov": "nyc --reporter=text mocha test/spec/**/*.js"
   },
   "main": "./index.js",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -42,14 +42,18 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "@appolo/agent": "^8.0.7",
-    "@appolo/engine": "^8.0.16",
-    "@appolo/events": "^8.0.1",
-    "@appolo/inject": "^8.0.10",
-    "@appolo/route": "^8.0.5",
-    "@appolo/utils": "^8.0.1",
+    "@appolo/engine": "^8.0.18",
+    "@appolo/events": "^8.0.2",
+    "@appolo/inject": "^8.0.11",
+    "@appolo/route": "^8.0.6",
+    "@appolo/utils": "^8.0.3",
     "tslib": "^2.0.1"
   },
   "devDependencies": {
+    "@nestjs/common": "^7.4.4",
+    "@nestjs/core": "^7.4.4",
+    "@nestjs/platform-express": "^7.4.4",
+    "@nestjs/platform-fastify": "^7.4.4",
     "@types/benchmark": "^1.0.33",
     "@types/bluebird": "^3.5.32",
     "@types/chai": "^4.2.12",
@@ -78,6 +82,7 @@
     "nunjucks": "^3.2.2",
     "nyc": "^15.1.0",
     "qs": "^6.9.4",
+    "rxjs": "^6.6.3",
     "serve-static": "^1.14.1",
     "sinon": "^9.0.3",
     "sinon-chai": "^3.5.0",

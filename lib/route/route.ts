@@ -4,23 +4,23 @@ import {
     MiddlewareHandlerOrAny,
     MiddlewareHandlerParams
 } from "@appolo/agent/index";
-import {Route as FRoute,Controller, IController, IMiddlewareCtr, StaticController} from "@appolo/route";
+import {Route as FRoute, Controller, IController, StaticController, Middleware, StaticMiddleware} from "@appolo/route";
 import {Launcher} from "../launcher/launcher";
 import    http = require('http');
 import    https = require('https');
 
 export class Route {
 
-    constructor(private _launcher:Launcher) {
+    constructor(private _launcher: Launcher) {
     }
 
-    public use(path?: (string | MiddlewareHandlerOrAny | IMiddlewareCtr), ...middleware: (MiddlewareHandlerOrAny | IMiddlewareCtr)[]): this {
+    public use(path?: (string | MiddlewareHandlerOrAny | typeof Middleware | typeof StaticMiddleware), ...middleware: (MiddlewareHandlerOrAny |   typeof StaticMiddleware| typeof Middleware)[]): this {
 
         this._launcher.router.addMiddleware(path, middleware, false);
         return this;
     }
 
-    public error(path?: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr), ...middleware: (string | MiddlewareHandlerErrorOrAny | IMiddlewareCtr)[]): this {
+    public error(path?: (string | MiddlewareHandlerErrorOrAny | typeof Middleware | typeof StaticMiddleware), ...middleware: (string | MiddlewareHandlerErrorOrAny |   typeof StaticMiddleware| typeof Middleware)[]): this {
 
         this._launcher.router.addMiddleware(path, middleware, true);
         return this;
@@ -30,7 +30,7 @@ export class Route {
         return this._launcher.router.getRoute(path, method)
     }
 
-    public get hooks(){
+    public get hooks() {
         return this._launcher.router.hooks
     }
 

@@ -21,7 +21,7 @@ export class TestPipeline implements IPipeline {
 
     run(context: PipelineContext, next: () => Promise<any>) {
 
-        let route = this.app.discovery.createRouteDefinition(context.type, "testPipeline")
+        let route = this.app.discovery.createRoute(context.type, "testPipeline")
 
         route.path("/aaa")
 
