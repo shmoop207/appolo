@@ -2,13 +2,12 @@ import {Launcher} from "../launcher/launcher";
 import {IEvents} from "@appolo/engine";
 import {Events as AgentEvents} from "@appolo/agent";
 import {IApp} from "../interfaces/IApp";
-import {IEvent} from "@appolo/events/index";
+import {Event, IEvent} from "@appolo/events/index";
 
 export class Events implements IEvents {
 
     constructor(_app: IApp, private _launcher: Launcher) {
     }
-
 
     public get onModuleExport() {
         return this._launcher.engine.event.onModuleExport;
@@ -117,6 +116,12 @@ export class Events implements IEvents {
     public get afterServerOpen() {
         return this._launcher.agent.events.afterServerOpen;
     }
+
+    public readonly beforeGlobalMiddlewares: IEvent<void> = new Event();
+    public readonly afterGlobalMiddlewares: IEvent<void> = new Event();
+
+    public readonly beforeRouterInitialize: IEvent<void> = new Event();
+    public readonly afterRouterInitialize: IEvent<void> = new Event();
 
 
 }

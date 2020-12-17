@@ -1,6 +1,6 @@
 "use strict";
 
-import {App as Engine , Util as EngineUtils} from '@appolo/engine';
+import {App as Engine, Util as EngineUtils} from '@appolo/engine';
 import {Agent} from '@appolo/agent';
 import {Router, Route, IController, Util} from '@appolo/route';
 
@@ -12,6 +12,7 @@ import {IOptions} from "../interfaces/IOptions";
 import {App} from "../app";
 import {Defaults} from "../defaults/defaults";
 import {IEnv} from "../interfaces/IEnv";
+import {Event} from "@appolo/events";
 
 export class Launcher {
 
@@ -51,7 +52,7 @@ export class Launcher {
         return this._router;
     }
 
-    public setOptions<T extends keyof IOptions>(name: T, value: IOptions[T]){
+    public setOptions<T extends keyof IOptions>(name: T, value: IOptions[T]) {
         this._options[name] = value;
         this.agent.options[name as string] = value;
         this.engine.options[name as string] = value;
@@ -59,15 +60,19 @@ export class Launcher {
 
     public async launch(): Promise<void> {
 
-        this._engine.event.afterInjectRegister.on(payload=>this.router.addRouteFromClass(payload.type));
+        this._engine.event.afterInjectRegister.on(payload => this.router.addRouteFromClass(payload.type));
 
         this._app.event.onModuleExport.on(payload => this.router.addRouteFromClass(payload.type));
 
         await this._engine.launch();
 
+        await (this._app.event.beforeGlobalMiddlewares as Event<void>).fireEventAsync()
         await this.loadCustomConfigurations();
+        await (this._app.event.afterGlobalMiddlewares as Event<void>).fireEventAsync()
 
+        await (this._app.event.beforeRouterInitialize as Event<void>).fireEventAsync()
         this._router.initialize();
+        await (this._app.event.afterRouterInitialize as Event<void>).fireEventAsync()
 
         await this._agent.listen(this._port);
 
