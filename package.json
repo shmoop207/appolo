@@ -32,7 +32,7 @@
     "test-cov": "nyc --reporter=text mocha test/spec/**/*.js"
   },
   "main": "./index.js",
-  "version": "8.0.6",
+  "version": "8.0.7",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -45,8 +45,8 @@
     "@appolo/engine": "^8.0.19",
     "@appolo/events": "^8.0.2",
     "@appolo/inject": "^8.0.11",
-    "@appolo/route": "^8.0.6",
-    "@appolo/utils": "^8.0.3",
+    "@appolo/route": "^8.0.7",
+    "@appolo/utils": "^8.0.7",
     "tslib": "^2.0.1"
   },
   "devDependencies": {

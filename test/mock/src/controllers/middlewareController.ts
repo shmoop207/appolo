@@ -2,7 +2,8 @@
 import {Controller, controller, middleware, get} from '@appolo/route';
 import {TestMiddleware} from "../middleware/middleware";
 import {AuthMiddleware} from "../middleware/authMiddleware";
-import { inject,define,singleton,override,lazy} from '@appolo/inject';
+import {inject, define, singleton, override, lazy} from '@appolo/inject';
+import {ContextMiddleware} from "../middleware/contextMiddleware";
 
 @controller()
 export class MiddlewareController extends Controller {
@@ -27,6 +28,14 @@ export class MiddlewareController extends Controller {
     })
     testOrderMiddleware(req, res) {
         res.json({working: req.working2})
+    }
+
+
+    @get("/test/middleware/context")
+
+    @middleware(ContextMiddleware.for({test: 1}),)
+    testContextMiddleware(req, res) {
+        res.json({working: req.user})
     }
 
 

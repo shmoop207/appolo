@@ -324,6 +324,14 @@ describe('Appolo e2e', () => {
             res.body.middleware.should.be.ok;
             res.body.name.should.be.eq("Manager");
         });
+        it('should  call middleware with context', async () => {
+            let res = await request(app.route.handle)
+                .get('/test/middleware/context');
+            res.should.to.have.status(200);
+            res.should.to.be.json;
+            should.exist(res.body);
+            res.body.working.test.should.be.eq(1);
+        });
         it('should  call middleware by order', async () => {
             let res = await request(app.route.handle)
                 .get('/test/middleware/order');
