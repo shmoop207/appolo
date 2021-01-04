@@ -47,6 +47,10 @@ export class Discovery extends EngineDiscovery {
         return Discovery.createRoute(fn, action)
     }
 
+    public static getRoutesByController<T extends IController>(fn:any):{ [index: string]: Route<T>}{
+        return  Util.getRouteByController(fn)
+    }
+
     public static createRoute<T extends IController>(fn: any, action: ((c: T) => Function) | string): Route<T> {
         return Util.createRouteDefinition(fn, action)
     }

@@ -14,13 +14,13 @@ export class Route {
     constructor(private _launcher: Launcher) {
     }
 
-    public use(path?: (string | MiddlewareHandlerOrAny | typeof Middleware | typeof StaticMiddleware), ...middleware: (MiddlewareHandlerOrAny |   typeof StaticMiddleware| typeof Middleware)[]): this {
+    public use(path?: (string | MiddlewareHandlerOrAny | typeof Middleware | typeof StaticMiddleware), ...middleware: (MiddlewareHandlerOrAny | typeof StaticMiddleware | typeof Middleware)[]): this {
 
         this._launcher.router.addMiddleware(path, middleware, false);
         return this;
     }
 
-    public error(path?: (string | MiddlewareHandlerErrorOrAny | typeof Middleware | typeof StaticMiddleware), ...middleware: (string | MiddlewareHandlerErrorOrAny |   typeof StaticMiddleware| typeof Middleware)[]): this {
+    public error(path?: (string | MiddlewareHandlerErrorOrAny | typeof Middleware | typeof StaticMiddleware), ...middleware: (string | MiddlewareHandlerErrorOrAny | typeof StaticMiddleware | typeof Middleware)[]): this {
 
         this._launcher.router.addMiddleware(path, middleware, true);
         return this;
@@ -28,6 +28,14 @@ export class Route {
 
     public getRoute<T extends IController>(path: string, method: Methods): FRoute<T> {
         return this._launcher.router.getRoute(path, method)
+    }
+
+    public getRoutesByController(fn: any, action?: string) {
+        return this.getRoutes().find(route => route.definition.controller === fn && (action ?route.definition.actionName ==action  : true))
+    }
+
+    public getRoutes() {
+        return this._launcher.router.routes;
     }
 
     public get hooks() {

@@ -117,6 +117,24 @@ export class Events implements IEvents {
         return this._launcher.agent.events.afterServerOpen;
     }
 
+    public get beforeInjectInitDefinitions(){
+        return this._launcher.engine.event.beforeInjectInitDefinitions;
+    }
+    public get beforeInjectInitFactories(){
+        return this._launcher.engine.event.beforeInjectInitFactories;
+
+    }
+    public get beforeInjectInitInstances(){
+        return this._launcher.engine.event.beforeInjectInitInstances;
+
+    }
+    public get beforeInjectInitProperties(){
+        return this._launcher.engine.event.beforeInjectInitProperties;
+
+    }
+
+
+
     public readonly beforeGlobalMiddlewares: IEvent<void> = new Event();
     public readonly afterGlobalMiddlewares: IEvent<void> = new Event();
 
