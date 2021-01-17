@@ -17,7 +17,7 @@ Appolo architecture follows common patten of MVC and dependency injection which 
 
 
 ## Getting started
-- Visit our [docs](https://appolo.dev) site [appolo](appolo.dev)
+- Visit our [docs](https://appolo.dev) site [appolo](https://appolo.dev)
 
 
   
