@@ -41,7 +41,7 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "@appolo/agent": "^8.0.7",
+    "@appolo/agent": "^8.0.8",
     "@appolo/engine": "^8.0.22",
     "@appolo/events": "^8.0.2",
     "@appolo/inject": "^8.0.11",
