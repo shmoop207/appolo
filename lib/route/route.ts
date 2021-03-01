@@ -31,7 +31,7 @@ export class Route {
     }
 
     public getRoutesByController(fn: any, action?: string) {
-        return this.getRoutes().find(route => route.definition.controller === fn && (action ?route.definition.actionName ==action  : true))
+        return this.getRoutes().find(route => route.definition.controller === fn && (action ? route.definition.actionName == action : true))
     }
 
     public getRoutes() {
@@ -76,6 +76,18 @@ export class Route {
 
     public get server(): http.Server | https.Server {
         return this._launcher.agent.server
+    }
+
+    public startServer() {
+        return this._launcher.startServer()
+    }
+
+    public get port(): number {
+        return this._launcher.port
+    }
+
+    public get isServerRunning(): boolean {
+        return this._launcher.isServerRunning
     }
 
 

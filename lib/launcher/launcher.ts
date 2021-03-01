@@ -22,6 +22,8 @@ export class Launcher {
     private readonly _port: number;
     private readonly _router: Router;
 
+    private _isServerRunning: boolean;
+
 
     constructor(options: IOptions, private _app: App) {
 
@@ -74,15 +76,29 @@ export class Launcher {
         this._router.initialize();
         await (this._app.event.afterRouterInitialize as Event<void>).fireEventAsync()
 
+        if (this._options.startServer) {
+            await this.startServer();
+        }
+
+
+    }
+
+    public async startServer() {
         await this._agent.listen(this._port);
 
         this._logServerMessage();
+
+        this._isServerRunning = true;
     }
 
 
-    protected _getPort(): number {
+    public _getPort(): number {
 
         return parseFloat(process.env.APP_PORT) || parseFloat(process.env.PORT) || this._options.port || (this._engine.env as |IEnv).port || 8080;
+    }
+
+    public get port(): number {
+        return this._port;
     }
 
     protected async loadCustomConfigurations() {
@@ -105,12 +121,17 @@ export class Launcher {
         EngineUtils.logger(this._engine.injector).info(msg)
     }
 
+    public get isServerRunning(): boolean {
+        return this._isServerRunning
+    }
 
     public async reset() {
 
         await this._engine.reset();
 
         await this._agent.close();
+
+        this._isServerRunning = false;
 
         this._app = null;
 
