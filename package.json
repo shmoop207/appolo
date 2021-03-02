@@ -46,7 +46,7 @@
     "@appolo/events": "^8.0.2",
     "@appolo/inject": "^8.0.11",
     "@appolo/route": "^8.0.9",
-    "@appolo/utils": "^8.0.7",
+    "@appolo/utils": "^8.0.9",
     "tslib": "^2.0.1"
   },
   "devDependencies": {
