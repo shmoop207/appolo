@@ -3,12 +3,10 @@
 <br/>
 <br/>
 <img title="Known Vulnerabilities" src="https://travis-ci.com/shmoop207/appolo.svg?branch=master" />
-<img title="Dependencies status" src="https://david-dm.org/shmoop207/appolo.svg" />
 <img title="NPM version" src="https://badge.fury.io/js/appolo.svg" />
 <img title="NPM Downloads" src="https://img.shields.io/npm/dm/appolo.svg?style=flat" />
 <br/>
 <br/>
-<img title="Langauge" src="https://badge.langauge.io/shmoop207/appolo" />
 </p>
 
 Appolo  is an light web server MVC Framework for Node.js written in Typescript<br>  
