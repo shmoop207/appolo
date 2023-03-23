@@ -440,7 +440,7 @@ describe('Appolo e2e', () => {
             should.exist(res.body);
 
             res.body.working.should.be.eq("aaaa");
-            res.body.userAgent.should.be.include("node-superagent");
+            res.body.contentType.should.be.include("application/json");
             res.body.id.should.be.include("111");
         });
     });
@@ -533,7 +533,7 @@ describe('Appolo e2e', () => {
 
             should.exist(res.body);
 
-            res.body.working.test.should.be.eq(1);
+            res.body.working.should.be.eq(3);
         })
 
         it('should  call middleware by order', async () => {

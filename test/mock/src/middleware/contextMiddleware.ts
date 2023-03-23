@@ -7,12 +7,18 @@ import { inject,define,singleton,override} from '@appolo/inject';
 @define()
 export class ContextMiddleware extends Middleware {
 
-    public static for(context:{test:number}){
+    public static for(context:{test?:number,test2?:number}){
         return super.for(context)
     }
 
-    run(@context() context:any,@req() req:any,@next() next) {
-        req.user = context;
+    run(@context() context:{test:number,test2:number},@req() req:any,@next() next) {
+
+       if(context.test){
+           req.user = context.test;
+       }
+        if(context.test2){
+            req.user += context.test2;
+        }
         next()
     }
 }

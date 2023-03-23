@@ -20,16 +20,16 @@ let MiddlewareController = class MiddlewareController extends route_1.Controller
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], MiddlewareController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    route_1.get("/test/middleware/order"),
-    route_1.middleware(function (req, res, next) {
+    (0, route_1.get)("/test/middleware/order"),
+    (0, route_1.middleware)(function (req, res, next) {
         req.working = "working1";
         next();
     }),
-    route_1.middleware(function (req, res, next) {
+    (0, route_1.middleware)(function (req, res, next) {
         (req).working2 = req.working + "working2";
         next();
     }),
@@ -38,14 +38,15 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", void 0)
 ], MiddlewareController.prototype, "testOrderMiddleware", null);
 tslib_1.__decorate([
-    route_1.get("/test/middleware/context"),
-    route_1.middleware(contextMiddleware_1.ContextMiddleware.for({ test: 1 })),
+    (0, route_1.get)("/test/middleware/context"),
+    (0, route_1.middleware)(contextMiddleware_1.ContextMiddleware.for({ test: 1 })),
+    (0, route_1.middleware)(contextMiddleware_1.ContextMiddleware.for({ test2: 2 })),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], MiddlewareController.prototype, "testContextMiddleware", null);
 MiddlewareController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], MiddlewareController);
 exports.MiddlewareController = MiddlewareController;
 //# sourceMappingURL=middlewareController.js.map

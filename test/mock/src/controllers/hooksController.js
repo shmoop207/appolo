@@ -10,12 +10,12 @@ let HooksController = class HooksController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], HooksController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    route_1.get("/test/hooks"),
-    route_1.hook(route_1.Hooks.PreMiddleware, function (req, res, next) {
+    (0, route_1.get)("/test/hooks"),
+    (0, route_1.hook)(route_1.Hooks.PreMiddleware, function (req, res, next) {
         req.model = Object.assign(Object.assign({}, req.model), { a: 11 });
         next();
     }),
@@ -24,7 +24,7 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", void 0)
 ], HooksController.prototype, "hooks", null);
 HooksController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], HooksController);
 exports.HooksController = HooksController;
 //# sourceMappingURL=hooksController.js.map

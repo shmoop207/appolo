@@ -7,7 +7,7 @@ const engine_1 = require("@appolo/engine");
 let MonitorModule = class MonitorModule extends engine_1.Module {
 };
 MonitorModule = tslib_1.__decorate([
-    engine_1.module({
+    (0, engine_1.module)({
         exports: [monitorController_1.MonitorController]
     })
 ], MonitorModule);

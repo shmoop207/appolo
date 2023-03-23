@@ -11,11 +11,11 @@ let TestMiddleware = class TestMiddleware extends route_1.Middleware {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", manager_1.Manager)
 ], TestMiddleware.prototype, "manager", void 0);
 TestMiddleware = tslib_1.__decorate([
-    inject_1.define()
+    (0, inject_1.define)()
 ], TestMiddleware);
 exports.TestMiddleware = TestMiddleware;
 //# sourceMappingURL=middleware.js.map

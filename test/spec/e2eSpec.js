@@ -19,7 +19,7 @@ chai.use(sinonChai);
 describe('Appolo e2e', () => {
     let app;
     beforeEach(async () => {
-        app = index_1.createApp({
+        app = (0, index_1.createApp)({
             port: 8183,
             environment: "testing",
             //qsParser: (str) => qs.parse(str),
@@ -122,7 +122,7 @@ describe('Appolo e2e', () => {
         });
         it('should  call  custom error global', async () => {
             await app.reset();
-            app = index_1.createApp({
+            app = (0, index_1.createApp)({
                 port: 8183,
                 environment: "testing",
                 root: process.cwd() + '/test/mock/',
@@ -138,7 +138,7 @@ describe('Appolo e2e', () => {
         });
         it('should  call with stack error', async () => {
             await app.reset();
-            app = index_1.createApp({
+            app = (0, index_1.createApp)({
                 port: 8183,
                 environment: "testing", errorStack: true,
                 root: process.cwd() + '/test/mock/',
@@ -155,7 +155,7 @@ describe('Appolo e2e', () => {
     describe('custom app use', function () {
         it('should  call  use with path', async () => {
             await app.reset();
-            app = index_1.createApp({
+            app = (0, index_1.createApp)({
                 port: 8183,
                 environment: "testing",
                 root: process.cwd() + '/test/mock/',
@@ -176,7 +176,7 @@ describe('Appolo e2e', () => {
     describe('hooks', function () {
         it('should  call onResponse global hook', async () => {
             await app.reset();
-            app = index_1.createApp({
+            app = (0, index_1.createApp)({
                 port: 8183,
                 environment: "testing",
                 root: process.cwd() + '/test/mock/',
@@ -195,7 +195,7 @@ describe('Appolo e2e', () => {
         });
         it('should  call pre middleware hook global', async () => {
             await app.reset();
-            app = index_1.createApp({
+            app = (0, index_1.createApp)({
                 port: 8183,
                 environment: "testing",
                 root: process.cwd() + '/test/mock/',
@@ -269,7 +269,7 @@ describe('Appolo e2e', () => {
             res.should.to.be.json;
             should.exist(res.body);
             res.body.working.should.be.eq("aaaa");
-            res.body.userAgent.should.be.include("node-superagent");
+            res.body.contentType.should.be.include("application/json");
             res.body.id.should.be.include("111");
         });
     });
@@ -330,7 +330,7 @@ describe('Appolo e2e', () => {
             res.should.to.have.status(200);
             res.should.to.be.json;
             should.exist(res.body);
-            res.body.working.test.should.be.eq(1);
+            res.body.working.should.be.eq(3);
         });
         it('should  call middleware by order', async () => {
             let res = await request(app.route.handle)
@@ -765,7 +765,7 @@ describe('Appolo e2e', () => {
     });
     describe('simple mode', function () {
         it('should handel simple mode request', async () => {
-            let app2 = index_1.createApp();
+            let app2 = (0, index_1.createApp)();
             app2.route.get("test/simple", function (req, res) {
                 res.send("ok");
             });

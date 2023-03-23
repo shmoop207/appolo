@@ -6,7 +6,7 @@ const monitorModule_1 = require("./monitor/monitorModule");
 const testModule_1 = require("./test/testModule");
 module.exports = async function (env, app) {
     await app.module.loadFn(logger_1.logger);
-    await app.module.loadFn(logger2_1.logger2({ test: 'test' }), logger3_1.logger3({ test: 'test3' }));
+    await app.module.loadFn((0, logger2_1.logger2)({ test: 'test' }), (0, logger3_1.logger3)({ test: 'test3' }));
     app.module.use(monitorModule_1.MonitorModule)
         .use(testModule_1.TestModule);
 };

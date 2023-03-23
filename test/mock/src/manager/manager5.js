@@ -11,17 +11,17 @@ let Manager5 = class Manager5 {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", manager3_1.Manager3)
 ], Manager5.prototype, "manager3", void 0);
 tslib_1.__decorate([
-    inject_1.alias("IHandler"),
+    (0, inject_1.alias)("IHandler"),
     tslib_1.__metadata("design:type", Array)
 ], Manager5.prototype, "handlers", void 0);
 Manager5 = tslib_1.__decorate([
-    inject_1.define(),
-    inject_1.singleton(),
-    inject_1.lazy()
+    (0, inject_1.define)(),
+    (0, inject_1.singleton)(),
+    (0, inject_1.lazy)()
 ], Manager5);
 exports.Manager5 = Manager5;
 //# sourceMappingURL=manager5.js.map

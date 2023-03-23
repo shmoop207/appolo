@@ -13,25 +13,25 @@ let StaticController2 = class StaticController2 extends route_1.StaticController
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], StaticController2.prototype, "manager", void 0);
 tslib_1.__decorate([
-    route_1.post("/test/static/controller/:name/:bbb/post"),
+    (0, route_1.post)("/test/static/controller/:name/:bbb/post"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], StaticController2.prototype, "test", null);
 tslib_1.__decorate([
-    route_1.get("/test/static/controller/:name/:name2"),
+    (0, route_1.get)("/test/static/controller/:name/:name2"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], StaticController2.prototype, "test2", null);
 StaticController2 = tslib_1.__decorate([
-    route_1.controller(),
-    inject_1.singleton(),
-    inject_1.lazy()
+    (0, route_1.controller)(),
+    (0, inject_1.singleton)(),
+    (0, inject_1.lazy)()
 ], StaticController2);
 exports.StaticController2 = StaticController2;
 //# sourceMappingURL=staticController.js.map

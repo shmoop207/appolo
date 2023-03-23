@@ -11,12 +11,12 @@ let Manager4 = class Manager4 extends baseManager_1.BaseManager {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", manager3_1.Manager3)
 ], Manager4.prototype, "manager3", void 0);
 Manager4 = tslib_1.__decorate([
-    inject_1.define(),
-    inject_1.singleton()
+    (0, inject_1.define)(),
+    (0, inject_1.singleton)()
 ], Manager4);
 exports.Manager4 = Manager4;
 //# sourceMappingURL=manager4.js.map

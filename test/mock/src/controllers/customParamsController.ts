@@ -11,8 +11,8 @@ export class CustomParamsController extends Controller {
     @inject() manager: any;
 
     @post('/test/custom/params/:id')
-    test(@param() id: string, @body("test") test, req, @headers("user-agent") userAgent) {
-        return {working: test, userAgent, id}
+    test(@param() id: string, @body("test") test, req, @headers("content-type") contentType) {
+        return {working: test, contentType, id}
     }
 
 }

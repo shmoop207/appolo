@@ -33,37 +33,37 @@ let QueryController = class QueryController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    route_1.get("/test/query"),
+    (0, route_1.get)("/test/query"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], QueryController.prototype, "test", null);
 tslib_1.__decorate([
-    route_1.get("/test/protocol"),
+    (0, route_1.get)("/test/protocol"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], QueryController.prototype, "protocol", null);
 tslib_1.__decorate([
-    route_1.get("/test/cookie"),
+    (0, route_1.get)("/test/cookie"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], QueryController.prototype, "cookie", null);
 tslib_1.__decorate([
-    route_1.get("/test/cookie_json"),
+    (0, route_1.get)("/test/cookie_json"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], QueryController.prototype, "cookieJson", null);
 tslib_1.__decorate([
-    route_1.get("/test/cookie_clear"),
+    (0, route_1.get)("/test/cookie_clear"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], QueryController.prototype, "cookieClear", null);
 QueryController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], QueryController);
 exports.QueryController = QueryController;
 //# sourceMappingURL=queryController.js.map

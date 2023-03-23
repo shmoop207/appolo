@@ -21,18 +21,18 @@ let Manager7 = class Manager7 extends baseManager_1.BaseManager {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", manager4_1.Manager4)
 ], Manager7.prototype, "manager4", void 0);
 tslib_1.__decorate([
-    inject_1.init(),
+    (0, inject_1.init)(),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Manager7.prototype, "initialize", null);
 Manager7 = tslib_1.__decorate([
-    inject_1.define(),
-    inject_1.singleton()
+    (0, inject_1.define)(),
+    (0, inject_1.singleton)()
 ], Manager7);
 exports.Manager7 = Manager7;
 //# sourceMappingURL=manager7.js.map

@@ -10,17 +10,17 @@ let MonitorController = class MonitorController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], MonitorController.prototype, "env", void 0);
 tslib_1.__decorate([
-    route_1.get(),
+    (0, route_1.get)(),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], MonitorController.prototype, "monitor", null);
 MonitorController = tslib_1.__decorate([
-    route_1.controller("test/monitor")
+    (0, route_1.controller)("test/monitor")
 ], MonitorController);
 exports.MonitorController = MonitorController;
 //# sourceMappingURL=monitorController.js.map

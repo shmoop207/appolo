@@ -11,11 +11,11 @@ let DefineController = class DefineController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", manager5_1.Manager5)
 ], DefineController.prototype, "manager5", void 0);
 DefineController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], DefineController);
 exports.DefineController = DefineController;
 //# sourceMappingURL=defineController.js.map

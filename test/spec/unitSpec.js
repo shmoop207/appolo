@@ -10,7 +10,7 @@ describe('Appolo Express Unit', () => {
     describe("basic test", () => {
         let app;
         beforeEach(async () => {
-            app = index_1.createApp({
+            app = (0, index_1.createApp)({
                 environment: "testing",
                 root: process.cwd() + '/test/mock',
                 port: 8183

@@ -6,11 +6,11 @@ const inject_1 = require("@appolo/inject");
 class BaseManager {
 }
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], BaseManager.prototype, "logger", void 0);
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], BaseManager.prototype, "env", void 0);
 exports.BaseManager = BaseManager;

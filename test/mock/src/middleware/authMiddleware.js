@@ -11,19 +11,19 @@ let AuthMiddleware = class AuthMiddleware extends route_1.StaticMiddleware {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", manager_1.Manager)
 ], AuthMiddleware.prototype, "manager", void 0);
 tslib_1.__decorate([
-    tslib_1.__param(0, route_1.next()),
+    tslib_1.__param(0, (0, route_1.next)()),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Function]),
     tslib_1.__metadata("design:returntype", void 0)
 ], AuthMiddleware.prototype, "run", null);
 AuthMiddleware = tslib_1.__decorate([
-    inject_1.define(),
-    inject_1.singleton(),
-    inject_1.lazy()
+    (0, inject_1.define)(),
+    (0, inject_1.singleton)(),
+    (0, inject_1.lazy)()
 ], AuthMiddleware);
 exports.AuthMiddleware = AuthMiddleware;
 //# sourceMappingURL=authMiddleware.js.map

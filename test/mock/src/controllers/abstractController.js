@@ -10,25 +10,25 @@ let AbstractController = class AbstractController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], AbstractController.prototype, "manager", void 0);
 tslib_1.__decorate([
-    route_1.middleware(function (req, res, next) {
+    (0, route_1.middleware)(function (req, res, next) {
         (req).working3 = req.working + req.working2 + "working3";
         next();
     }),
-    route_1.get("abstract"),
+    (0, route_1.get)("abstract"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], AbstractController.prototype, "test", null);
 AbstractController = tslib_1.__decorate([
-    route_1.middleware(function (req, res, next) {
+    (0, route_1.middleware)(function (req, res, next) {
         req.working = "working1";
         next();
     }),
-    route_1.middleware(function (req, res, next) {
+    (0, route_1.middleware)(function (req, res, next) {
         req.working2 = "working2";
         next();
     })
@@ -40,11 +40,11 @@ let Abstract2Controller = class Abstract2Controller extends AbstractController {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], Abstract2Controller.prototype, "manager", void 0);
 Abstract2Controller = tslib_1.__decorate([
-    route_1.controller("test")
+    (0, route_1.controller)("test")
 ], Abstract2Controller);
 exports.Abstract2Controller = Abstract2Controller;
 let Abstract3Controller = class Abstract3Controller extends AbstractController {
@@ -54,12 +54,12 @@ let Abstract3Controller = class Abstract3Controller extends AbstractController {
     }
 };
 tslib_1.__decorate([
-    inject_1.inject(),
+    (0, inject_1.inject)(),
     tslib_1.__metadata("design:type", Object)
 ], Abstract3Controller.prototype, "manager", void 0);
 Abstract3Controller = tslib_1.__decorate([
-    route_1.controller("test2"),
-    inject_1.singleton()
+    (0, route_1.controller)("test2"),
+    (0, inject_1.singleton)()
 ], Abstract3Controller);
 exports.Abstract3Controller = Abstract3Controller;
 let BaseController = class BaseController extends route_1.Controller {
@@ -68,8 +68,8 @@ let BaseController = class BaseController extends route_1.Controller {
     }
 };
 tslib_1.__decorate([
-    route_1.get("/child_controller"),
-    route_1.middleware(function (req, res, d) {
+    (0, route_1.get)("/child_controller"),
+    (0, route_1.middleware)(function (req, res, d) {
         req.working += "working4";
         d();
     }),
@@ -78,7 +78,7 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", void 0)
 ], BaseController.prototype, "test", null);
 BaseController = tslib_1.__decorate([
-    route_1.middleware(function (req, res, a) {
+    (0, route_1.middleware)(function (req, res, a) {
         req.working += "working1";
         a();
     })
@@ -90,7 +90,7 @@ let ChildController = class ChildController extends BaseController {
     }
 };
 tslib_1.__decorate([
-    route_1.middleware(function (req, res, e) {
+    (0, route_1.middleware)(function (req, res, e) {
         req.working += "working5";
         e();
     }),
@@ -99,13 +99,13 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", void 0)
 ], ChildController.prototype, "test", null);
 ChildController = tslib_1.__decorate([
-    route_1.controller(),
-    inject_1.singleton(),
-    route_1.middleware(function (req, res, b) {
+    (0, route_1.controller)(),
+    (0, inject_1.singleton)(),
+    (0, route_1.middleware)(function (req, res, b) {
         req.working += "working2";
         b();
     }),
-    route_1.middleware(function (req, res, c) {
+    (0, route_1.middleware)(function (req, res, c) {
         req.working += "working3";
         c();
     })

@@ -33,7 +33,8 @@ export class MiddlewareController extends Controller {
 
     @get("/test/middleware/context")
 
-    @middleware(ContextMiddleware.for({test: 1}),)
+    @middleware(ContextMiddleware.for({test: 1}))
+    @middleware(ContextMiddleware.for({test2: 2}))
     testContextMiddleware(req, res) {
         res.json({working: req.user})
     }

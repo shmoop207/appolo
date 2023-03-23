@@ -12,19 +12,19 @@ let RedirectController = class RedirectController extends route_1.StaticControll
     }
 };
 tslib_1.__decorate([
-    route_1.get("/test/redirect"),
+    (0, route_1.get)("/test/redirect"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], RedirectController.prototype, "redirect", null);
 tslib_1.__decorate([
-    route_1.get("/test/redirectTo"),
+    (0, route_1.get)("/test/redirectTo"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], RedirectController.prototype, "redirectTo", null);
 RedirectController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], RedirectController);
 exports.RedirectController = RedirectController;
 //# sourceMappingURL=redirectController.js.map

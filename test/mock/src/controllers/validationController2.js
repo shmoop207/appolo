@@ -10,13 +10,13 @@ let ValidationController2 = class ValidationController2 extends validationContro
     }
 };
 tslib_1.__decorate([
-    route_1.get("/test/nested/"),
+    (0, route_1.get)("/test/nested/"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], ValidationController2.prototype, "test2", null);
 ValidationController2 = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], ValidationController2);
 exports.ValidationController2 = ValidationController2;
 //# sourceMappingURL=validationController2.js.map

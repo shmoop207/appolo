@@ -12,19 +12,19 @@ let ViewController = class ViewController extends route_1.StaticController {
     }
 };
 tslib_1.__decorate([
-    route_1.get("/test/view"),
+    (0, route_1.get)("/test/view"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object, Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ViewController.prototype, "raw", null);
 tslib_1.__decorate([
-    route_1.get("/test/view2"),
+    (0, route_1.get)("/test/view2"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object, Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ViewController.prototype, "view2", null);
 ViewController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], ViewController);
 exports.ViewController = ViewController;
 //# sourceMappingURL=viewController.js.map

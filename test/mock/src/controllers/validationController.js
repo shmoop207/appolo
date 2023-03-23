@@ -12,19 +12,19 @@ let ValidationController = class ValidationController extends route_1.Controller
     }
 };
 tslib_1.__decorate([
-    route_1.get("/test/validations/"),
+    (0, route_1.get)("/test/validations/"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], ValidationController.prototype, "test", null);
 tslib_1.__decorate([
-    route_1.get("/test/validations/auth"),
+    (0, route_1.get)("/test/validations/auth"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], ValidationController.prototype, "validaion", null);
 ValidationController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], ValidationController);
 exports.ValidationController = ValidationController;
 //# sourceMappingURL=validationController.js.map

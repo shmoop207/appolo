@@ -14,7 +14,7 @@ let TestPipeline = class TestPipeline {
     run(context, next) {
         let route = this.app.discovery.createRoute(context.type, "testPipeline");
         route.path("/aaa");
-        route_1.model()(context.type.prototype, "testPipeline", 0);
+        (0, route_1.model)()(context.type.prototype, "testPipeline", 0);
         context.type.prototype["testPipeline"] = function (model) {
             return model;
         };
@@ -22,18 +22,19 @@ let TestPipeline = class TestPipeline {
     }
 };
 TestPipeline = tslib_1.__decorate([
-    inject_1.define(),
-    inject_1.singleton(),
-    tslib_1.__param(0, inject_1.inject()), tslib_1.__param(1, inject_1.inject()),
+    (0, inject_1.define)(),
+    (0, inject_1.singleton)(),
+    tslib_1.__param(0, (0, inject_1.inject)()),
+    tslib_1.__param(1, (0, inject_1.inject)()),
     tslib_1.__metadata("design:paramtypes", [index_1.App, Object])
 ], TestPipeline);
 exports.TestPipeline = TestPipeline;
 let PipelineTypeRouteController = class PipelineTypeRouteController extends route_1.StaticController {
 };
 PipelineTypeRouteController = tslib_1.__decorate([
-    route_1.controller("pipeline"),
-    inject_1.singleton(),
-    engine_1.pipelineType(TestPipeline)
+    (0, route_1.controller)("pipeline"),
+    (0, inject_1.singleton)(),
+    (0, engine_1.pipelineType)(TestPipeline)
 ], PipelineTypeRouteController);
 exports.PipelineTypeRouteController = PipelineTypeRouteController;
 //# sourceMappingURL=pipelineTypeRouteController.js.map

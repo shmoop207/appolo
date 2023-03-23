@@ -11,7 +11,7 @@ let ErrorMiddleware = class ErrorMiddleware extends route_1.Middleware {
     }
 };
 ErrorMiddleware = tslib_1.__decorate([
-    inject_1.define()
+    (0, inject_1.define)()
 ], ErrorMiddleware);
 exports.ErrorMiddleware = ErrorMiddleware;
 //# sourceMappingURL=errorMiddleware.js.map

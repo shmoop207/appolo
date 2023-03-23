@@ -9,7 +9,7 @@ let EnvController = class EnvController extends route_1.Controller {
     }
 };
 EnvController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], EnvController);
 exports.EnvController = EnvController;
 //# sourceMappingURL=envController.js.map

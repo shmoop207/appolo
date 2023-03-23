@@ -15,19 +15,19 @@ let RootController = class RootController extends route_1.StaticController {
     }
 };
 tslib_1.__decorate([
-    route_1.get("/"),
+    (0, route_1.get)("/"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], RootController.prototype, "root", null);
 tslib_1.__decorate([
-    route_1.get("/raw"),
+    (0, route_1.get)("/raw"),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], RootController.prototype, "raw", null);
 RootController = tslib_1.__decorate([
-    route_1.controller()
+    (0, route_1.controller)()
 ], RootController);
 exports.RootController = RootController;
 //# sourceMappingURL=rootController.js.map

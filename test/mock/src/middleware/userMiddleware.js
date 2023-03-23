@@ -11,7 +11,7 @@ let UserMiddleware = class UserMiddleware extends route_1.Middleware {
     }
 };
 UserMiddleware = tslib_1.__decorate([
-    inject_1.define()
+    (0, inject_1.define)()
 ], UserMiddleware);
 exports.UserMiddleware = UserMiddleware;
 //# sourceMappingURL=userMiddleware.js.map
